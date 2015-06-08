@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		303D0F721B25B40D00C5D58E /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 303D0F711B25B40D00C5D58E /* Home.storyboard */; };
+		303D0F7B1B25B49200C5D58E /* RCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303D0F7A1B25B49200C5D58E /* RCHomeViewController.m */; };
 		30E4019D1B25AC0400A70AED /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E4019C1B25AC0400A70AED /* main.m */; };
 		30E401A01B25AC0400A70AED /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E4019F1B25AC0400A70AED /* AppDelegate.m */; };
-		30E401A31B25AC0400A70AED /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E401A21B25AC0400A70AED /* ViewController.m */; };
-		30E401A61B25AC0400A70AED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A41B25AC0400A70AED /* Main.storyboard */; };
 		30E401A81B25AC0400A70AED /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A71B25AC0400A70AED /* Images.xcassets */; };
 		30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A91B25AC0400A70AED /* LaunchScreen.xib */; };
 		30E401B71B25AC0400A70AED /* iOSSnapChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E401B61B25AC0400A70AED /* iOSSnapChatTests.m */; };
@@ -27,14 +27,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		303D0F711B25B40D00C5D58E /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
+		303D0F791B25B49200C5D58E /* RCHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHomeViewController.h; sourceTree = "<group>"; };
+		303D0F7A1B25B49200C5D58E /* RCHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHomeViewController.m; sourceTree = "<group>"; };
 		30E401971B25AC0400A70AED /* iOSSnapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSnapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E4019B1B25AC0400A70AED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30E4019C1B25AC0400A70AED /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		30E4019E1B25AC0400A70AED /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		30E4019F1B25AC0400A70AED /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		30E401A11B25AC0400A70AED /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		30E401A21B25AC0400A70AED /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		30E401A51B25AC0400A70AED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		30E401A71B25AC0400A70AED /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		30E401AA1B25AC0400A70AED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		30E401B01B25AC0400A70AED /* iOSSnapChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSSnapChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +60,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		303D0F771B25B48400C5D58E /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				303D0F781B25B48400C5D58E /* Home */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		303D0F781B25B48400C5D58E /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				303D0F791B25B49200C5D58E /* RCHomeViewController.h */,
+				303D0F7A1B25B49200C5D58E /* RCHomeViewController.m */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		30E4018E1B25AC0400A70AED = {
 			isa = PBXGroup;
 			children = (
@@ -81,13 +98,8 @@
 		30E401991B25AC0400A70AED /* iOSSnapChat */ = {
 			isa = PBXGroup;
 			children = (
-				30E4019E1B25AC0400A70AED /* AppDelegate.h */,
-				30E4019F1B25AC0400A70AED /* AppDelegate.m */,
-				30E401A11B25AC0400A70AED /* ViewController.h */,
-				30E401A21B25AC0400A70AED /* ViewController.m */,
-				30E401A41B25AC0400A70AED /* Main.storyboard */,
+				303D0F771B25B48400C5D58E /* Classes */,
 				30E401A71B25AC0400A70AED /* Images.xcassets */,
-				30E401A91B25AC0400A70AED /* LaunchScreen.xib */,
 				30E4019A1B25AC0400A70AED /* Supporting Files */,
 			);
 			path = iOSSnapChat;
@@ -96,6 +108,10 @@
 		30E4019A1B25AC0400A70AED /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				303D0F711B25B40D00C5D58E /* Home.storyboard */,
+				30E401A91B25AC0400A70AED /* LaunchScreen.xib */,
+				30E4019E1B25AC0400A70AED /* AppDelegate.h */,
+				30E4019F1B25AC0400A70AED /* AppDelegate.m */,
 				30E4019B1B25AC0400A70AED /* Info.plist */,
 				30E4019C1B25AC0400A70AED /* main.m */,
 			);
@@ -163,6 +179,7 @@
 		30E4018F1B25AC0400A70AED /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = RC;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = gongtao;
 				TargetAttributes = {
@@ -199,7 +216,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30E401A61B25AC0400A70AED /* Main.storyboard in Resources */,
+				303D0F721B25B40D00C5D58E /* Home.storyboard in Resources */,
 				30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */,
 				30E401A81B25AC0400A70AED /* Images.xcassets in Resources */,
 			);
@@ -219,9 +236,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30E401A31B25AC0400A70AED /* ViewController.m in Sources */,
 				30E401A01B25AC0400A70AED /* AppDelegate.m in Sources */,
 				30E4019D1B25AC0400A70AED /* main.m in Sources */,
+				303D0F7B1B25B49200C5D58E /* RCHomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,14 +261,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		30E401A41B25AC0400A70AED /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				30E401A51B25AC0400A70AED /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		30E401A91B25AC0400A70AED /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -418,6 +427,7 @@
 				30E401BC1B25AC0400A70AED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		30E401BD1B25AC0400A70AED /* Build configuration list for PBXNativeTarget "iOSSnapChatTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +436,7 @@
 				30E401BF1B25AC0400A70AED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

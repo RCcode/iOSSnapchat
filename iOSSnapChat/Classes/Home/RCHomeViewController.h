@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  RCHomeViewController.h
 //  iOSSnapChat
 //
 //  Created by zhao liang on 15/6/8.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface RCHomeViewController : UIViewController
 
 @end
-
