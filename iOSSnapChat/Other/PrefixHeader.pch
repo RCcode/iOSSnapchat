@@ -1,0 +1,24 @@
+//
+//  PrefixHeader.pch
+//  iOSSnapChat
+//
+//  Created by zhao liang on 15/6/9.
+//  Copyright (c) 2015年 gongtao. All rights reserved.
+//
+
+#ifndef iOSSnapChat_PrefixHeader_pch
+#define iOSSnapChat_PrefixHeader_pch
+
+#ifdef DEBUG
+#define NSLog(...) NSLog(__VA_ARGS__)
+#else
+#define NSLog(...)
+#endif
+
+//全局常量
+#import "Const.h"
+
+//全局头文件
+#import "Header.h"
+
+#endif
