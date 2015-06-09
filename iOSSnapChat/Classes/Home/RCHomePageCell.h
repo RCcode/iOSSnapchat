@@ -11,5 +11,8 @@
 @interface RCHomePageCell : UICollectionViewCell
 
 @property (nonatomic, copy) NSString *drawTitle;
+@property (nonatomic, strong) UIImage *drawImage;
+
+- (void)drawTitle:(NSString *)title image:(UIImage *)image;
 
 @end

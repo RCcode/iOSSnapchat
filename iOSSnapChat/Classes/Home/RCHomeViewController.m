@@ -14,7 +14,7 @@
 #define kRCHomePageNumber 3
 #define kRCHomePageCellIdentifer @"RCHomePageCell"
 #define kRCRegisterButtonWidth 200.0
-#define kRCRegisterButtonHeight 80.0
+#define kRCRegisterButtonHeight 60.0
 #define kRCLoginButtonWidth 100.0
 #define kRCLoginButtonHeight 40.0
 #define kRCMargin 20.0
@@ -22,6 +22,7 @@
 @interface RCHomeViewController ()
 {
     NSArray *_homePageTitleArray;
+    NSArray *_homePageImageArray;
 }
 
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *homePageCellLayout;
@@ -36,6 +37,7 @@
     
     [self initLayout];
     [self initData];
+    [self setUpUI];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,6 +59,16 @@
 //初始化数据
 - (void)initData {
     _homePageTitleArray = @[kRCLocalizedString(@"HomePageTitleFirst"), kRCLocalizedString(@"HomePageTitleSecond"), kRCLocalizedString(@"HomePageTitleThird")];
+#warning 此处设置重绘的背景图片
+//    _homePageImageArray = @[kRCImage(@"image1.jpg"), kRCImage(@"image2.jpg"), kRCImage(@"image3.jpg")];
+    _homePageImageArray = nil;
+}
+
+- (void)setUpUI {
+    //添加注册按钮
+    [self.view addSubview:[self setUpRegisterButton]];
+    //添加登陆按钮
+    [self.view addSubview:[self setUpLoginButton]];
 }
 
 //创建注册按钮
@@ -106,20 +118,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     RCHomePageCell *homePageCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kRCHomePageCellIdentifer forIndexPath:indexPath];
-    homePageCell.drawTitle = _homePageTitleArray[indexPath.row];
-    if (indexPath.item == kRCHomePageNumber - 1) {
-        //添加注册按钮
-        [homePageCell.contentView addSubview:[self setUpRegisterButton]];
-        //添加登陆按钮
-        [homePageCell.contentView addSubview:[self setUpLoginButton]];
-    } else {
-        //清除重用按钮
-        for (UIView *subView in homePageCell.contentView.subviews) {
-            if ([subView isKindOfClass:[UIButton class]]) {
-                [subView removeFromSuperview];
-            }
-        }
-    }
+    [homePageCell drawTitle:_homePageTitleArray[indexPath.row] image:_homePageImageArray[indexPath.row]];
     return homePageCell;
 }
 

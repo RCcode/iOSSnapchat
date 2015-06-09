@@ -7,9 +7,9 @@
 */
 
 //HomePage
-"HomePageTitleFirst" = "HomePageTitleFirst";
-"HomePageTitleSecond" = "HomePageTitleSecond";
-"HomePageTitleThird" = "HomePageTitleThird";
+"HomePageTitleFirst" = "真实snapchat找朋友";
+"HomePageTitleSecond" = "互赞之后才可以看到对方的snapchat Id";
+"HomePageTitleThird" = "可以根据位置查找附近的人";
 "Register" = "Register";
 
 //RegisterAccount

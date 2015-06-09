@@ -8,6 +8,7 @@
 #define kRCSystemFont(font) [UIFont systemFontOfSize:(font)]
 #define kRCBoldSystemFont(font) [UIFont boldSystemFontOfSize:(font)]
 #define kRCLocalizedString(string) NSLocalizedString((string), nil)
+#define kRCImage(string) [UIImage imageNamed:(string)]
 
 //常量
 extern NSString *const kNotification;
