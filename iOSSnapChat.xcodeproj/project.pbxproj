@@ -21,6 +21,7 @@
 		3039E1721B268A0600C1861F /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E1681B268A0600C1861F /* AFURLResponseSerialization.m */; };
 		3039E1731B268A0600C1861F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E16A1B268A0600C1861F /* AFURLSessionManager.m */; };
 		3039E17D1B26904700C1861F /* RCHomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E17C1B26904700C1861F /* RCHomePageCell.m */; };
+		3039E1851B269CD100C1861F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3039E1871B269CD100C1861F /* Localizable.strings */; };
 		303D0F7B1B25B49200C5D58E /* RCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303D0F7A1B25B49200C5D58E /* RCHomeViewController.m */; };
 		30E401A81B25AC0400A70AED /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A71B25AC0400A70AED /* Images.xcassets */; };
 		30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A91B25AC0400A70AED /* LaunchScreen.xib */; };
@@ -67,6 +68,9 @@
 		3039E1741B268ABA00C1861F /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		3039E17B1B26904700C1861F /* RCHomePageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHomePageCell.h; sourceTree = "<group>"; };
 		3039E17C1B26904700C1861F /* RCHomePageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHomePageCell.m; sourceTree = "<group>"; };
+		3039E1861B269CD100C1861F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3039E1881B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		3039E1891B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		303D0F791B25B49200C5D58E /* RCHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHomeViewController.h; sourceTree = "<group>"; };
 		303D0F7A1B25B49200C5D58E /* RCHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHomeViewController.m; sourceTree = "<group>"; };
 		30E401971B25AC0400A70AED /* iOSSnapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSnapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +118,7 @@
 				3039E1531B26881200C1861F /* Const.h */,
 				3039E1541B26881F00C1861F /* Const.m */,
 				3039E1741B268ABA00C1861F /* Header.h */,
+				3039E1871B269CD100C1861F /* Localizable.strings */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 30E4018E1B25AC0400A70AED;
 			productRefGroup = 30E401981B25AC0400A70AED /* Products */;
@@ -302,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3039E14B1B26868400C1861F /* Home.storyboard in Resources */,
+				3039E1851B269CD100C1861F /* Localizable.strings in Resources */,
 				30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */,
 				30E401A81B25AC0400A70AED /* Images.xcassets in Resources */,
 			);
@@ -357,10 +364,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		3039E1871B269CD100C1861F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3039E1861B269CD100C1861F /* en */,
+				3039E1891B269D0900C1861F /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		30E401A91B25AC0400A70AED /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				30E401AA1B25AC0400A70AED /* Base */,
+				3039E1881B269D0900C1861F /* zh-Hans */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";

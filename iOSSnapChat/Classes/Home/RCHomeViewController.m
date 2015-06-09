@@ -44,7 +44,7 @@
 
 //初始化数据
 - (void)initData {
-    _homePageTitleArray = @[@"Home Page One", @"Home Page Two", @"Home Page Three"];
+    _homePageTitleArray = @[NSLocalizedString(@"HomePageOneTitle", nil), NSLocalizedString(@"HomePageTwoTitle", nil), NSLocalizedString(@"HomePageThreeTitle", nil)];
 }
 
 - (void)didReceiveMemoryWarning {
