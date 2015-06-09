@@ -6,7 +6,11 @@
   Copyright (c) 2015年 gongtao. All rights reserved.
 */
 
+//HomePage
+"HomePageTitleFirst" = "HomePageTitleFirst";
+"HomePageTitleSecond" = "HomePageTitleSecond";
+"HomePageTitleThird" = "HomePageTitleThird";
+"Register" = "Register";
 
-"HomePageOneTitle" = "HomePageOneTitle";
-"HomePageTwoTitle" = "HomePageTwoTitle";
-"HomePageThreeTitle" = "HomePageThreeTitle";
+//RegisterAccount
+"SignUp" = "Sign Up";

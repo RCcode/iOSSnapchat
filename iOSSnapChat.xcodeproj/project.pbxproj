@@ -22,6 +22,9 @@
 		3039E1731B268A0600C1861F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E16A1B268A0600C1861F /* AFURLSessionManager.m */; };
 		3039E17D1B26904700C1861F /* RCHomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E17C1B26904700C1861F /* RCHomePageCell.m */; };
 		3039E1851B269CD100C1861F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3039E1871B269CD100C1861F /* Localizable.strings */; };
+		3039E18D1B26C74A00C1861F /* RCRegisterAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E18C1B26C74A00C1861F /* RCRegisterAccountViewController.m */; };
+		3039E1971B26CF0800C1861F /* RCBaseNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E1961B26CF0800C1861F /* RCBaseNavgationController.m */; };
+		3039E1991B26D1F700C1861F /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 3039E1981B26D1F700C1861F /* left.png */; };
 		303D0F7B1B25B49200C5D58E /* RCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303D0F7A1B25B49200C5D58E /* RCHomeViewController.m */; };
 		30E401A81B25AC0400A70AED /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A71B25AC0400A70AED /* Images.xcassets */; };
 		30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A91B25AC0400A70AED /* LaunchScreen.xib */; };
@@ -71,6 +74,11 @@
 		3039E1861B269CD100C1861F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3039E1881B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		3039E1891B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		3039E18B1B26C74A00C1861F /* RCRegisterAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterAccountViewController.h; sourceTree = "<group>"; };
+		3039E18C1B26C74A00C1861F /* RCRegisterAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterAccountViewController.m; sourceTree = "<group>"; };
+		3039E1951B26CF0800C1861F /* RCBaseNavgationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCBaseNavgationController.h; path = ../../../../../Documents/RCBaseNavgationController.h; sourceTree = "<group>"; };
+		3039E1961B26CF0800C1861F /* RCBaseNavgationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCBaseNavgationController.m; path = ../../../../../Documents/RCBaseNavgationController.m; sourceTree = "<group>"; };
+		3039E1981B26D1F700C1861F /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left.png; sourceTree = "<group>"; };
 		303D0F791B25B49200C5D58E /* RCHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHomeViewController.h; sourceTree = "<group>"; };
 		303D0F7A1B25B49200C5D58E /* RCHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHomeViewController.m; sourceTree = "<group>"; };
 		30E401971B25AC0400A70AED /* iOSSnapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSnapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,10 +157,31 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
+		3039E18A1B26C6BD00C1861F /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				3039E1981B26D1F700C1861F /* left.png */,
+				3039E18B1B26C74A00C1861F /* RCRegisterAccountViewController.h */,
+				3039E18C1B26C74A00C1861F /* RCRegisterAccountViewController.m */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		3039E18E1B26C7AC00C1861F /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				3039E1951B26CF0800C1861F /* RCBaseNavgationController.h */,
+				3039E1961B26CF0800C1861F /* RCBaseNavgationController.m */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		303D0F771B25B48400C5D58E /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3039E18E1B26C7AC00C1861F /* Base */,
 				303D0F781B25B48400C5D58E /* Home */,
+				3039E18A1B26C6BD00C1861F /* Register */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -308,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3039E14B1B26868400C1861F /* Home.storyboard in Resources */,
+				3039E1991B26D1F700C1861F /* left.png in Resources */,
 				3039E1851B269CD100C1861F /* Localizable.strings in Resources */,
 				30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */,
 				30E401A81B25AC0400A70AED /* Images.xcassets in Resources */,
@@ -328,6 +358,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3039E1971B26CF0800C1861F /* RCBaseNavgationController.m in Sources */,
+				3039E18D1B26C74A00C1861F /* RCRegisterAccountViewController.m in Sources */,
 				3039E1501B2686F000C1861F /* AppDelegate.m in Sources */,
 				3039E16F1B268A0600C1861F /* AFSecurityPolicy.m in Sources */,
 				3039E1551B26881F00C1861F /* Const.m in Sources */,
