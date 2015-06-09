@@ -7,31 +7,60 @@
 //
 
 #import "RCHomeViewController.h"
+#import "RCHomePageCell.h"
+
+#define kRCHomePageNumber 3
+#define kRCHomePageCellIdentifer @"RCHomePageCell"
 
 @interface RCHomeViewController ()
+{
+    NSArray *_homePageTitleArray;
+}
+
+@property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *homePageCellLayout;
 
 @end
 
 @implementation RCHomeViewController
 
+#pragma mark - LifeCircle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self initLayout];
+    [self initData];
+}
+
+//初始化布局
+- (void)initLayout {
+    _homePageCellLayout.itemSize = kRCScreenBounds.size;
+    _homePageCellLayout.minimumLineSpacing = 0;
+    _homePageCellLayout.minimumInteritemSpacing = 0;
+    _homePageCellLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    self.collectionView.showsHorizontalScrollIndicator = NO;
+    self.collectionView.pagingEnabled = YES;
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+}
+
+//初始化数据
+- (void)initData {
+    _homePageTitleArray = @[@"Home Page One", @"Home Page Two", @"Home Page Three"];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark -  <UICollectionViewDataSource>
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return kRCHomePageNumber;
 }
-*/
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    RCHomePageCell *homePageCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kRCHomePageCellIdentifer forIndexPath:indexPath];
+    homePageCell.drawTitle = _homePageTitleArray[indexPath.row];
+    return homePageCell;
+}
 
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RCHomeViewController : UIViewController
+@interface RCHomeViewController : UICollectionViewController
 
 @end
