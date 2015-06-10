@@ -1,4 +1,4 @@
 
 #import "Const.h"
 
-NSString *const kNotification = @"Notification";
+NSString *const kRCLocationNotification = @"kRCLocationNotification";

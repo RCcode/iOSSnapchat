@@ -8,16 +8,20 @@
 
 #import "RCRegisterAccountViewController.h"
 #import "RCRegiseterAccountModel.h"
+#import <CoreLocation/CoreLocation.h>
 
 #define kBackButtonF CGRectMake(0, 0, 44, 44)
 #define kBackTitleF CGRectMake(0, 0, 200, 44)
 #define kBackTitleFont kRCBoldSystemFont(17)
 
-@interface RCRegisterAccountViewController ()
+@interface RCRegisterAccountViewController () <CLLocationManagerDelegate>
 {
     UITextField *_emailField;
     UITextField *_passwordField;
     BOOL _keyboardShow;
+    CLLocationManager *_locationManager;
+    CGFloat _longitude;
+    CGFloat _latitude;
 }
 
 @end
@@ -27,8 +31,10 @@
 #pragma mark - LifeCircle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self setUpArrowBackButton:kRCLocalizedString(@"SignUp")];
     [self setUpUI];
+    [self acquireLocation];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -93,6 +99,19 @@
     [self.view addSubview:confirmButton];
 }
 
+- (void)acquireLocation {
+    if ([CLLocationManager locationServicesEnabled]) {
+        CLLocationManager *manager = [[CLLocationManager alloc] init];
+        manager.desiredAccuracy = kCLLocationAccuracyBest;
+        manager.delegate = self;
+        if ([[UIDevice currentDevice].systemVersion doubleValue] > 8.0) [manager requestAlwaysAuthorization];
+        [manager startUpdatingLocation];
+        _locationManager = manager;
+    } else {
+        NSLog(@"无法获取当前地址");
+    }
+}
+
 #pragma mark - Action
 - (void)arrowBackDidClicked {
     if (_keyboardShow == NO) {
@@ -122,25 +141,21 @@
 //确认confirm点击事件
 - (void)confirmDidClicked {
     if ([self validateEmail:_emailField.text]) {
-        NSLog(@"Email = %@, password = %@", _emailField.text, _passwordField.text);
+        if (_longitude && _latitude) {
+            RCRegiseterAccountModel *model = [[RCRegiseterAccountModel alloc] init];
+            model.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi1.do";
+            model.parameters = @{@"plat": @1, @"userid": _emailField.text, @"password": _passwordField.text, @"countryid": @"CN", @"cityid": @"1", @"lon": @(_longitude), @"lat": @(_latitude), @"pushtoken": @""};
+            model.modelRequestMethod = kRCModelRequestMethodTypePOST;
+            [model requestServerWithModel:model success:^(id resultModel) {
+                NSLog(@"%@", resultModel);
+            } failure:^(NSError *error) {
+                NSLog(@"%@", error);
+            }];
+        }
     } else {
         NSLog(@"邮箱格式不正确");
         return;
     }
-    /*
-    RCRegiseterAccountModel *model = [[RCRegiseterAccountModel alloc] init];
-    model.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi1.do";
-    model.parameters = @{@"plat": @1, @"userid": @"LoginStepOneTest1", @"password": @"61709056", @"countryid": @"CN", @"cityid": @"1", @"lon": @50.0, @"lat": @50.0, @"pushtoken": @"123"};
-    model.modelRequestMethod = kRCModelRequestMethodTypePOST;
-    [model requestServerWithModel:model success:^(id resultModel) {
-        NSLog(@"%@", resultModel);
-    } failure:^(NSError *error) {
-        NSLog(@"%@", error);
-    }];
-    */
-    
-    
-    
 }
 
 //邮箱正则
@@ -149,6 +164,15 @@
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:email];
+}
+
+#pragma mark - <CLLocationManagerDelegate>
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    CLLocation *location = [locations lastObject];
+#warning 存入内存
+    _longitude = location.coordinate.longitude;
+    _latitude = location.coordinate.latitude;
+    [_locationManager stopUpdatingLocation];
 }
 
 @end
