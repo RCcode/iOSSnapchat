@@ -28,6 +28,8 @@
 		30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928E1B27E21A00826FCA /* RCNetworkManager.m */; };
 		30CE92931B27E88500826FCA /* RCModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92921B27E88500826FCA /* RCModelBase.m */; };
 		30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE929B1B28110E00826FCA /* RCRegiseterAccountModel.m */; };
+		30CE92A81B283D5D00826FCA /* RCRegisterInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92A71B283D5D00826FCA /* RCRegisterInfoViewController.m */; };
+		30CE92AB1B283E1300826FCA /* RCBaseArrowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92AA1B283E1300826FCA /* RCBaseArrowViewController.m */; };
 		30E401A81B25AC0400A70AED /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A71B25AC0400A70AED /* Images.xcassets */; };
 		30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A91B25AC0400A70AED /* LaunchScreen.xib */; };
 		30E401B71B25AC0400A70AED /* iOSSnapChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E401B61B25AC0400A70AED /* iOSSnapChatTests.m */; };
@@ -88,6 +90,10 @@
 		30CE92921B27E88500826FCA /* RCModelBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCModelBase.m; sourceTree = "<group>"; };
 		30CE929A1B28110E00826FCA /* RCRegiseterAccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegiseterAccountModel.h; sourceTree = "<group>"; };
 		30CE929B1B28110E00826FCA /* RCRegiseterAccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegiseterAccountModel.m; sourceTree = "<group>"; };
+		30CE92A61B283D5D00826FCA /* RCRegisterInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterInfoViewController.h; sourceTree = "<group>"; };
+		30CE92A71B283D5D00826FCA /* RCRegisterInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterInfoViewController.m; sourceTree = "<group>"; };
+		30CE92A91B283E1300826FCA /* RCBaseArrowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseArrowViewController.h; sourceTree = "<group>"; };
+		30CE92AA1B283E1300826FCA /* RCBaseArrowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseArrowViewController.m; sourceTree = "<group>"; };
 		30E401971B25AC0400A70AED /* iOSSnapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSnapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E4019B1B25AC0400A70AED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30E401A71B25AC0400A70AED /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -169,6 +175,8 @@
 			children = (
 				3039E18B1B26C74A00C1861F /* RCRegisterAccountViewController.h */,
 				3039E18C1B26C74A00C1861F /* RCRegisterAccountViewController.m */,
+				30CE92A61B283D5D00826FCA /* RCRegisterInfoViewController.h */,
+				30CE92A71B283D5D00826FCA /* RCRegisterInfoViewController.m */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -202,6 +210,8 @@
 			children = (
 				30CE92891B27DDB400826FCA /* RCBaseNavgationController.h */,
 				30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */,
+				30CE92A91B283E1300826FCA /* RCBaseArrowViewController.h */,
+				30CE92AA1B283E1300826FCA /* RCBaseArrowViewController.m */,
 				30CE92911B27E88500826FCA /* RCModelBase.h */,
 				30CE92921B27E88500826FCA /* RCModelBase.m */,
 			);
@@ -387,6 +397,7 @@
 			files = (
 				3039E18D1B26C74A00C1861F /* RCRegisterAccountViewController.m in Sources */,
 				30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */,
+				30CE92A81B283D5D00826FCA /* RCRegisterInfoViewController.m in Sources */,
 				3039E1501B2686F000C1861F /* AppDelegate.m in Sources */,
 				3039E16F1B268A0600C1861F /* AFSecurityPolicy.m in Sources */,
 				3039E1551B26881F00C1861F /* Const.m in Sources */,
@@ -399,6 +410,7 @@
 				3039E16E1B268A0600C1861F /* AFNetworkReachabilityManager.m in Sources */,
 				3039E1721B268A0600C1861F /* AFURLResponseSerialization.m in Sources */,
 				3039E1731B268A0600C1861F /* AFURLSessionManager.m in Sources */,
+				30CE92AB1B283E1300826FCA /* RCBaseArrowViewController.m in Sources */,
 				3039E17D1B26904700C1861F /* RCHomePageCell.m in Sources */,
 				30CE92931B27E88500826FCA /* RCModelBase.m in Sources */,
 				30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */,

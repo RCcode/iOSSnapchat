@@ -8,11 +8,8 @@
 
 #import "RCRegisterAccountViewController.h"
 #import "RCRegiseterAccountModel.h"
+#import "RCRegisterInfoViewController.h"
 #import <CoreLocation/CoreLocation.h>
-
-#define kBackButtonF CGRectMake(0, 0, 44, 44)
-#define kBackTitleF CGRectMake(0, 0, 200, 44)
-#define kBackTitleFont kRCBoldSystemFont(17)
 
 @interface RCRegisterAccountViewController () <CLLocationManagerDelegate>
 {
@@ -32,7 +29,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setUpArrowBackButton:kRCLocalizedString(@"SignUp")];
     [self setUpUI];
     [self acquireLocation];
 }
@@ -46,28 +42,10 @@
 }
 
 #pragma mark - Utility
-//导航栏
-- (void)setUpArrowBackButton:(NSString *)title {
-    //ButtonItem
-    UIButton *arrowBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    arrowBackButton.frame = kBackButtonF;
-    [arrowBackButton setImage:kRCImage(@"arrow.png") forState:UIControlStateNormal];
-    [arrowBackButton addTarget:self action:@selector(arrowBackDidClicked) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *arrowBackButtonItem = [[UIBarButtonItem alloc] initWithCustomView:arrowBackButton];
-    //LabelItem
-    UILabel *arrowBackLabel = [[UILabel alloc] init];
-    arrowBackLabel.frame = kBackTitleF;
-    arrowBackLabel.text = title;
-    arrowBackLabel.textColor = [UIColor whiteColor];
-    arrowBackLabel.font = kBackTitleFont;
-    UIBarButtonItem *arrowBackTitleItem = [[UIBarButtonItem alloc] initWithCustomView:arrowBackLabel];
-    //LeftItems
-    self.navigationItem.leftBarButtonItems = @[arrowBackButtonItem, arrowBackTitleItem];
-}
-
-//子控件
+//创建子控件
 - (void)setUpUI {
 #warning Modify Frame/Number
+    self.arrowTitle = kRCLocalizedString(@"SignUp");
     self.view.backgroundColor = [UIColor whiteColor];
     //邮箱
     UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectMake(20, 84, kRCScreenWidth - 40, 44)];
@@ -99,6 +77,7 @@
     [self.view addSubview:confirmButton];
 }
 
+//获取本地物理地址
 - (void)acquireLocation {
     if ([CLLocationManager locationServicesEnabled]) {
         CLLocationManager *manager = [[CLLocationManager alloc] init];
@@ -140,6 +119,10 @@
 
 //确认confirm点击事件
 - (void)confirmDidClicked {
+    RCRegisterInfoViewController *regsisterInfoVc = [[RCRegisterInfoViewController alloc] init];
+    [self.navigationController pushViewController:regsisterInfoVc animated:YES];
+    
+    /*
     if ([self validateEmail:_emailField.text]) {
         if (_longitude && _latitude) {
             RCRegiseterAccountModel *model = [[RCRegiseterAccountModel alloc] init];
@@ -156,6 +139,7 @@
         NSLog(@"邮箱格式不正确");
         return;
     }
+     */
 }
 
 //邮箱正则

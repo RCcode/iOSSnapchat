@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 gongtao. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "RCBaseArrowViewController.h"
 
-@interface RCRegisterAccountViewController : UIViewController
+@interface RCRegisterAccountViewController : RCBaseArrowViewController
 
 @end

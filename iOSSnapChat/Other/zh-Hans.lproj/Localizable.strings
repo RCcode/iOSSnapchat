@@ -16,3 +16,5 @@
 "SignUp" = "Sign Up";
 "EmailAddress" = "Email Address";
 "Password" = "Password";
+//RegisterInfo
+"NULL" = "";
