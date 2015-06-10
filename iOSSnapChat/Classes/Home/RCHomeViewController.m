@@ -44,7 +44,7 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Methods
+#pragma mark - Utility
 //初始化布局
 - (void)initLayout {
     _homePageCellLayout.itemSize = kRCScreenBounds.size;
@@ -97,7 +97,7 @@
     return loginButton;
 }
 
-#pragma mark - Actions
+#pragma mark - Action
 //进入注册界面
 - (void)registerDidClicked {
     RCRegisterAccountViewController *accountVc = [[RCRegisterAccountViewController alloc] init];

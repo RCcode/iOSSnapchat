@@ -9,5 +9,7 @@
 #ifndef iOSSnapChat_Header_h
 #define iOSSnapChat_Header_h
 
+//全局头文件
+#import "RCNetworkManager.h"
 
 #endif
