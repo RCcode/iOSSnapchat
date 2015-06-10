@@ -54,17 +54,17 @@
     [self.view addSubview:emailField];
     _emailField = emailField;
     //邮箱分割线
-    UIView *emailSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_emailField.frame), kRCScreenWidth, 1)];
+    UIView *emailSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(emailField.frame), kRCScreenWidth, 1)];
     emailSeparatorLine.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:emailSeparatorLine];
     //密码
-    UITextField *passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(_emailField.frame) + 20, kRCScreenWidth - 40, 44)];
+    UITextField *passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(emailField.frame) + 20, kRCScreenWidth - 40, 44)];
     [passwordField addTarget:self action:@selector(keyBoardDidShow) forControlEvents:UIControlEventEditingDidBegin];
     passwordField.placeholder = kRCLocalizedString(@"Password");
     [self.view addSubview:passwordField];
     _passwordField = passwordField;
     //密码分割线
-    UIView *passwordSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_passwordField.frame), kRCScreenWidth, 1)];
+    UIView *passwordSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(passwordField.frame), kRCScreenWidth, 1)];
     passwordSeparatorLine.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:passwordSeparatorLine];
     //Confirm按钮
