@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, kRCModelRequestMethodType) {
 //请求方法
 
 
-- (void)requestServerWithModel:(id)requestModel success:(void(^)(id resultModel))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+- (void)requestServerWithModel:(id)requestModel success:(void(^)(id resultModel))success failure:(void (^)(NSError *error))failure;
 - (void)parse:(id)responseObject;
 
 @end

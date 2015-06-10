@@ -7,6 +7,7 @@
 //
 
 #import "RCRegisterAccountViewController.h"
+#import "RCRegiseterAccountModel.h"
 
 #define kBackButtonF CGRectMake(0, 0, 44, 44)
 #define kBackTitleF CGRectMake(0, 0, 200, 44)
@@ -124,7 +125,22 @@
         NSLog(@"Email = %@, password = %@", _emailField.text, _passwordField.text);
     } else {
         NSLog(@"邮箱格式不正确");
+        return;
     }
+    /*
+    RCRegiseterAccountModel *model = [[RCRegiseterAccountModel alloc] init];
+    model.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi1.do";
+    model.parameters = @{@"plat": @1, @"userid": @"LoginStepOneTest1", @"password": @"61709056", @"countryid": @"CN", @"cityid": @"1", @"lon": @50.0, @"lat": @50.0, @"pushtoken": @"123"};
+    model.modelRequestMethod = kRCModelRequestMethodTypePOST;
+    [model requestServerWithModel:model success:^(id resultModel) {
+        NSLog(@"%@", resultModel);
+    } failure:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
+    */
+    
+    
+    
 }
 
 //邮箱正则

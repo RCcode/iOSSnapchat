@@ -7,17 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFNetworking.h"
 
 @interface RCNetworkManager : NSObject
 
 + (instancetype)shareManager;
 
-//GET
-- (void)GETRequest:(NSString *)urlString parameters:(id)parameters success:(void(^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
-//POST
-- (void)POSTRequest:(NSString *)urlString parameters:(id)parameters success:(void(^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
-//POST图片
-- (void)POSTRequest:(NSString *)urlString parameters:(id)parameters constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+//GET请求
+- (void)GETRequest:(NSString *)urlString parameters:(id)parameters success:(void(^)(id responseObject))success failure:(void (^)(NSError *error))failure;
+//POST请求
+- (void)POSTRequest:(NSString *)urlString parameters:(id)parameters success:(void(^)(id responseObject))success failure:(void (^)(NSError *error))failure;
+//POST上传图片
+- (void)POSTRequest:(NSString *)urlString parameters:(id)parameters upateFileData:(NSData *)fileData success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
 
 @end

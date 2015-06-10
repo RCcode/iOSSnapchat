@@ -7,6 +7,7 @@
 //
 
 #import "RCNetworkManager.h"
+#import "AFNetworking.h"
 
 @implementation RCNetworkManager
 
@@ -45,16 +46,31 @@ static id _instance;
 }
 
 #pragma mark - Utility
-- (void)GETRequest:(NSString *)urlString parameters:(id)parameters success:(void(^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
-    [_manager GET:urlString parameters:parameters success:success failure:failure];
+- (void)GETRequest:(NSString *)urlString parameters:(id)parameters success:(void(^)(id responseObject))success failure:(void (^)(NSError *error))failure; {
+    [_manager GET:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        failure(error);
+    }];
 }
 
-- (void)POSTRequest:(NSString *)urlString parameters:(id)parameters success:(void(^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
-    [_manager POST:urlString parameters:parameters success:success failure:failure];
+- (void)POSTRequest:(NSString *)urlString parameters:(id)parameters success:(void(^)(id responseObject))success failure:(void (^)(NSError *error))failure; {
+    [_manager POST:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        failure(error);
+    }];
 }
 
-- (void)POSTRequest:(NSString *)urlString parameters:(id)parameters constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
-    [_manager POST:urlString parameters:parameters constructingBodyWithBlock:block success:success failure:failure];
+#warning 添加上传图片代码
+- (void)POSTRequest:(NSString *)urlString parameters:(id)parameters upateFileData:(NSData *)fileData success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure {
+    [_manager POST:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        //上传图片CODE
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        failure(error);
+    }];
 }
 
 @end
