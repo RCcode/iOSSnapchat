@@ -17,6 +17,10 @@
 + (void)initialize {
     //设置导航条通用属性
     [[UINavigationBar appearance] setBarTintColor:[UIColor purpleColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+//    [[UINavigationBar appearance] set
+    //设置导航栏标题
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont boldSystemFontOfSize:17]}];
 }
 
 - (void)viewDidLoad {

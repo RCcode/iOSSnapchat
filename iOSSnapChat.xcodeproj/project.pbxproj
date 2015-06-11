@@ -21,6 +21,7 @@
 		3039E1731B268A0600C1861F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E16A1B268A0600C1861F /* AFURLSessionManager.m */; };
 		3039E1851B269CD100C1861F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3039E1871B269CD100C1861F /* Localizable.strings */; };
 		30A33A1A1B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */; };
+		30A33A1E1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */; };
 		30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */; };
 		30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928E1B27E21A00826FCA /* RCNetworkManager.m */; };
 		30CE92931B27E88500826FCA /* RCModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92921B27E88500826FCA /* RCModelBase.m */; };
@@ -82,6 +83,8 @@
 		3039E1891B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		30A33A181B2989B50093C49B /* RCRegisterPhotoDisplayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterPhotoDisplayViewController.h; sourceTree = "<group>"; };
 		30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterPhotoDisplayViewController.m; sourceTree = "<group>"; };
+		30A33A1C1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadPhotoViewController.h; sourceTree = "<group>"; };
+		30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadPhotoViewController.m; sourceTree = "<group>"; };
 		30CE92891B27DDB400826FCA /* RCBaseNavgationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseNavgationController.h; sourceTree = "<group>"; };
 		30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseNavgationController.m; sourceTree = "<group>"; };
 		30CE928D1B27E21A00826FCA /* RCNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCNetworkManager.h; sourceTree = "<group>"; };
@@ -272,6 +275,8 @@
 				30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */,
 				30A33A181B2989B50093C49B /* RCRegisterPhotoDisplayViewController.h */,
 				30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */,
+				30A33A1C1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.h */,
+				30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -446,6 +451,7 @@
 			files = (
 				30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */,
 				3039E1501B2686F000C1861F /* AppDelegate.m in Sources */,
+				30A33A1E1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m in Sources */,
 				30D02E2B1B296781004E5F9A /* RCRegisterUploadViewController.m in Sources */,
 				3039E16F1B268A0600C1861F /* AFSecurityPolicy.m in Sources */,
 				30D02E131B2943C1004E5F9A /* RCPikerViewTextFiled.m in Sources */,

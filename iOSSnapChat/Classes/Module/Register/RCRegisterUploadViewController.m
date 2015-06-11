@@ -58,7 +58,15 @@
     kRCWeak(self);
     //打开相机
     UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"Camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
+        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            UIImagePickerController *photoPicker = [[UIImagePickerController alloc] init];
+            photoPicker.delegate = self;
+            photoPicker.allowsEditing = YES;
+            photoPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:photoPicker animated:YES completion:nil];
+        } else {
+            NSLog(@"无法启动相机");
+        }
     }];
     //打开相册
     UIAlertAction *galleryAction = [UIAlertAction actionWithTitle:@"Gallery" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -80,6 +88,8 @@
     [self dismissViewControllerAnimated:YES completion:^{
         RCRegisterPhotoDisplayViewController *registerPhotoDisplayVc = [[RCRegisterPhotoDisplayViewController alloc] init];
         registerPhotoDisplayVc.selectedGalleryPhoto = selectedGalleryPhoto;
+#warning 此处需要修改
+        weakself.modalPresentationStyle = UIModalPresentationCurrentContext;
         [weakself.navigationController pushViewController:registerPhotoDisplayVc animated:YES];
     }];
 }
