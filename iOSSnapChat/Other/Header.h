@@ -9,7 +9,11 @@
 #ifndef iOSSnapChat_Header_h
 #define iOSSnapChat_Header_h
 
-//全局头文件
+//全局单例
 #import "RCNetworkManager.h"
+
+//全局控件
+#import "RCPlaceHolderAlwaysTextField.h"
+#import "RCPikerViewTextFiled.h"
 
 #endif

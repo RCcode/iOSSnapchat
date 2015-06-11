@@ -10,8 +10,8 @@
 
 @interface RCRegisterInfoViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
 {
-    UITextField *_snapChatField;
-    UITextField *_ageField;
+    RCPlaceHolderAlwaysTextField *_snapChatField;
+    RCPikerViewTextFiled *_ageField;
     NSInteger _pickerViewSelectedAge;
 }
 
@@ -37,8 +37,8 @@
     self.arrowTitle = kRCLocalizedString(@"NULL");
     self.view.backgroundColor = [UIColor whiteColor];
     //SnapChat账号
-    UITextField *snapChatField = [[UITextField alloc] initWithFrame:CGRectMake(40, 84, kRCScreenWidth - 80, 44)];
-    snapChatField.placeholder = @"Your Snapchat ID";
+    RCPlaceHolderAlwaysTextField *snapChatField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(40, 84, kRCScreenWidth - 80, 44)];
+    snapChatField.userPlaceHolder = @"Your Snapchat ID";
     [self.view addSubview:snapChatField];
     _snapChatField = snapChatField;
     //SnapChat账号分割线
@@ -57,8 +57,8 @@
     [ageInputView addSubview:completeButton];
     [ageInputView addSubview:agePickerView];
     //年龄
-    UITextField *ageField = [[UITextField alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(snapChatField.frame) + 20, kRCScreenWidth - 80, 44)];
-    ageField.placeholder = @"Age";
+    RCPikerViewTextFiled *ageField = [[RCPikerViewTextFiled alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(snapChatField.frame) + 20, kRCScreenWidth - 80, 44)];
+    ageField.userPlaceHolder = @"Age";
     ageField.inputView = ageInputView;
     [self.view addSubview:ageField];
     _ageField = ageField;
@@ -102,7 +102,7 @@
 
 //InputView完成按钮事件
 - (void)completeButtonDidClick {
-    _ageField.text = [NSString stringWithFormat:@"%zd", _pickerViewSelectedAge];
+    _ageField.userText = [NSString stringWithFormat:@"%zd", _pickerViewSelectedAge];
     [self.view endEditing:YES];
 }
 
@@ -127,6 +127,5 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     _pickerViewSelectedAge = row;
 }
-
 
 @end

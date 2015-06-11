@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3039E14B1B26868400C1861F /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3039E14A1B26868400C1861F /* Home.storyboard */; };
 		3039E1501B2686F000C1861F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E14E1B2686F000C1861F /* AppDelegate.m */; };
 		3039E1511B2686F000C1861F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E14F1B2686F000C1861F /* main.m */; };
 		3039E1551B26881F00C1861F /* Const.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E1541B26881F00C1861F /* Const.m */; };
@@ -20,16 +19,19 @@
 		3039E1711B268A0600C1861F /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E1661B268A0600C1861F /* AFURLRequestSerialization.m */; };
 		3039E1721B268A0600C1861F /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E1681B268A0600C1861F /* AFURLResponseSerialization.m */; };
 		3039E1731B268A0600C1861F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E16A1B268A0600C1861F /* AFURLSessionManager.m */; };
-		3039E17D1B26904700C1861F /* RCHomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E17C1B26904700C1861F /* RCHomePageCell.m */; };
 		3039E1851B269CD100C1861F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3039E1871B269CD100C1861F /* Localizable.strings */; };
-		3039E18D1B26C74A00C1861F /* RCRegisterAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E18C1B26C74A00C1861F /* RCRegisterAccountViewController.m */; };
-		303D0F7B1B25B49200C5D58E /* RCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303D0F7A1B25B49200C5D58E /* RCHomeViewController.m */; };
 		30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */; };
 		30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928E1B27E21A00826FCA /* RCNetworkManager.m */; };
 		30CE92931B27E88500826FCA /* RCModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92921B27E88500826FCA /* RCModelBase.m */; };
 		30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE929B1B28110E00826FCA /* RCRegiseterAccountModel.m */; };
-		30CE92A81B283D5D00826FCA /* RCRegisterInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92A71B283D5D00826FCA /* RCRegisterInfoViewController.m */; };
 		30CE92AB1B283E1300826FCA /* RCBaseArrowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92AA1B283E1300826FCA /* RCBaseArrowViewController.m */; };
+		30D02E101B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E0F1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m */; };
+		30D02E131B2943C1004E5F9A /* RCPikerViewTextFiled.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E121B2943C1004E5F9A /* RCPikerViewTextFiled.m */; };
+		30D02E201B294830004E5F9A /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30D02E161B294830004E5F9A /* Home.storyboard */; };
+		30D02E211B294830004E5F9A /* RCHomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E181B294830004E5F9A /* RCHomePageCell.m */; };
+		30D02E221B294830004E5F9A /* RCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E1A1B294830004E5F9A /* RCHomeViewController.m */; };
+		30D02E231B294830004E5F9A /* RCRegisterAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E1D1B294830004E5F9A /* RCRegisterAccountViewController.m */; };
+		30D02E241B294830004E5F9A /* RCRegisterInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E1F1B294830004E5F9A /* RCRegisterInfoViewController.m */; };
 		30E401A81B25AC0400A70AED /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A71B25AC0400A70AED /* Images.xcassets */; };
 		30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A91B25AC0400A70AED /* LaunchScreen.xib */; };
 		30E401B71B25AC0400A70AED /* iOSSnapChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E401B61B25AC0400A70AED /* iOSSnapChatTests.m */; };
@@ -46,7 +48,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3039E14A1B26868400C1861F /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		3039E14D1B2686F000C1861F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3039E14E1B2686F000C1861F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3039E14F1B2686F000C1861F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -73,15 +74,9 @@
 		3039E1691B268A0600C1861F /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		3039E16A1B268A0600C1861F /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		3039E1741B268ABA00C1861F /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
-		3039E17B1B26904700C1861F /* RCHomePageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHomePageCell.h; sourceTree = "<group>"; };
-		3039E17C1B26904700C1861F /* RCHomePageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHomePageCell.m; sourceTree = "<group>"; };
 		3039E1861B269CD100C1861F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3039E1881B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		3039E1891B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		3039E18B1B26C74A00C1861F /* RCRegisterAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterAccountViewController.h; sourceTree = "<group>"; };
-		3039E18C1B26C74A00C1861F /* RCRegisterAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterAccountViewController.m; sourceTree = "<group>"; };
-		303D0F791B25B49200C5D58E /* RCHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHomeViewController.h; sourceTree = "<group>"; };
-		303D0F7A1B25B49200C5D58E /* RCHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHomeViewController.m; sourceTree = "<group>"; };
 		30CE92891B27DDB400826FCA /* RCBaseNavgationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseNavgationController.h; sourceTree = "<group>"; };
 		30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseNavgationController.m; sourceTree = "<group>"; };
 		30CE928D1B27E21A00826FCA /* RCNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCNetworkManager.h; sourceTree = "<group>"; };
@@ -90,10 +85,21 @@
 		30CE92921B27E88500826FCA /* RCModelBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCModelBase.m; sourceTree = "<group>"; };
 		30CE929A1B28110E00826FCA /* RCRegiseterAccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegiseterAccountModel.h; sourceTree = "<group>"; };
 		30CE929B1B28110E00826FCA /* RCRegiseterAccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegiseterAccountModel.m; sourceTree = "<group>"; };
-		30CE92A61B283D5D00826FCA /* RCRegisterInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterInfoViewController.h; sourceTree = "<group>"; };
-		30CE92A71B283D5D00826FCA /* RCRegisterInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterInfoViewController.m; sourceTree = "<group>"; };
 		30CE92A91B283E1300826FCA /* RCBaseArrowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseArrowViewController.h; sourceTree = "<group>"; };
 		30CE92AA1B283E1300826FCA /* RCBaseArrowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseArrowViewController.m; sourceTree = "<group>"; };
+		30D02E0E1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPlaceHolderAlwaysTextField.h; sourceTree = "<group>"; };
+		30D02E0F1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPlaceHolderAlwaysTextField.m; sourceTree = "<group>"; };
+		30D02E111B2943C1004E5F9A /* RCPikerViewTextFiled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPikerViewTextFiled.h; sourceTree = "<group>"; };
+		30D02E121B2943C1004E5F9A /* RCPikerViewTextFiled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPikerViewTextFiled.m; sourceTree = "<group>"; };
+		30D02E161B294830004E5F9A /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
+		30D02E171B294830004E5F9A /* RCHomePageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHomePageCell.h; sourceTree = "<group>"; };
+		30D02E181B294830004E5F9A /* RCHomePageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHomePageCell.m; sourceTree = "<group>"; };
+		30D02E191B294830004E5F9A /* RCHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHomeViewController.h; sourceTree = "<group>"; };
+		30D02E1A1B294830004E5F9A /* RCHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHomeViewController.m; sourceTree = "<group>"; };
+		30D02E1C1B294830004E5F9A /* RCRegisterAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterAccountViewController.h; sourceTree = "<group>"; };
+		30D02E1D1B294830004E5F9A /* RCRegisterAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterAccountViewController.m; sourceTree = "<group>"; };
+		30D02E1E1B294830004E5F9A /* RCRegisterInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterInfoViewController.h; sourceTree = "<group>"; };
+		30D02E1F1B294830004E5F9A /* RCRegisterInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterInfoViewController.m; sourceTree = "<group>"; };
 		30E401971B25AC0400A70AED /* iOSSnapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSnapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E4019B1B25AC0400A70AED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30E401A71B25AC0400A70AED /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -170,39 +176,17 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
-		3039E18A1B26C6BD00C1861F /* Register */ = {
-			isa = PBXGroup;
-			children = (
-				3039E18B1B26C74A00C1861F /* RCRegisterAccountViewController.h */,
-				3039E18C1B26C74A00C1861F /* RCRegisterAccountViewController.m */,
-				30CE92A61B283D5D00826FCA /* RCRegisterInfoViewController.h */,
-				30CE92A71B283D5D00826FCA /* RCRegisterInfoViewController.m */,
-			);
-			path = Register;
-			sourceTree = "<group>";
-		};
 		303D0F771B25B48400C5D58E /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				30D02E251B294866004E5F9A /* Category */,
+				30D02E0D1B293FC4004E5F9A /* UserControl */,
 				30CE92881B27DDAF00826FCA /* Base */,
 				30CE928C1B27E19800826FCA /* Tool */,
 				30CE92901B27E84100826FCA /* Model */,
-				303D0F781B25B48400C5D58E /* Home */,
-				3039E18A1B26C6BD00C1861F /* Register */,
+				30D02E141B294830004E5F9A /* Module */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		303D0F781B25B48400C5D58E /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				303D0F791B25B49200C5D58E /* RCHomeViewController.h */,
-				303D0F7A1B25B49200C5D58E /* RCHomeViewController.m */,
-				3039E17B1B26904700C1861F /* RCHomePageCell.h */,
-				3039E17C1B26904700C1861F /* RCHomePageCell.m */,
-				3039E14A1B26868400C1861F /* Home.storyboard */,
-			);
-			path = Home;
 			sourceTree = "<group>";
 		};
 		30CE92881B27DDAF00826FCA /* Base */ = {
@@ -234,6 +218,56 @@
 				30CE929B1B28110E00826FCA /* RCRegiseterAccountModel.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		30D02E0D1B293FC4004E5F9A /* UserControl */ = {
+			isa = PBXGroup;
+			children = (
+				30D02E0E1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.h */,
+				30D02E0F1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m */,
+				30D02E111B2943C1004E5F9A /* RCPikerViewTextFiled.h */,
+				30D02E121B2943C1004E5F9A /* RCPikerViewTextFiled.m */,
+			);
+			path = UserControl;
+			sourceTree = "<group>";
+		};
+		30D02E141B294830004E5F9A /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				30D02E151B294830004E5F9A /* Home */,
+				30D02E1B1B294830004E5F9A /* Register */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		30D02E151B294830004E5F9A /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				30D02E161B294830004E5F9A /* Home.storyboard */,
+				30D02E171B294830004E5F9A /* RCHomePageCell.h */,
+				30D02E181B294830004E5F9A /* RCHomePageCell.m */,
+				30D02E191B294830004E5F9A /* RCHomeViewController.h */,
+				30D02E1A1B294830004E5F9A /* RCHomeViewController.m */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		30D02E1B1B294830004E5F9A /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				30D02E1C1B294830004E5F9A /* RCRegisterAccountViewController.h */,
+				30D02E1D1B294830004E5F9A /* RCRegisterAccountViewController.m */,
+				30D02E1E1B294830004E5F9A /* RCRegisterInfoViewController.h */,
+				30D02E1F1B294830004E5F9A /* RCRegisterInfoViewController.m */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		30D02E251B294866004E5F9A /* Category */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Category;
 			sourceTree = "<group>";
 		};
 		30E4018E1B25AC0400A70AED = {
@@ -374,10 +408,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3039E14B1B26868400C1861F /* Home.storyboard in Resources */,
 				3039E1851B269CD100C1861F /* Localizable.strings in Resources */,
 				30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */,
 				30E401A81B25AC0400A70AED /* Images.xcassets in Resources */,
+				30D02E201B294830004E5F9A /* Home.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,26 +429,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3039E18D1B26C74A00C1861F /* RCRegisterAccountViewController.m in Sources */,
 				30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */,
-				30CE92A81B283D5D00826FCA /* RCRegisterInfoViewController.m in Sources */,
 				3039E1501B2686F000C1861F /* AppDelegate.m in Sources */,
 				3039E16F1B268A0600C1861F /* AFSecurityPolicy.m in Sources */,
+				30D02E131B2943C1004E5F9A /* RCPikerViewTextFiled.m in Sources */,
 				3039E1551B26881F00C1861F /* Const.m in Sources */,
+				30D02E221B294830004E5F9A /* RCHomeViewController.m in Sources */,
 				3039E16C1B268A0600C1861F /* AFHTTPRequestOperationManager.m in Sources */,
 				3039E1701B268A0600C1861F /* AFURLConnectionOperation.m in Sources */,
 				3039E16B1B268A0600C1861F /* AFHTTPRequestOperation.m in Sources */,
 				3039E1511B2686F000C1861F /* main.m in Sources */,
 				3039E1711B268A0600C1861F /* AFURLRequestSerialization.m in Sources */,
+				30D02E211B294830004E5F9A /* RCHomePageCell.m in Sources */,
 				3039E16D1B268A0600C1861F /* AFHTTPSessionManager.m in Sources */,
+				30D02E241B294830004E5F9A /* RCRegisterInfoViewController.m in Sources */,
 				3039E16E1B268A0600C1861F /* AFNetworkReachabilityManager.m in Sources */,
+				30D02E231B294830004E5F9A /* RCRegisterAccountViewController.m in Sources */,
 				3039E1721B268A0600C1861F /* AFURLResponseSerialization.m in Sources */,
 				3039E1731B268A0600C1861F /* AFURLSessionManager.m in Sources */,
 				30CE92AB1B283E1300826FCA /* RCBaseArrowViewController.m in Sources */,
-				3039E17D1B26904700C1861F /* RCHomePageCell.m in Sources */,
+				30D02E101B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m in Sources */,
 				30CE92931B27E88500826FCA /* RCModelBase.m in Sources */,
 				30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */,
-				303D0F7B1B25B49200C5D58E /* RCHomeViewController.m in Sources */,
 				30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

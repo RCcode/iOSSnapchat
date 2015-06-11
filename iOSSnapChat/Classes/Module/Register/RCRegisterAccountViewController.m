@@ -13,8 +13,8 @@
 
 @interface RCRegisterAccountViewController () <CLLocationManagerDelegate>
 {
-    UITextField *_emailField;
-    UITextField *_passwordField;
+    RCPlaceHolderAlwaysTextField *_emailField;
+    RCPlaceHolderAlwaysTextField *_passwordField;
     BOOL _keyboardShow;
     CLLocationManager *_locationManager;
     CGFloat _longitude;
@@ -48,8 +48,8 @@
     self.arrowTitle = kRCLocalizedString(@"SignUp");
     self.view.backgroundColor = [UIColor whiteColor];
     //邮箱
-    UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectMake(20, 84, kRCScreenWidth - 40, 44)];
-    emailField.placeholder =  kRCLocalizedString(@"EmailAddress");
+    RCPlaceHolderAlwaysTextField *emailField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(20, 84, kRCScreenWidth - 40, 44)];
+    emailField.userPlaceHolder =  kRCLocalizedString(@"EmailAddress");
     [emailField addTarget:self action:@selector(keyBoardDidShow) forControlEvents:UIControlEventEditingDidBegin];
     [self.view addSubview:emailField];
     _emailField = emailField;
@@ -58,9 +58,9 @@
     emailSeparatorLine.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:emailSeparatorLine];
     //密码
-    UITextField *passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(emailField.frame) + 20, kRCScreenWidth - 40, 44)];
+    RCPlaceHolderAlwaysTextField *passwordField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(emailField.frame) + 20, kRCScreenWidth - 40, 44)];
     [passwordField addTarget:self action:@selector(keyBoardDidShow) forControlEvents:UIControlEventEditingDidBegin];
-    passwordField.placeholder = kRCLocalizedString(@"Password");
+    passwordField.userPlaceHolder = kRCLocalizedString(@"Password");
     [self.view addSubview:passwordField];
     _passwordField = passwordField;
     //密码分割线
