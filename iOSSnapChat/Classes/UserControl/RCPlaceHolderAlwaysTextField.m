@@ -9,6 +9,7 @@
 #import "RCPlaceHolderAlwaysTextField.h"
 
 #define kRCPlaceHolderAlwaysTextFieldMargin 10
+#define kRCPlaceHolderAlwaysTextFieldFont kRCSystemFont(17)
 
 @implementation RCPlaceHolderAlwaysTextField
 
@@ -17,24 +18,29 @@
     [self setNeedsDisplay];
 }
 
-//控制编辑文本的位置
+//编辑文本的位置
 - (CGRect)editingRectForBounds:(CGRect)bounds {
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17], NSForegroundColorAttributeName: [UIColor lightGrayColor]};
-    CGSize size = [_userPlaceHolder boundingRectWithSize:CGSizeMake(self.bounds.size.width, MAXFLOAT) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
-    return CGRectMake(bounds.origin.x + size.width + kRCPlaceHolderAlwaysTextFieldMargin, bounds.origin.y, bounds.size.width - (bounds.origin.x + size.width + kRCPlaceHolderAlwaysTextFieldMargin), bounds.size.height);
+    return [self editAndTextRect:bounds];
 }
 
-//控制显示文本的位置
+//显示文本的位置
 - (CGRect)textRectForBounds:(CGRect)bounds {
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17], NSForegroundColorAttributeName: [UIColor lightGrayColor]};
-    CGSize size = [_userPlaceHolder boundingRectWithSize:CGSizeMake(self.bounds.size.width, MAXFLOAT) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
-    return CGRectMake(bounds.origin.x + size.width + kRCPlaceHolderAlwaysTextFieldMargin, bounds.origin.y, bounds.size.width - (bounds.origin.x + size.width + kRCPlaceHolderAlwaysTextFieldMargin), bounds.size.height);
+    return [self editAndTextRect:bounds];
 }
 
 - (void)drawRect:(CGRect)rect {
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17], NSForegroundColorAttributeName: [UIColor lightGrayColor]};
-    CGSize size = [_userPlaceHolder boundingRectWithSize:CGSizeMake(rect.size.width, MAXFLOAT) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
-    [_userPlaceHolder drawInRect:CGRectMake(0, (rect.size.height - size.height) * 0.5, size.width, size.height) withAttributes:attributes];
+    NSDictionary *attributes = @{NSFontAttributeName: kRCPlaceHolderAlwaysTextFieldFont, NSForegroundColorAttributeName: [UIColor lightGrayColor]};
+    CGSize placeHolderSize = [_userPlaceHolder sizeForLineWithSize:CGSizeMake(self.bounds.size.width, MAXFLOAT) Attributes:attributes];
+    [_userPlaceHolder drawInRect:CGRectMake(0, (rect.size.height - placeHolderSize.height) * 0.5, placeHolderSize.width, placeHolderSize.height) withAttributes:attributes];
 }
+
+#pragma mark - Utility
+//获取编辑/显示文本Rect
+- (CGRect)editAndTextRect:(CGRect)bounds {
+    NSDictionary *attributes = @{NSFontAttributeName: kRCPlaceHolderAlwaysTextFieldFont};
+    CGSize placeHolderSize = [_userPlaceHolder sizeForLineWithSize:CGSizeMake(self.bounds.size.width, MAXFLOAT) Attributes:attributes];
+    return CGRectMake(bounds.origin.x + placeHolderSize.width + kRCPlaceHolderAlwaysTextFieldMargin, bounds.origin.y, bounds.size.width - (bounds.origin.x + placeHolderSize.width + kRCPlaceHolderAlwaysTextFieldMargin), bounds.size.height);
+}
+
 
 @end

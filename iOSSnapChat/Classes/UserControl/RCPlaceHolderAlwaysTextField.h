@@ -10,6 +10,7 @@
 
 @interface RCPlaceHolderAlwaysTextField : UITextField
 
+//占位文本(编辑不隐藏)
 @property (nonatomic, copy) NSString *userPlaceHolder;
 
 @end

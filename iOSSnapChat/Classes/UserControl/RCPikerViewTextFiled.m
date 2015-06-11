@@ -10,6 +10,7 @@
 
 #define kRCPikerViewTextFiledHideDistanece 100
 #define kRCPikerViewTextFiledMargin 10
+#define kRCPikerViewTextFiledFont kRCSystemFont(17)
 
 @implementation RCPikerViewTextFiled
 
@@ -29,12 +30,13 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-    NSDictionary *placeHolderAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17], NSForegroundColorAttributeName: [UIColor lightGrayColor]};
-    CGSize placeHolderSize = [_userPlaceHolder boundingRectWithSize:CGSizeMake(rect.size.width, MAXFLOAT) options:NSStringDrawingTruncatesLastVisibleLine attributes:placeHolderAttributes context:nil].size;
+    //重绘占位文本
+    NSDictionary *placeHolderAttributes = @{NSFontAttributeName: kRCPikerViewTextFiledFont, NSForegroundColorAttributeName: [UIColor lightGrayColor]};
+    CGSize placeHolderSize = [_userPlaceHolder sizeForLineWithSize:CGSizeMake(rect.size.width, MAXFLOAT) Attributes:placeHolderAttributes];
     [_userPlaceHolder drawInRect:CGRectMake(0, (rect.size.height - placeHolderSize.height) * 0.5, placeHolderSize.width, placeHolderSize.height) withAttributes:placeHolderAttributes];
-    
-    NSDictionary *textAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17], NSForegroundColorAttributeName: [UIColor blackColor]};
-    CGSize textSize = [_userText boundingRectWithSize:CGSizeMake(rect.size.width, MAXFLOAT) options:NSStringDrawingTruncatesLastVisibleLine attributes:textAttributes context:nil].size;
+    //重绘输入文本
+    NSDictionary *textAttributes = @{NSFontAttributeName: kRCPikerViewTextFiledFont, NSForegroundColorAttributeName: [UIColor blackColor]};
+    CGSize textSize = [_userText sizeForLineWithSize:CGSizeMake(rect.size.width, MAXFLOAT) Attributes:textAttributes];
     [_userText drawInRect:CGRectMake(placeHolderSize.width + kRCPikerViewTextFiledMargin, (rect.size.height - textSize.height) * 0.5, textSize.width, textSize.height) withAttributes:textAttributes];
 }
 

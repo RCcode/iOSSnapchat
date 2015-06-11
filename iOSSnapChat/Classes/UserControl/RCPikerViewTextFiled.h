@@ -10,7 +10,9 @@
 
 @interface RCPikerViewTextFiled : UITextField
 
+//占位文本(编辑不隐藏)
 @property (nonatomic, copy) NSString *userPlaceHolder;
+//输入文本
 @property (nonatomic, copy) NSString *userText;
 
 @end

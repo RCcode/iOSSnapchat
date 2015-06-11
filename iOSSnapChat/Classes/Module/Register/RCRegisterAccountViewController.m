@@ -153,7 +153,7 @@
 #pragma mark - <CLLocationManagerDelegate>
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     CLLocation *location = [locations lastObject];
-#warning 存入内存
+#warning block
     _longitude = location.coordinate.longitude;
     _latitude = location.coordinate.latitude;
     [_locationManager stopUpdatingLocation];

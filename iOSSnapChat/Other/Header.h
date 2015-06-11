@@ -12,6 +12,9 @@
 //全局单例
 #import "RCNetworkManager.h"
 
+//分类
+#import "NSString+RCStringSize.h"
+
 //全局控件
 #import "RCPlaceHolderAlwaysTextField.h"
 #import "RCPikerViewTextFiled.h"
