@@ -20,6 +20,7 @@
 		3039E1721B268A0600C1861F /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E1681B268A0600C1861F /* AFURLResponseSerialization.m */; };
 		3039E1731B268A0600C1861F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E16A1B268A0600C1861F /* AFURLSessionManager.m */; };
 		3039E1851B269CD100C1861F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3039E1871B269CD100C1861F /* Localizable.strings */; };
+		30A33A1A1B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */; };
 		30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */; };
 		30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928E1B27E21A00826FCA /* RCNetworkManager.m */; };
 		30CE92931B27E88500826FCA /* RCModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92921B27E88500826FCA /* RCModelBase.m */; };
@@ -33,6 +34,7 @@
 		30D02E231B294830004E5F9A /* RCRegisterAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E1D1B294830004E5F9A /* RCRegisterAccountViewController.m */; };
 		30D02E241B294830004E5F9A /* RCRegisterInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E1F1B294830004E5F9A /* RCRegisterInfoViewController.m */; };
 		30D02E281B295D75004E5F9A /* NSString+RCStringSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E271B295D75004E5F9A /* NSString+RCStringSize.m */; };
+		30D02E2B1B296781004E5F9A /* RCRegisterUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */; };
 		30E401A81B25AC0400A70AED /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A71B25AC0400A70AED /* Images.xcassets */; };
 		30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A91B25AC0400A70AED /* LaunchScreen.xib */; };
 		30E401B71B25AC0400A70AED /* iOSSnapChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E401B61B25AC0400A70AED /* iOSSnapChatTests.m */; };
@@ -78,6 +80,8 @@
 		3039E1861B269CD100C1861F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3039E1881B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		3039E1891B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		30A33A181B2989B50093C49B /* RCRegisterPhotoDisplayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterPhotoDisplayViewController.h; sourceTree = "<group>"; };
+		30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterPhotoDisplayViewController.m; sourceTree = "<group>"; };
 		30CE92891B27DDB400826FCA /* RCBaseNavgationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseNavgationController.h; sourceTree = "<group>"; };
 		30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseNavgationController.m; sourceTree = "<group>"; };
 		30CE928D1B27E21A00826FCA /* RCNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCNetworkManager.h; sourceTree = "<group>"; };
@@ -103,6 +107,8 @@
 		30D02E1F1B294830004E5F9A /* RCRegisterInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterInfoViewController.m; sourceTree = "<group>"; };
 		30D02E261B295D75004E5F9A /* NSString+RCStringSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RCStringSize.h"; sourceTree = "<group>"; };
 		30D02E271B295D75004E5F9A /* NSString+RCStringSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RCStringSize.m"; sourceTree = "<group>"; };
+		30D02E291B296781004E5F9A /* RCRegisterUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadViewController.h; sourceTree = "<group>"; };
+		30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadViewController.m; sourceTree = "<group>"; };
 		30E401971B25AC0400A70AED /* iOSSnapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSnapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E4019B1B25AC0400A70AED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30E401A71B25AC0400A70AED /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -262,6 +268,10 @@
 				30D02E1D1B294830004E5F9A /* RCRegisterAccountViewController.m */,
 				30D02E1E1B294830004E5F9A /* RCRegisterInfoViewController.h */,
 				30D02E1F1B294830004E5F9A /* RCRegisterInfoViewController.m */,
+				30D02E291B296781004E5F9A /* RCRegisterUploadViewController.h */,
+				30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */,
+				30A33A181B2989B50093C49B /* RCRegisterPhotoDisplayViewController.h */,
+				30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -436,6 +446,7 @@
 			files = (
 				30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */,
 				3039E1501B2686F000C1861F /* AppDelegate.m in Sources */,
+				30D02E2B1B296781004E5F9A /* RCRegisterUploadViewController.m in Sources */,
 				3039E16F1B268A0600C1861F /* AFSecurityPolicy.m in Sources */,
 				30D02E131B2943C1004E5F9A /* RCPikerViewTextFiled.m in Sources */,
 				3039E1551B26881F00C1861F /* Const.m in Sources */,
@@ -447,6 +458,7 @@
 				3039E1711B268A0600C1861F /* AFURLRequestSerialization.m in Sources */,
 				30D02E211B294830004E5F9A /* RCHomePageCell.m in Sources */,
 				3039E16D1B268A0600C1861F /* AFHTTPSessionManager.m in Sources */,
+				30A33A1A1B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m in Sources */,
 				30D02E241B294830004E5F9A /* RCRegisterInfoViewController.m in Sources */,
 				3039E16E1B268A0600C1861F /* AFNetworkReachabilityManager.m in Sources */,
 				30D02E231B294830004E5F9A /* RCRegisterAccountViewController.m in Sources */,
@@ -587,8 +599,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/iOSSnapChat/Other/PrefixHeader.pch";
 				INFOPLIST_FILE = iOSSnapChat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -598,8 +612,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/iOSSnapChat/Other/PrefixHeader.pch";
 				INFOPLIST_FILE = iOSSnapChat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

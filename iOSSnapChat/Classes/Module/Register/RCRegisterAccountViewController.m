@@ -45,11 +45,11 @@
 //创建子控件
 - (void)setUpUI {
 #warning Modify Frame/Number
-    self.arrowTitle = kRCLocalizedString(@"SignUp");
+    self.arrowTitle = kRCLocalizedString(@"RegisterAccountSignUp");
     self.view.backgroundColor = [UIColor whiteColor];
     //邮箱
     RCPlaceHolderAlwaysTextField *emailField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(20, 84, kRCScreenWidth - 40, 44)];
-    emailField.userPlaceHolder =  kRCLocalizedString(@"EmailAddress");
+    emailField.userPlaceHolder =  kRCLocalizedString(@"RegisterAccountEmailAddress");
     [emailField addTarget:self action:@selector(keyBoardDidShow) forControlEvents:UIControlEventEditingDidBegin];
     [self.view addSubview:emailField];
     _emailField = emailField;
@@ -60,7 +60,7 @@
     //密码
     RCPlaceHolderAlwaysTextField *passwordField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(emailField.frame) + 20, kRCScreenWidth - 40, 44)];
     [passwordField addTarget:self action:@selector(keyBoardDidShow) forControlEvents:UIControlEventEditingDidBegin];
-    passwordField.userPlaceHolder = kRCLocalizedString(@"Password");
+    passwordField.userPlaceHolder = kRCLocalizedString(@"RegisterAccountPassword");
     [self.view addSubview:passwordField];
     _passwordField = passwordField;
     //密码分割线
@@ -71,8 +71,8 @@
     UIButton *confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
     confirmButton.frame = CGRectMake(20, kRCScreenHeight - 216 - 40 - 30 - 20, kRCScreenWidth - 40, 40);
     [confirmButton setBackgroundColor:kRCRGBAColor(30, 190, 205, 1)];
-    [confirmButton setTitle:@"Confirm" forState:UIControlStateNormal];
-    [confirmButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [confirmButton setTitle:kRCLocalizedString(@"RegisterAccountConfirm") forState:UIControlStateNormal];
+    [confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [confirmButton addTarget:self action:@selector(confirmDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:confirmButton];
 }
@@ -156,6 +156,21 @@
 #warning block
     _longitude = location.coordinate.longitude;
     _latitude = location.coordinate.latitude;
+//    NSLog(@"lon = %f lat = %f", _longitude, _latitude);
+    
+    /*
+    CLGeocoder *revGeo = [[CLGeocoder alloc] init];
+    [revGeo reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (!error && [placemarks count] > 0) {
+            NSDictionary *dict = [[placemarks objectAtIndex:0] addressDictionary];
+            NSLog(@"dict = %@", dict);
+            NSLog(@"%@", [dict objectForKey:@"Street"]);
+        } else {
+            NSLog(@"erro");
+        }
+    }];
+    */
+     
     [_locationManager stopUpdatingLocation];
 }
 

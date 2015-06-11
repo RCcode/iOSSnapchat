@@ -15,6 +15,9 @@
 #define NSLog(...)
 #endif
 
+//弱引用
+#define kRCWeak(obj) __weak typeof(obj) weak##obj = obj;
+
 //全局常量
 #import "Const.h"
 

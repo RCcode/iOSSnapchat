@@ -58,7 +58,7 @@
 
 //初始化数据
 - (void)initData {
-    _homePageTitleArray = @[kRCLocalizedString(@"HomePageTitleFirst"), kRCLocalizedString(@"HomePageTitleSecond"), kRCLocalizedString(@"HomePageTitleThird")];
+    _homePageTitleArray = @[kRCLocalizedString(@"HomeMsgOne"), kRCLocalizedString(@"HomeMsgTwo"), kRCLocalizedString(@"HomeMsgThree")];
 #warning 此处设置重绘的背景图片
 //    _homePageImageArray = @[kRCImage(@"image1.jpg"), kRCImage(@"image2.jpg"), kRCImage(@"image3.jpg")];
     _homePageImageArray = nil;
@@ -74,7 +74,7 @@
 //创建注册按钮
 - (UIButton *)setUpRegisterButton {
     UIButton *registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [registerButton setTitle:kRCLocalizedString(@"Register") forState:UIControlStateNormal];
+    [registerButton setTitle:kRCLocalizedString(@"HomeRegister") forState:UIControlStateNormal];
     [registerButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     registerButton.frame = CGRectMake((kRCScreenWidth - kRCRegisterButtonWidth) * 0.5, (kRCScreenHeight - kRCRegisterButtonHeight) * 0.75, kRCRegisterButtonWidth, kRCRegisterButtonHeight);
     registerButton.layer.borderWidth = 1.0f;
@@ -87,7 +87,7 @@
 //创建登陆按钮
 - (UIButton *)setUpLoginButton {
     UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [loginButton setTitle:kRCLocalizedString(@"Login") forState:UIControlStateNormal];
+    [loginButton setTitle:kRCLocalizedString(@"HomeLogin") forState:UIControlStateNormal];
     [loginButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     loginButton.frame = CGRectMake(kRCScreenWidth * 0.6, (kRCScreenHeight - kRCRegisterButtonHeight) * 0.75 + kRCRegisterButtonHeight + kRCMargin, kRCLoginButtonWidth, kRCLoginButtonHeight);
     loginButton.layer.borderWidth = 1.0f;

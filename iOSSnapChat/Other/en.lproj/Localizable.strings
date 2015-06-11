@@ -6,15 +6,22 @@
   Copyright (c) 2015年 gongtao. All rights reserved.
 */
 
-//HomePage
-"HomePageTitleFirst" = "真实snapchat找朋友";
-"HomePageTitleSecond" = "互赞之后才可以看到对方的snapchat Id";
-"HomePageTitleThird" = "可以根据位置查找附近的人";
-"Register" = "Register";
+//Home
+"HomeMsgOne" = "真实snapchat找朋友";
+"HomeMsgTwo" = "互赞之后才可以看到对方的snapchat Id";
+"HomeMsgThree" = "可以根据位置查找附近的人";
+"HomeRegister" = "Register";
+"HomeLogin" = "Login";
 
 //RegisterAccount
-"SignUp" = "Sign Up";
-"EmailAddress" = "Email Address";
-"Password" = "Password";
+"RegisterAccountSignUp" = "Sign Up";
+"RegisterAccountEmailAddress" = "Email Address";
+"RegisterAccountPassword" = "Password";
+"RegisterAccountConfirm" = "Confirm";
 //RegisterInfo
-"NULL" = "";
+"RegisterInfoNULL" = "";
+"RegisterInfoYourSnapchatID" = "Your Snapchat ID";
+"RegisterInfoComplete" = "Complete";
+"RegisterInfoAge" = "Age";
+"RegisterInfoGender" = "Gender";
+"RegisterInfoDone" = "Done";

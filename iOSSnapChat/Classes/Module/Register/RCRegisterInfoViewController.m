@@ -7,6 +7,7 @@
 //
 
 #import "RCRegisterInfoViewController.h"
+#import "RCRegisterUploadViewController.h"
 
 @interface RCRegisterInfoViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
 {
@@ -34,11 +35,11 @@
 #pragma mark - Utility
 - (void)setUpUI {
 #warning Modify Frame/Number
-    self.arrowTitle = kRCLocalizedString(@"NULL");
+    self.arrowTitle = kRCLocalizedString(@"RegisterInfoNULL");
     self.view.backgroundColor = [UIColor whiteColor];
     //SnapChat账号
     RCPlaceHolderAlwaysTextField *snapChatField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(40, 84, kRCScreenWidth - 80, 44)];
-    snapChatField.userPlaceHolder = @"Your Snapchat ID";
+    snapChatField.userPlaceHolder = kRCLocalizedString(@"RegisterInfoYourSnapchatID");
     [self.view addSubview:snapChatField];
     _snapChatField = snapChatField;
     //SnapChat账号分割线
@@ -49,7 +50,7 @@
     UIButton *completeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [completeButton addTarget:self action:@selector(completeButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
     completeButton.frame = CGRectMake(kRCScreenWidth - 100, 0, 100, 20);
-    [completeButton setTitle:@"Complete" forState:UIControlStateNormal];
+    [completeButton setTitle:kRCLocalizedString(@"RegisterInfoComplete") forState:UIControlStateNormal];
     UIPickerView *agePickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 20, kRCScreenWidth, 216)];
     agePickerView.dataSource = self;
     agePickerView.delegate = self;
@@ -58,7 +59,7 @@
     [ageInputView addSubview:agePickerView];
     //年龄
     RCPikerViewTextFiled *ageField = [[RCPikerViewTextFiled alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(snapChatField.frame) + 20, kRCScreenWidth - 80, 44)];
-    ageField.userPlaceHolder = @"Age";
+    ageField.userPlaceHolder = kRCLocalizedString(@"RegisterInfoAge");
     ageField.inputView = ageInputView;
     [self.view addSubview:ageField];
     _ageField = ageField;
@@ -68,7 +69,7 @@
     [self.view addSubview:ageSeparatorLine];
     //性别
     UILabel *genderLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.5, 44)];
-    genderLabel.text = @"Gender";
+    genderLabel.text = kRCLocalizedString(@"RegisterInfoGender");
     genderLabel.textColor = [UIColor lightGrayColor];
     [self.view addSubview:genderLabel];
     //女性图片
@@ -84,7 +85,7 @@
 - (void)modifyNavgationBar {
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     doneButton.frame = CGRectMake(0, 0, 44, 44);
-    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+    [doneButton setTitle:kRCLocalizedString(@"RegisterInfoDone") forState:UIControlStateNormal];
     doneButton.titleLabel.font = kRCBoldSystemFont(17);
     [doneButton addTarget:self action:@selector(doneButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
@@ -108,7 +109,8 @@
 
 //导航栏Done按钮事件
 - (void)doneButtonDidClicked {
-    NSLog(@"Done");
+    RCRegisterUploadViewController *registerUploadVc = [[RCRegisterUploadViewController alloc] init];
+    [self.navigationController pushViewController:registerUploadVc animated:YES];
 }
 
 #pragma mark - <UIPickerViewDataSource, UIPickerViewDelegate>
