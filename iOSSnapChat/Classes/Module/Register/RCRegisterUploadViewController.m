@@ -42,15 +42,15 @@
     //文字
     NSString *contentText = @"In order to more easy to find a friend, and ensure the authenticity of the photo, we need you to upload the photos";
     CGSize size = [contentText sizeForLineWithSize:CGSizeMake(kRCScreenWidth - 40, MAXFLOAT) Attributes:@{NSFontAttributeName: kRCSystemFont(17)}];
-    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(backGroundImageView.frame) + 20, size.width, size.height)];
-    textLabel.numberOfLines = 0;
-    textLabel.textAlignment = NSTextAlignmentCenter;
-    textLabel.text = contentText;
-    [self.view addSubview:textLabel];
+    UILabel *msgLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(backGroundImageView.frame) + 20, size.width, size.height)];
+    msgLabel.numberOfLines = 0;
+    msgLabel.textAlignment = NSTextAlignmentCenter;
+    msgLabel.text = contentText;
+    [self.view addSubview:msgLabel];
     
-    //按钮
+    //相机按钮
     UIButton *cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cameraButton.frame = CGRectMake(20, CGRectGetMaxY(textLabel.frame) +20, kRCScreenWidth - 40, 44);
+    cameraButton.frame = CGRectMake(20, CGRectGetMaxY(msgLabel.frame) +20, kRCScreenWidth - 40, 44);
     [cameraButton setBackgroundColor:kRCRGBAColor(30, 190, 205, 1)];
     [cameraButton addTarget:self action:@selector(cameraDidClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cameraButton];
