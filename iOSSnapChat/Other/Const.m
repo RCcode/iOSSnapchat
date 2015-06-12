@@ -1,4 +1,5 @@
 
 #import "Const.h"
 
-NSString *const kRCLocationNotification = @"kRCLocationNotification";
+//获取相机或相册照片
+NSString *const kRCCameraGalleryNotification = @"kRCCameraGalleryNotification";

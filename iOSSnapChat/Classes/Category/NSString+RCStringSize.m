@@ -11,7 +11,7 @@
 @implementation NSString (RCStringSize)
 
 - (CGSize)sizeForLineWithSize:(CGSize)size Attributes:(NSDictionary *)attributes {
-    return [self boundingRectWithSize:size options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
+    return [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
 }
 
 @end

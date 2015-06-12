@@ -34,7 +34,9 @@
     
     //背景照片
     UIImageView *backGroudPhotoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, kRCScreenWidth, kRCScreenHeight - 64)];
+    backGroudPhotoImageView.contentMode = UIViewContentModeScaleAspectFit;
     backGroudPhotoImageView.image = _selectedGalleryPhoto;
+    
     [self.view addSubview:backGroudPhotoImageView];
     
     //顶部阴影
@@ -50,6 +52,7 @@
     [self.view addSubview:bottomCover];
     
     //水平分割线
+    /*
     for (int i = 0; i < 4; ++ i) {
         UIView *horizontalSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, 64 + 64 + (kRCScreenHeight - 64 - 64) / 4 * i, kRCScreenWidth, 0.5)];
         horizontalSeparatorLine.backgroundColor = [UIColor lightGrayColor];
@@ -62,6 +65,7 @@
         verticalSeparatorLine.backgroundColor = [UIColor lightGrayColor];
         [self.view addSubview:verticalSeparatorLine];
     }
+     */
 }
 
 - (void)modifyNavgationBar {

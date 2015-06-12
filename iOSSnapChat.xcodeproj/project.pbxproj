@@ -27,6 +27,7 @@
 		30CE92931B27E88500826FCA /* RCModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92921B27E88500826FCA /* RCModelBase.m */; };
 		30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE929B1B28110E00826FCA /* RCRegiseterAccountModel.m */; };
 		30CE92AB1B283E1300826FCA /* RCBaseArrowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92AA1B283E1300826FCA /* RCBaseArrowViewController.m */; };
+		30CF4A6F1B2A8058006FD39F /* RCCamerGalleryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CF4A6E1B2A8058006FD39F /* RCCamerGalleryManager.m */; };
 		30D02E101B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E0F1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m */; };
 		30D02E131B2943C1004E5F9A /* RCPikerViewTextFiled.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E121B2943C1004E5F9A /* RCPikerViewTextFiled.m */; };
 		30D02E201B294830004E5F9A /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30D02E161B294830004E5F9A /* Home.storyboard */; };
@@ -95,6 +96,8 @@
 		30CE929B1B28110E00826FCA /* RCRegiseterAccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegiseterAccountModel.m; sourceTree = "<group>"; };
 		30CE92A91B283E1300826FCA /* RCBaseArrowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseArrowViewController.h; sourceTree = "<group>"; };
 		30CE92AA1B283E1300826FCA /* RCBaseArrowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseArrowViewController.m; sourceTree = "<group>"; };
+		30CF4A6D1B2A8058006FD39F /* RCCamerGalleryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCCamerGalleryManager.h; path = ../Model/RCCamerGalleryManager.h; sourceTree = "<group>"; };
+		30CF4A6E1B2A8058006FD39F /* RCCamerGalleryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCCamerGalleryManager.m; path = ../Model/RCCamerGalleryManager.m; sourceTree = "<group>"; };
 		30D02E0E1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPlaceHolderAlwaysTextField.h; sourceTree = "<group>"; };
 		30D02E0F1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPlaceHolderAlwaysTextField.m; sourceTree = "<group>"; };
 		30D02E111B2943C1004E5F9A /* RCPikerViewTextFiled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPikerViewTextFiled.h; sourceTree = "<group>"; };
@@ -219,6 +222,8 @@
 			children = (
 				30CE928D1B27E21A00826FCA /* RCNetworkManager.h */,
 				30CE928E1B27E21A00826FCA /* RCNetworkManager.m */,
+				30CF4A6D1B2A8058006FD39F /* RCCamerGalleryManager.h */,
+				30CF4A6E1B2A8058006FD39F /* RCCamerGalleryManager.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -459,6 +464,7 @@
 				30D02E221B294830004E5F9A /* RCHomeViewController.m in Sources */,
 				3039E16C1B268A0600C1861F /* AFHTTPRequestOperationManager.m in Sources */,
 				3039E1701B268A0600C1861F /* AFURLConnectionOperation.m in Sources */,
+				30CF4A6F1B2A8058006FD39F /* RCCamerGalleryManager.m in Sources */,
 				3039E16B1B268A0600C1861F /* AFHTTPRequestOperation.m in Sources */,
 				3039E1511B2686F000C1861F /* main.m in Sources */,
 				3039E1711B268A0600C1861F /* AFURLRequestSerialization.m in Sources */,

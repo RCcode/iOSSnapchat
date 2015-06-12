@@ -11,6 +11,7 @@
 
 //全局单例
 #import "RCNetworkManager.h"
+#import "RCCamerGalleryManager.h"
 
 //分类
 #import "NSString+RCStringSize.h"

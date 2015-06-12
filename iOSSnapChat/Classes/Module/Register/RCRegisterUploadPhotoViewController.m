@@ -49,21 +49,26 @@
     UIImageView *photoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(60, 64 + 10, kRCScreenWidth - 120, kRCScreenWidth - 120)];
     photoImageView.layer.cornerRadius = 10;
     photoImageView.layer.masksToBounds = YES;
+    photoImageView.contentMode = UIViewContentModeScaleAspectFit;
     photoImageView.image = _selectedGalleryPhoto;
     _selectedOnePhoto = _selectedGalleryPhoto;
     [self.view addSubview:photoImageView];
     
     //添加照片按钮
     for (int i = 0; i < 3; ++ i) {
-        UIButton *addPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        addPhotoButton.layer.borderWidth = 1;
-        addPhotoButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        addPhotoButton.layer.masksToBounds = YES;
-        addPhotoButton.frame = CGRectMake(20 + (kRCScreenWidth - 20 - 20 - 10 - 10) / 3 * i + 10 * i, CGRectGetMaxY(photoImageView.frame) + 10, (kRCScreenWidth - 20 - 20 - 10 - 10) / 3, (kRCScreenWidth - 20 - 20 - 10 - 10) / 3);
-        if (i == 0) [addPhotoButton setBackgroundImage:_selectedOnePhoto forState:UIControlStateNormal];
-        [self.view addSubview:addPhotoButton];
-        [self.addPhotoButtonArray addObject:addPhotoButton];
+        UIImageView *addPhotoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20 + (kRCScreenWidth - 20 - 20 - 10 - 10) / 3 * i + 10 * i, CGRectGetMaxY(photoImageView.frame) + 10, (kRCScreenWidth - 20 - 20 - 10 - 10) / 3, (kRCScreenWidth - 20 - 20 - 10 - 10) / 3)];
+        addPhotoImageView.layer.borderWidth = 1;
+        addPhotoImageView.layer.cornerRadius = 2;
+        addPhotoImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        addPhotoImageView.layer.masksToBounds = YES;
+        addPhotoImageView.contentMode = UIViewContentModeScaleAspectFit;
+        if (i == 0) [addPhotoImageView setImage:_selectedOnePhoto];
+        [self.view addSubview:addPhotoImageView];
+        [self.addPhotoButtonArray addObject:addPhotoImageView];
     }
+    
+    //介绍文本
+    UILabel *msgLabel = [[UILabel alloc] init];
 }
 
 #pragma mark - Action
