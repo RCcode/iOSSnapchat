@@ -10,6 +10,7 @@
 #import "RCHomePageCell.h"
 #import "RCBaseNavgationController.h"
 #import "RCRegisterAccountViewController.h"
+#import "RCLoginViewController.h"
 
 //主页显示Page页书
 #define kRCHomePageNumber 3
@@ -107,14 +108,16 @@
 #pragma mark - Action
 //进入注册界面
 - (void)registerDidClicked {
-    RCRegisterAccountViewController *accountVc = [[RCRegisterAccountViewController alloc] init];
-    RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:accountVc];
+    RCRegisterAccountViewController *registerAccountVc = [[RCRegisterAccountViewController alloc] init];
+    RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerAccountVc];
     [self presentViewController:navVc animated:YES completion:nil];
 }
 
 //进入登陆界面
 - (void)loginDidClicked {
-    
+    RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
+    RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
+    [self presentViewController:navVc animated:YES completion:nil];
 }
 
 #pragma mark -  <UICollectionViewDataSource>

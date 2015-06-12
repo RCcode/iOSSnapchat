@@ -171,6 +171,12 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 
 - (void)goButtonDidClick {
     NSLog(@"upLoading");
+    /*
+     UIImageView *view0 = self.addPhotoImagageViewArray[0];
+     UIImageView *view1 = self.addPhotoImagageViewArray[1];
+     UIImageView *view2 = self.addPhotoImagageViewArray[2];
+     NSLog(@"%@", view0.image);
+     */
 }
 
 #pragma mark - <UICollectionViewDataSource>

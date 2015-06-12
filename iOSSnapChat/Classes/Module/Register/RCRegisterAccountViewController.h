@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 gongtao. All rights reserved.
 //
 
-#import "RCBaseArrowViewController.h"
+#import "RCBaseRegisterLoginViewController.h"
 
-@interface RCRegisterAccountViewController : RCBaseArrowViewController
+@interface RCRegisterAccountViewController : RCBaseRegisterLoginViewController
 
 @end
