@@ -125,7 +125,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     RCHomePageCell *homePageCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kRCHomePageCellIdentifer forIndexPath:indexPath];
-    [homePageCell drawTitle:_homePageTitleArray[indexPath.row] image:_homePageImageArray[indexPath.row]];
+    [homePageCell drawTitle:_homePageTitleArray[indexPath.item] image:_homePageImageArray[indexPath.item]];
     return homePageCell;
 }
 

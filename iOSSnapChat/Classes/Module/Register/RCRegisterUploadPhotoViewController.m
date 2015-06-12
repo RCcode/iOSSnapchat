@@ -11,17 +11,22 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     kRCCamerGalleryTapTypeAdd
 };
 
-#import "RCRegisterUploadPhotoViewController.h"
+#define kRRegisterUploadCollectionViewCellReuseIdentifier @"kRRegisterUploadCollectionViewCellReuseIdentifier"
 
-@interface RCRegisterUploadPhotoViewController ()
+#import "RCRegisterUploadPhotoViewController.h"
+#import "RCRegisterUploadPhotoCollectionViewCell.h"
+
+@interface RCRegisterUploadPhotoViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
-    UIImageView *_photoImageView;
+    UICollectionView *_photoCollectionView;
     //所有的图片数
     NSInteger _photoCount;
     //点击的图片索引
     NSInteger _tapIndex;
     //当前图片点击类型
     kRCCamerGalleryTapType _currentTapType;
+    //计数器
+    UIPageControl *_photoPageControl;
 }
 
 @property (nonatomic, strong) NSMutableArray *addPhotoImagageViewArray;
@@ -53,20 +58,36 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 - (void)setUpUI {
     self.arrowTitle = @"Upload photo";
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    //关闭自动调节,避免尺寸错误
+    self.automaticallyAdjustsScrollViewInsets = NO;
     //照片
-    UIImageView *photoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(60, 64 + 10, kRCScreenWidth - 120, kRCScreenWidth - 120)];
-    photoImageView.layer.cornerRadius = 10;
-    photoImageView.layer.masksToBounds = YES;
-    photoImageView.contentMode = UIViewContentModeScaleAspectFit;
-    photoImageView.image = _selectedGalleryPhoto;
     _photoCount = 1;
-    [self.view addSubview:photoImageView];
-    _photoImageView = photoImageView;
+    UICollectionViewFlowLayout *photoCollectLayout = [[UICollectionViewFlowLayout alloc] init];
+    UICollectionView *photoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(60, 64 + 10, kRCScreenWidth - 120, kRCScreenWidth - 120) collectionViewLayout:photoCollectLayout];
+    photoCollectionView.layer.cornerRadius = 5;
+    photoCollectionView.layer.masksToBounds = YES;
+    photoCollectLayout.itemSize = CGSizeMake(kRCScreenWidth - 120, kRCScreenWidth - 120);
+    photoCollectLayout.minimumLineSpacing = 0;
+    photoCollectLayout.minimumInteritemSpacing = 0;
+    photoCollectLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    photoCollectionView.showsHorizontalScrollIndicator = NO;
+    photoCollectionView.pagingEnabled = YES;
+    photoCollectionView.backgroundColor = [UIColor whiteColor];
+    [photoCollectionView registerClass:[RCRegisterUploadPhotoCollectionViewCell class] forCellWithReuseIdentifier:kRRegisterUploadCollectionViewCellReuseIdentifier];
+    photoCollectionView.dataSource = self;
+    photoCollectionView.delegate = self;
+    [self.view addSubview:photoCollectionView];
+    _photoCollectionView = photoCollectionView;
+    
+    //照片计数器
+    UIPageControl *photoPageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(60 + (photoCollectionView.bounds.size.width - 100) * 0.5, CGRectGetMaxY(_photoCollectionView.frame) - 37, 100, 37)];
+    photoPageControl.numberOfPages = _photoCount;
+    [self.view addSubview:photoPageControl];
+    _photoPageControl = photoPageControl;
     
     //添加照片按钮
     for (int i = 0; i < 3; ++ i) {
-        UIImageView *addPhotoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20 + (kRCScreenWidth - 20 - 20 - 10 - 10) / 3 * i + 10 * i, CGRectGetMaxY(photoImageView.frame) + 10, (kRCScreenWidth - 20 - 20 - 10 - 10) / 3, (kRCScreenWidth - 20 - 20 - 10 - 10) / 3)];
+        UIImageView *addPhotoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20 + (kRCScreenWidth - 20 - 20 - 10 - 10) / 3 * i + 10 * i, CGRectGetMaxY(photoCollectionView.frame) + 10, (kRCScreenWidth - 20 - 20 - 10 - 10) / 3, (kRCScreenWidth - 20 - 20 - 10 - 10) / 3)];
         addPhotoImageView.layer.borderWidth = 1;
         addPhotoImageView.layer.cornerRadius = 2;
         addPhotoImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -84,7 +105,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     //介绍文本
     NSString *contentText = @"OK! cool! Upload more photos will increase your chances of find friends!";
     CGSize size = [contentText sizeForLineWithSize:CGSizeMake(kRCScreenWidth - 40, MAXFLOAT) Attributes:@{NSFontAttributeName: kRCSystemFont(17)}];
-    UILabel *msgLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(photoImageView.frame) + 10 + (kRCScreenWidth - 20 - 20 - 10 - 10) / 3 + 10, size.width, size.height)];
+    UILabel *msgLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(photoCollectionView.frame) + 10 + (kRCScreenWidth - 20 - 20 - 10 - 10) / 3 + 10, size.width, size.height)];
     msgLabel.numberOfLines = 0;
     msgLabel.textAlignment = NSTextAlignmentCenter;
     msgLabel.text = contentText;
@@ -96,6 +117,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     [goButton setBackgroundColor:kRCRGBAColor(30, 190, 205, 1)];
     [goButton setTitle:@"Go" forState:UIControlStateNormal];
     [goButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [goButton addTarget:self action:@selector(goButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:goButton];
 }
 
@@ -134,7 +156,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 - (void)acquireCamaraGalleryPhoto:(NSNotification *)notice {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     UIImage *selectedGalleryPhoto = notice.userInfo[kRCCameraGalleryNotification];
-    _photoImageView.image = selectedGalleryPhoto;
     if (_currentTapType == kRCCamerGalleryTapTypeReplace) {
         UIImageView *currentTapImageView = [_addPhotoImagageViewArray objectAtIndex:_tapIndex];
         currentTapImageView.image = selectedGalleryPhoto;
@@ -143,6 +164,29 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
         _photoCount += 1;
         currentTapImageView.image = selectedGalleryPhoto;
     }
+    //刷新显示数据
+    _photoPageControl.numberOfPages = _photoCount;
+    [_photoCollectionView reloadData];
+}
+
+- (void)goButtonDidClick {
+    NSLog(@"upLoading");
+}
+
+#pragma mark - <UICollectionViewDataSource>
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return _photoCount;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    RCRegisterUploadPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kRRegisterUploadCollectionViewCellReuseIdentifier forIndexPath:indexPath];
+    UIImageView *addPhotoImageView = _addPhotoImagageViewArray[indexPath.item];
+    cell.drawImage = addPhotoImageView.image;
+    return cell;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    _photoPageControl.currentPage = scrollView.contentOffset.x / 200;
 }
 
 @end

@@ -20,6 +20,7 @@
 		3039E1721B268A0600C1861F /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E1681B268A0600C1861F /* AFURLResponseSerialization.m */; };
 		3039E1731B268A0600C1861F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E16A1B268A0600C1861F /* AFURLSessionManager.m */; };
 		3039E1851B269CD100C1861F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3039E1871B269CD100C1861F /* Localizable.strings */; };
+		306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8201B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m */; };
 		30A33A1A1B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */; };
 		30A33A1E1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */; };
 		30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */; };
@@ -82,6 +83,8 @@
 		3039E1861B269CD100C1861F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3039E1881B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		3039E1891B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		306DD81F1B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadPhotoCollectionViewCell.h; sourceTree = "<group>"; };
+		306DD8201B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		30A33A181B2989B50093C49B /* RCRegisterPhotoDisplayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterPhotoDisplayViewController.h; sourceTree = "<group>"; };
 		30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterPhotoDisplayViewController.m; sourceTree = "<group>"; };
 		30A33A1C1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadPhotoViewController.h; sourceTree = "<group>"; };
@@ -280,6 +283,8 @@
 				30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */,
 				30A33A181B2989B50093C49B /* RCRegisterPhotoDisplayViewController.h */,
 				30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */,
+				306DD81F1B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.h */,
+				306DD8201B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m */,
 				30A33A1C1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.h */,
 				30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */,
 			);
@@ -466,6 +471,7 @@
 				3039E1701B268A0600C1861F /* AFURLConnectionOperation.m in Sources */,
 				30CF4A6F1B2A8058006FD39F /* RCCamerGalleryManager.m in Sources */,
 				3039E16B1B268A0600C1861F /* AFHTTPRequestOperation.m in Sources */,
+				306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */,
 				3039E1511B2686F000C1861F /* main.m in Sources */,
 				3039E1711B268A0600C1861F /* AFURLRequestSerialization.m in Sources */,
 				30D02E211B294830004E5F9A /* RCHomePageCell.m in Sources */,
