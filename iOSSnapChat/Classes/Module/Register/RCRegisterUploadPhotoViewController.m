@@ -44,6 +44,7 @@
 - (void)setUpUI {
     self.arrowTitle = @"Upload photo";
     self.view.backgroundColor = [UIColor whiteColor];
+    
     //照片
     UIImageView *photoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(60, 64 + 10, kRCScreenWidth - 120, kRCScreenWidth - 120)];
     photoImageView.layer.cornerRadius = 10;

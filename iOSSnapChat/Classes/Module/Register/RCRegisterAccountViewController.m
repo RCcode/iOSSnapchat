@@ -48,25 +48,30 @@
     self.arrowTitle = kRCLocalizedString(@"RegisterAccountSignUp");
     self.view.backgroundColor = [UIColor whiteColor];
     //邮箱
+    
     RCPlaceHolderAlwaysTextField *emailField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(20, 84, kRCScreenWidth - 40, 44)];
     emailField.userPlaceHolder =  kRCLocalizedString(@"RegisterAccountEmailAddress");
     [emailField addTarget:self action:@selector(keyBoardDidShow) forControlEvents:UIControlEventEditingDidBegin];
     [self.view addSubview:emailField];
     _emailField = emailField;
+    
     //邮箱分割线
     UIView *emailSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(emailField.frame), kRCScreenWidth, 1)];
     emailSeparatorLine.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:emailSeparatorLine];
+    
     //密码
     RCPlaceHolderAlwaysTextField *passwordField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(emailField.frame) + 20, kRCScreenWidth - 40, 44)];
     [passwordField addTarget:self action:@selector(keyBoardDidShow) forControlEvents:UIControlEventEditingDidBegin];
     passwordField.userPlaceHolder = kRCLocalizedString(@"RegisterAccountPassword");
     [self.view addSubview:passwordField];
     _passwordField = passwordField;
+    
     //密码分割线
     UIView *passwordSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(passwordField.frame), kRCScreenWidth, 1)];
     passwordSeparatorLine.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:passwordSeparatorLine];
+    
     //Confirm按钮
     UIButton *confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
     confirmButton.frame = CGRectMake(20, kRCScreenHeight - 216 - 40 - 30 - 20, kRCScreenWidth - 40, 40);

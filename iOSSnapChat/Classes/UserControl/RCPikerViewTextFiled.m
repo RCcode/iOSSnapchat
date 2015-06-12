@@ -8,8 +8,11 @@
 
 #import "RCPikerViewTextFiled.h"
 
+//自定义不隐藏占位文本PickerViewTextField隐藏光标参数
 #define kRCPikerViewTextFiledHideDistanece 100
+//自定义不隐藏占位文本PickerViewTextField间距
 #define kRCPikerViewTextFiledMargin 10
+//自定义不隐藏占位文本PickerViewTextField文本字体
 #define kRCPikerViewTextFiledFont kRCSystemFont(17)
 
 @implementation RCPikerViewTextFiled

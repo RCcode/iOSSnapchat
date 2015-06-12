@@ -8,6 +8,7 @@
 
 #import "RCHomePageCell.h"
 
+//主页显示文本字体
 #define kHomePageTitleFont kRCSystemFont(17)
 
 @implementation RCHomePageCell

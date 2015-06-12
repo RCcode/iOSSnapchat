@@ -11,12 +11,19 @@
 #import "RCBaseNavgationController.h"
 #import "RCRegisterAccountViewController.h"
 
+//主页显示Page页书
 #define kRCHomePageNumber 3
+//主页Cell标识符
 #define kRCHomePageCellIdentifer @"RCHomePageCell"
+//主页注册按钮宽度
 #define kRCRegisterButtonWidth 200.0
+//主页注册按钮高度
 #define kRCRegisterButtonHeight 60.0
+//主页登陆按钮宽度
 #define kRCLoginButtonWidth 100.0
+//主页登陆按钮高度
 #define kRCLoginButtonHeight 40.0
+//主页间距
 #define kRCMargin 20.0
 
 @interface RCHomeViewController ()

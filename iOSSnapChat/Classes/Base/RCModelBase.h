@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+//请求类型
 typedef NS_ENUM(NSInteger, kRCModelRequestMethodType) {
     kRCModelRequestMethodTypeGET = 1,
     kRCModelRequestMethodTypePOST
@@ -21,8 +22,6 @@ typedef NS_ENUM(NSInteger, kRCModelRequestMethodType) {
 @property (nonatomic, strong) NSDictionary *parameters;
 
 //请求方法
-
-
 - (void)requestServerWithModel:(id)requestModel success:(void(^)(id resultModel))success failure:(void (^)(NSError *error))failure;
 - (void)parse:(id)responseObject;
 

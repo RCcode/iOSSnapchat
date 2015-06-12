@@ -37,15 +37,18 @@
 #warning Modify Frame/Number
     self.arrowTitle = kRCLocalizedString(@"RegisterInfoNULL");
     self.view.backgroundColor = [UIColor whiteColor];
+    
     //SnapChat账号
     RCPlaceHolderAlwaysTextField *snapChatField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(40, 84, kRCScreenWidth - 80, 44)];
     snapChatField.userPlaceHolder = kRCLocalizedString(@"RegisterInfoYourSnapchatID");
     [self.view addSubview:snapChatField];
     _snapChatField = snapChatField;
+    
     //SnapChat账号分割线
     UIView *snapChatSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(snapChatField.frame), kRCScreenWidth - 80, 1)];
     snapChatSeparatorLine.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:snapChatSeparatorLine];
+    
     //年龄InputView
     UIButton *completeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [completeButton addTarget:self action:@selector(completeButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
@@ -57,12 +60,14 @@
     UIView *ageInputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth, 216 + 20)];
     [ageInputView addSubview:completeButton];
     [ageInputView addSubview:agePickerView];
+    
     //年龄
     RCPikerViewTextFiled *ageField = [[RCPikerViewTextFiled alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(snapChatField.frame) + 20, kRCScreenWidth - 80, 44)];
     ageField.userPlaceHolder = kRCLocalizedString(@"RegisterInfoAge");
     ageField.inputView = ageInputView;
     [self.view addSubview:ageField];
     _ageField = ageField;
+    
     //年龄分割线
     UIView *ageSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(ageField.frame), kRCScreenWidth - 80, 1)];
     ageSeparatorLine.backgroundColor = [UIColor lightGrayColor];
@@ -72,10 +77,12 @@
     genderLabel.text = kRCLocalizedString(@"RegisterInfoGender");
     genderLabel.textColor = [UIColor lightGrayColor];
     [self.view addSubview:genderLabel];
+    
     //女性图片
     UIImageView *femaleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(genderLabel.frame), CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.25, 44)];
     femaleImageView.image = kRCImage(@"");
     [self.view addSubview:femaleImageView];
+    
     //男性图片
     UIImageView *maleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(femaleImageView.frame), CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.25, 44)];
     maleImageView.image = kRCImage(@"");

@@ -8,8 +8,11 @@
 
 #import "RCBaseArrowViewController.h"
 
+//自定义导航栏返回图标尺寸
 #define kBackButtonF CGRectMake(0, 0, 44, 44)
+//自定义导航栏文本尺寸
 #define kBackTitleF CGRectMake(0, 0, 200, 44)
+//自定义导航栏文本字体
 #define kBackTitleFont kRCBoldSystemFont(17)
 
 @interface RCBaseArrowViewController ()
@@ -35,7 +38,7 @@
     //ButtonItem
     UIButton *arrowBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
     arrowBackButton.frame = kBackButtonF;
-    [arrowBackButton setImage:kRCImage(@"arrow.png") forState:UIControlStateNormal];
+    [arrowBackButton setImage:kRCImage(@"") forState:UIControlStateNormal];
     [arrowBackButton addTarget:self action:@selector(arrowBackDidClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *arrowBackButtonItem = [[UIBarButtonItem alloc] initWithCustomView:arrowBackButton];
     //LabelItem

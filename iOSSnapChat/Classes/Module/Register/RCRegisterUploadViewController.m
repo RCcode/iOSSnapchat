@@ -34,12 +34,14 @@
     UIImageView *backGroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, kRCScreenWidth, (kRCScreenHeight - 64) * 0.6)];
     backGroundImageView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:backGroundImageView];
+    
     //文字
     UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(backGroundImageView.frame) + 20, kRCScreenWidth - 40, 80)];
     textLabel.numberOfLines = 0;
     textLabel.textAlignment = NSTextAlignmentCenter;
     textLabel.text = @"In order to more easy to find a friend, and ensure the authenticity of the photo, we need you to upload the photos";
     [self.view addSubview:textLabel];
+    
     //按钮
     UIButton *cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
     cameraButton.frame = CGRectMake(20, CGRectGetMaxY(textLabel.frame) +20, kRCScreenWidth - 40, 44);

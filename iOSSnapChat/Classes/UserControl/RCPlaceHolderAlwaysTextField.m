@@ -8,7 +8,9 @@
 
 #import "RCPlaceHolderAlwaysTextField.h"
 
+//自定义不隐藏占位文本TextField间距
 #define kRCPlaceHolderAlwaysTextFieldMargin 10
+//自定义不隐藏占位文本TextField文本字体
 #define kRCPlaceHolderAlwaysTextFieldFont kRCSystemFont(17)
 
 @implementation RCPlaceHolderAlwaysTextField

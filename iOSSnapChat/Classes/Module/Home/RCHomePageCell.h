@@ -10,7 +10,9 @@
 
 @interface RCHomePageCell : UICollectionViewCell
 
+//主页显示文本
 @property (nonatomic, copy) NSString *drawTitle;
+//主页背景图片
 @property (nonatomic, strong) UIImage *drawImage;
 
 - (void)drawTitle:(NSString *)title image:(UIImage *)image;
