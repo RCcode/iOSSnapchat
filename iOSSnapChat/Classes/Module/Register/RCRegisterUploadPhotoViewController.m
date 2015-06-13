@@ -102,19 +102,20 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
         [self.addPhotoImagageViewArray addObject:addPhotoImageView];
     }
     
-    //介绍文本
-    NSString *contentText = @"OK! cool! Upload more photos will increase your chances of find friends!";
-    CGSize size = [contentText sizeForLineWithSize:CGSizeMake(kRCScreenWidth - 40, MAXFLOAT) Attributes:@{NSFontAttributeName: kRCSystemFont(17)}];
+    //描述文本
+    NSString *descriptionText = @"OK! cool! Upload more photos will increase your chances of find friends!";
+    CGSize size = [descriptionText sizeForLineWithSize:CGSizeMake(kRCScreenWidth - 40, MAXFLOAT) Attributes:@{NSFontAttributeName: kRCSystemFont(14)}];
     UILabel *msgLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(photoCollectionView.frame) + 10 + (kRCScreenWidth - 20 - 20 - 10 - 10) / 3 + 10, size.width, size.height)];
+    msgLabel.font = kRCSystemFont(14);
     msgLabel.numberOfLines = 0;
     msgLabel.textAlignment = NSTextAlignmentCenter;
-    msgLabel.text = contentText;
+    msgLabel.text = descriptionText;
     [self.view addSubview:msgLabel];
     
     //Go按钮
     UIButton *goButton = [UIButton buttonWithType:UIButtonTypeCustom];
     goButton.frame = CGRectMake(20, CGRectGetMaxY(msgLabel.frame) + 10, kRCScreenWidth - 40, 44);
-    [goButton setBackgroundColor:kRCRGBAColor(30, 190, 205, 1)];
+    [goButton setBackgroundColor:kRCSystemDefaultBlue];
     [goButton setTitle:@"Go" forState:UIControlStateNormal];
     [goButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [goButton addTarget:self action:@selector(goButtonDidClick) forControlEvents:UIControlEventTouchUpInside];

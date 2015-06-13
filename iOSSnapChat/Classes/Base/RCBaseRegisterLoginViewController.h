@@ -13,13 +13,13 @@
 //设置next按钮文本(默认为为Default)
 @property (nonatomic, copy) NSString *nextButtonText;
 //设置是否显示忘记密码(默认为NO)
-@property (nonatomic, assign, getter=isShowForegetPassword) BOOL showForegetPassword;
+@property (nonatomic, assign, getter=isShowForgetPassword) BOOL showForgetPassword;
 //获取自定义TextFiled内容
-@property (nonatomic, strong) RCPlaceHolderAlwaysTextField *emailField;
-@property (nonatomic, strong) RCPlaceHolderAlwaysTextField *passwordField;
+@property (nonatomic, strong) UITextField *emailField;
+@property (nonatomic, strong) UITextField *passwordField;
 //Next按钮响应事件(重写)
 - (void)nextButtonDidClicked;
 //忘记密码按钮响应事件(重写)
-- (void)foregetPasswordButtonDidClicked;
+- (void)forgetPasswordButtonDidClicked;
 
 @end

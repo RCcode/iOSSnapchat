@@ -39,19 +39,20 @@
     backGroundImageView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:backGroundImageView];
     
-    //文字
-    NSString *contentText = @"In order to more easy to find a friend, and ensure the authenticity of the photo, we need you to upload the photos";
-    CGSize size = [contentText sizeForLineWithSize:CGSizeMake(kRCScreenWidth - 40, MAXFLOAT) Attributes:@{NSFontAttributeName: kRCSystemFont(17)}];
+    //描述文本
+    NSString *descriptionText = @"In order to more easy to find a friend, and ensure the authenticity of the photo, we need you to upload the photos";
+    CGSize size = [descriptionText sizeForLineWithSize:CGSizeMake(kRCScreenWidth - 40, MAXFLOAT) Attributes:@{NSFontAttributeName: kRCSystemFont(14)}];
     UILabel *msgLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(backGroundImageView.frame) + 20, size.width, size.height)];
+    msgLabel.font = kRCSystemFont(14);
     msgLabel.numberOfLines = 0;
     msgLabel.textAlignment = NSTextAlignmentCenter;
-    msgLabel.text = contentText;
+    msgLabel.text = descriptionText;
     [self.view addSubview:msgLabel];
     
     //相机按钮
     UIButton *cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
     cameraButton.frame = CGRectMake(20, CGRectGetMaxY(msgLabel.frame) +20, kRCScreenWidth - 40, 44);
-    [cameraButton setBackgroundColor:kRCRGBAColor(30, 190, 205, 1)];
+    [cameraButton setBackgroundColor:kRCSystemDefaultBlue];
     [cameraButton addTarget:self action:@selector(cameraDidClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cameraButton];
 }

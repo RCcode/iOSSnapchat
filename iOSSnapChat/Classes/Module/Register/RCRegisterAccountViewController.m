@@ -9,16 +9,13 @@
 #import "RCRegisterAccountViewController.h"
 #import "RCRegiseterAccountModel.h"
 #import "RCRegisterInfoViewController.h"
+#import "RCRegisterAccountViewController.h"
 #import <CoreLocation/CoreLocation.h>
 
 @interface RCRegisterAccountViewController () <CLLocationManagerDelegate>
 {
-    RCPlaceHolderAlwaysTextField *_emailField;
-    RCPlaceHolderAlwaysTextField *_passwordField;
     BOOL _keyboardShow;
     CLLocationManager *_locationManager;
-    CGFloat _longitude;
-    CGFloat _latitude;
 }
 
 @end
@@ -30,7 +27,6 @@
     [super viewDidLoad];
     
     [self inheritSetting];
-    [self acquireLocation];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,12 +37,17 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self acquireLocation];
+}
+
 #pragma mark - Utility
 //设置继承属性
 - (void)inheritSetting {
     self.arrowTitle = kRCLocalizedString(@"RegisterAccountSignUp");
     self.nextButtonText = @"Confirm";
-    self.showForegetPassword = NO;
+    self.showForgetPassword = NO;
     
     self.view.backgroundColor = [UIColor whiteColor];
 }
@@ -56,8 +57,9 @@
     if ([CLLocationManager locationServicesEnabled]) {
         CLLocationManager *manager = [[CLLocationManager alloc] init];
         manager.desiredAccuracy = kCLLocationAccuracyBest;
+        manager.distanceFilter = kCLDistanceFilterNone;
         manager.delegate = self;
-        if ([[UIDevice currentDevice].systemVersion doubleValue] > 8.0) [manager requestAlwaysAuthorization];
+        if ([[UIDevice currentDevice].systemVersion doubleValue] >= 8.0) [manager requestAlwaysAuthorization];
         [manager startUpdatingLocation];
         _locationManager = manager;
     } else {
@@ -68,27 +70,49 @@
 #pragma mark - Action
 //confirm事件
 - (void)nextButtonDidClicked {
-    RCRegisterInfoViewController *regsisterInfoVc = [[RCRegisterInfoViewController alloc] init];
-    [self.navigationController pushViewController:regsisterInfoVc animated:YES];
+
+    //判断邮箱密码是否为空
+    if ([self.emailField.text isEqualToString:@""]) {
+        return;
+    } else if ([self.passwordField.text isEqualToString:@""]) {
+        return;
+    }
     
-    /*
-     if ([self validateEmail:_emailField.text]) {
-     if (_longitude && _latitude) {
-     RCRegiseterAccountModel *model = [[RCRegiseterAccountModel alloc] init];
-     model.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi1.do";
-     model.parameters = @{@"plat": @1, @"userid": _emailField.text, @"password": _passwordField.text, @"countryid": @"CN", @"cityid": @"1", @"lon": @(_longitude), @"lat": @(_latitude), @"pushtoken": @""};
-     model.modelRequestMethod = kRCModelRequestMethodTypePOST;
-     [model requestServerWithModel:model success:^(id resultModel) {
-     NSLog(@"%@", resultModel);
-     } failure:^(NSError *error) {
-     NSLog(@"%@", error);
-     }];
-     }
-     } else {
-     NSLog(@"邮箱格式不正确");
-     return;
-     }
-     */
+    //获取请求信息
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *coutryID = [userDefault stringForKey:kRCUserDefaultCountryIDKey];
+    NSString *cityID = [userDefault stringForKey:kRCUserDefaultCityIDKey];
+    double longitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];
+    double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
+    
+    //请求设置
+    RCRegiseterAccountModel *registerAccountModel = [[RCRegiseterAccountModel alloc] init];
+    registerAccountModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
+    registerAccountModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi1.do";
+    registerAccountModel.parameters = @{@"plat": @1,
+                                        @"userid": self.emailField.text,
+                                        @"password": self.passwordField.text,
+                                        @"countryid": coutryID,
+                                        @"cityid": cityID,
+                                        @"lon": @(longitude),
+                                        @"lat": @(latitude),
+                                        @"pushtoken": @"123"
+                                        };
+ 
+    //判断邮箱是否正确
+    if ([self validateEmail:self.emailField.text]) {
+        //发送请求
+        [registerAccountModel requestServerWithModel:registerAccountModel success:^(id resultModel) {
+            RCRegiseterAccountModel *result = (RCRegiseterAccountModel *)resultModel;
+            RCRegisterInfoViewController *registerInfoVc = [[RCRegisterInfoViewController alloc] init];
+            registerInfoVc.usertoken = result.usertoken;
+            [self.navigationController pushViewController:registerInfoVc animated:YES];
+        } failure:^(NSError *error) {
+            NSLog(@"%@", error);
+        }];
+    } else {
+        NSLog(@"邮箱格式不正确");
+    }
 }
 
 //邮箱正则
@@ -101,26 +125,32 @@
 
 #pragma mark - <CLLocationManagerDelegate>
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    CLLocation *location = [locations lastObject];
-#warning block
-    _longitude = location.coordinate.longitude;
-    _latitude = location.coordinate.latitude;
-//    NSLog(@"lon = %f lat = %f", _longitude, _latitude);
+    [_locationManager stopUpdatingLocation];
     
-    /*
-    CLGeocoder *revGeo = [[CLGeocoder alloc] init];
-    [revGeo reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+    //保存定位信息
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    //经度
+    CLLocation *location = [locations lastObject];
+    double longitude = location.coordinate.longitude;
+    [userDefault setDouble:longitude forKey:kRCUserDefaultLongitudeKey];
+    //纬度
+    double latitude = location.coordinate.latitude;
+    [userDefault setDouble:latitude forKey:kRCUserDefaultLatitudeKey];
+    //国家ID
+    NSString *fullCountryInfo = [NSLocale currentLocale].localeIdentifier;
+    NSString *coutryID = [fullCountryInfo substringFromIndex:fullCountryInfo.length - 2];
+    [userDefault setObject:coutryID forKey:kRCUserDefaultCountryIDKey];
+    //cityId
+    CLGeocoder *revGeocoder = [[CLGeocoder alloc] init];
+    [revGeocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
         if (!error && [placemarks count] > 0) {
             NSDictionary *dict = [[placemarks objectAtIndex:0] addressDictionary];
-            NSLog(@"dict = %@", dict);
-            NSLog(@"%@", [dict objectForKey:@"Street"]);
+            NSString *cityID = [dict objectForKey:@"City"];
+            [userDefault setObject:cityID forKey:kRCUserDefaultCityIDKey];
         } else {
-            NSLog(@"erro");
+            NSLog(@"地理编码失败");
         }
     }];
-    */
-     
-    [_locationManager stopUpdatingLocation];
 }
 
 @end

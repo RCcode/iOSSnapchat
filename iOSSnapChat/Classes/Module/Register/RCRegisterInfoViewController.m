@@ -11,7 +11,7 @@
 
 @interface RCRegisterInfoViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
 {
-    RCPlaceHolderAlwaysTextField *_snapChatField;
+    UITextField *_snapChatField;
     RCPikerViewTextFiled *_ageField;
     NSInteger _pickerViewSelectedAge;
 }
@@ -39,8 +39,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     //SnapChat账号
-    RCPlaceHolderAlwaysTextField *snapChatField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(40, 84, kRCScreenWidth - 80, 44)];
-    snapChatField.userPlaceHolder = kRCLocalizedString(@"RegisterInfoYourSnapchatID");
+    UITextField *snapChatField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(40, 84, kRCScreenWidth - 80, 44)];
+    snapChatField.placeholder = kRCLocalizedString(@"RegisterInfoYourSnapchatID");
     [self.view addSubview:snapChatField];
     _snapChatField = snapChatField;
     
@@ -82,6 +82,7 @@
     UIImageView *femaleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(genderLabel.frame), CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.25, 44)];
     femaleImageView.image = kRCImage(@"");
     [self.view addSubview:femaleImageView];
+
     
     //男性图片
     UIImageView *maleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(femaleImageView.frame), CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.25, 44)];

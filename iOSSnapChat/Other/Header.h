@@ -20,4 +20,7 @@
 #import "RCPlaceHolderAlwaysTextField.h"
 #import "RCPikerViewTextFiled.h"
 
+//第三方
+#import "MBProgressHUD.h"
+
 #endif

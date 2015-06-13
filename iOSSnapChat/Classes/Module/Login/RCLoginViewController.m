@@ -7,6 +7,9 @@
 //
 
 #import "RCLoginViewController.h"
+#import "RCLoginForgetPasswordViewController.h"
+#import "RCBaseNavgationController.h"
+#import "RCSearchSnaperViewController.h"
 
 @interface RCLoginViewController ()
 
@@ -30,19 +33,28 @@
 - (void)inheritSetting {
     self.arrowTitle = @"Log In";
     self.nextButtonText = @"Log In";
-    self.showForegetPassword = YES;
+    self.showForgetPassword = YES;
     
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
 #pragma mark - Action
 - (void)nextButtonDidClicked {
-    NSLog(@"Log In");
 //    NSLog(@"email = %@ password = %@", self.emailField.text, self.passwordField.text);
+    
+    RCSearchSnaperViewController *searchSnaperVc = [[RCSearchSnaperViewController alloc] init];
+    RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:searchSnaperVc];
+    [self presentViewController:navVc animated:YES completion:nil];
+
 }
 
-- (void)foregetPasswordButtonDidClicked {
-    NSLog(@"Foreget password");
+- (void)forgetPasswordButtonDidClicked {
+    RCLoginForgetPasswordViewController *loginForgetPasswordVc = [[RCLoginForgetPasswordViewController alloc] init];
+    [self.navigationController pushViewController:loginForgetPasswordVc animated:YES];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
 }
 
 @end

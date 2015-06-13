@@ -11,7 +11,7 @@
 @interface RCBaseRegisterLoginViewController ()
 {
     UIButton *_nextButton;
-    UIButton *_foregetPasswordButton;
+    UIButton *_forgetPasswordButton;
     BOOL _keyboardShow;
 }
 
@@ -34,8 +34,9 @@
 - (void)setUpUI {
 #warning Modify Frame/Number
     //邮箱
-    RCPlaceHolderAlwaysTextField *emailField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(20, 84, kRCScreenWidth - 40, 44)];
-    emailField.userPlaceHolder =  kRCLocalizedString(@"RegisterAccountEmailAddress");
+    UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectMake(20, 84, kRCScreenWidth - 40, 44)];
+    emailField.placeholder =  kRCLocalizedString(@"RegisterAccountEmailAddress");
+    emailField.textAlignment = NSTextAlignmentCenter;
     [emailField addTarget:self action:@selector(keyBoardDidShow) forControlEvents:UIControlEventEditingDidBegin];
     [self.view addSubview:emailField];
     _emailField = emailField;
@@ -46,9 +47,10 @@
     [self.view addSubview:emailSeparatorLine];
     
     //密码
-    RCPlaceHolderAlwaysTextField *passwordField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(emailField.frame) + 20, kRCScreenWidth - 40, 44)];
+    UITextField *passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(emailField.frame) + 20, kRCScreenWidth - 40, 44)];
+    passwordField.placeholder = kRCLocalizedString(@"RegisterAccountPassword");
+    passwordField.textAlignment = NSTextAlignmentCenter;
     [passwordField addTarget:self action:@selector(keyBoardDidShow) forControlEvents:UIControlEventEditingDidBegin];
-    passwordField.userPlaceHolder = kRCLocalizedString(@"RegisterAccountPassword");
     [self.view addSubview:passwordField];
     _passwordField = passwordField;
     
@@ -58,19 +60,19 @@
     [self.view addSubview:passwordSeparatorLine];
     
     //忘记密码按钮
-    UIButton *foregetPasswordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    foregetPasswordButton.frame = CGRectMake(60, CGRectGetMaxY(passwordField.frame) + 10, kRCScreenWidth - 120, 44);
-    [foregetPasswordButton setTitle:@"Forgot Your Password" forState:UIControlStateNormal];
-    [foregetPasswordButton setTitleColor:kRCRGBAColor(30, 190, 205, 1) forState:UIControlStateNormal];
-    foregetPasswordButton.hidden = !_showForegetPassword;
-    [foregetPasswordButton addTarget:self action:@selector(foregetPasswordButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:foregetPasswordButton];
-    _foregetPasswordButton = foregetPasswordButton;
+    UIButton *forgetPasswordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    forgetPasswordButton.frame = CGRectMake(60, CGRectGetMaxY(passwordField.frame) + 10, kRCScreenWidth - 120, 44);
+    [forgetPasswordButton setTitle:@"Forgot Your Password" forState:UIControlStateNormal];
+    [forgetPasswordButton setTitleColor:kRCSystemDefaultBlue forState:UIControlStateNormal];
+    forgetPasswordButton.hidden = !_showForgetPassword;
+    [forgetPasswordButton addTarget:self action:@selector(forgetPasswordButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:forgetPasswordButton];
+    _forgetPasswordButton = forgetPasswordButton;
     
     //Confirm按钮
     UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
     nextButton.frame = CGRectMake(20, kRCScreenHeight - 216 - 40 - 30 - 20, kRCScreenWidth - 40, 40);
-    [nextButton setBackgroundColor:kRCRGBAColor(30, 190, 205, 1)];
+    [nextButton setBackgroundColor:kRCSystemDefaultBlue];
     [nextButton setTitle:@"Default" forState:UIControlStateNormal];
     [nextButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [nextButton addTarget:self action:@selector(nextButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -83,9 +85,9 @@
     [_nextButton setTitle:kRCLocalizedString(nextButtonText) forState:UIControlStateNormal];
 }
 
-- (void)setShowForegetPassword:(BOOL)showForegetPassword {
-    _showForegetPassword = showForegetPassword;
-    _foregetPasswordButton.hidden = !showForegetPassword;
+- (void)setShowForgetPassword:(BOOL)showForgetPassword {
+    _showForgetPassword = showForgetPassword;
+    _forgetPasswordButton.hidden = !showForgetPassword;
 }
 
 #pragma mark - Action
@@ -116,6 +118,6 @@
 
 - (void)nextButtonDidClicked {}
 
-- (void)foregetPasswordButtonDidClicked {}
+- (void)forgetPasswordButtonDidClicked {}
 
 @end
