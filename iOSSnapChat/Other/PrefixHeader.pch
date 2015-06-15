@@ -9,14 +9,23 @@
 #ifndef iOSSnapChat_PrefixHeader_pch
 #define iOSSnapChat_PrefixHeader_pch
 
+//NSLog
 #ifdef DEBUG
 #define NSLog(...) NSLog(__VA_ARGS__)
 #else
 #define NSLog(...)
 #endif
 
-//弱引用
+//weak
 #define kRCWeak(obj) __weak typeof(obj) weak##obj = obj;
+
+//获取用户存储的物理地址信息
+#define kAcquireUserDefaultLocalInfo \
+NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];\
+NSString *coutryID = [userDefault stringForKey:kRCUserDefaultCountryIDKey];\
+NSString *cityID = [userDefault stringForKey:kRCUserDefaultCityIDKey];\
+double longitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];\
+double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
 
 //全局常量
 #import "Const.h"

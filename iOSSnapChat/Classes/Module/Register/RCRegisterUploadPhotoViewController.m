@@ -23,6 +23,8 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     NSInteger _photoCount;
     //点击的图片索引
     NSInteger _tapIndex;
+    //上传的图片索引
+    NSInteger _uploadIndex;
     //当前图片点击类型
     kRCCamerGalleryTapType _currentTapType;
     //计数器
@@ -60,6 +62,19 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     self.view.backgroundColor = [UIColor whiteColor];
     //关闭自动调节,避免尺寸错误
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    //上传第一张图片
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
+    NSData *uploadImageDataOne = UIImageJPEGRepresentation(_selectedPassPhoto, 1.0f);
+    [RCMBHUDTool showIndicator];
+    [[RCNetworkManager shareManager] POSTRequest:@"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi3.do?method=upload" parameters:@{@"plat": @1, @"usertoken": usertoken, @"index": @1} upateFileData:uploadImageDataOne success:^(id responseObject) {
+        [RCMBHUDTool hideshowIndicator];
+        [RCMBHUDTool showText:@"完成上传第1张" hideDelay:1.0f];
+    } failure:^(NSError *error) {
+        [RCMBHUDTool showText:@"上传失败" hideDelay:1.0f];
+    }];
+    
     //照片
     _photoCount = 1;
     UICollectionViewFlowLayout *photoCollectLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -97,7 +112,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
         addPhotoImageView.tag = i;
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addPhotoImageDidTap:)];
         [addPhotoImageView addGestureRecognizer:tapRecognizer];
-        if (i == 0) [addPhotoImageView setImage:_selectedGalleryPhoto];
+        if (i == 0) [addPhotoImageView setImage:_selectedPassPhoto];
         [self.view addSubview:addPhotoImageView];
         [self.addPhotoImagageViewArray addObject:addPhotoImageView];
     }
@@ -132,8 +147,10 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     _tapIndex = tapImageView.tag;
     if (tapImageView.image) {
         _currentTapType = kRCCamerGalleryTapTypeReplace;
+        _uploadIndex = _tapIndex + 1;
     } else {
         _currentTapType = kRCCamerGalleryTapTypeAdd;
+        _uploadIndex = _photoCount + 1;
     }
     UIAlertController *uploadAlertVc = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
@@ -156,28 +173,35 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 
 - (void)acquireCamaraGalleryPhoto:(NSNotification *)notice {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    UIImage *selectedGalleryPhoto = notice.userInfo[kRCCameraGalleryNotification];
+    UIImage *selectedPhoto = notice.userInfo[kRCCameraGalleryNotification];
     if (_currentTapType == kRCCamerGalleryTapTypeReplace) {
         UIImageView *currentTapImageView = [_addPhotoImagageViewArray objectAtIndex:_tapIndex];
-        currentTapImageView.image = selectedGalleryPhoto;
+        currentTapImageView.image = selectedPhoto;
     } else if (_currentTapType == kRCCamerGalleryTapTypeAdd) {
         UIImageView *currentTapImageView = [_addPhotoImagageViewArray objectAtIndex:_photoCount];
         _photoCount += 1;
-        currentTapImageView.image = selectedGalleryPhoto;
+        currentTapImageView.image = selectedPhoto;
     }
+    
+    //上传图片
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
+    NSData *uploadImageDataOne = UIImageJPEGRepresentation(selectedPhoto, 1.0f);
+    [RCMBHUDTool showIndicator];
+    [[RCNetworkManager shareManager] POSTRequest:@"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi3.do?method=upload" parameters:@{@"plat": @1, @"usertoken": usertoken, @"index": @(_uploadIndex)} upateFileData:uploadImageDataOne success:^(id responseObject) {
+        [RCMBHUDTool hideshowIndicator];
+        [RCMBHUDTool showText:[NSString stringWithFormat:@"完成上传第%d张", _uploadIndex] hideDelay:1.0f];
+    } failure:^(NSError *error) {
+        [RCMBHUDTool showText:@"上传失败" hideDelay:1.0f];
+    }];
+    
     //刷新显示数据
     _photoPageControl.numberOfPages = _photoCount;
     [_photoCollectionView reloadData];
 }
 
 - (void)goButtonDidClick {
-    NSLog(@"upLoading");
-    /*
-     UIImageView *view0 = self.addPhotoImagageViewArray[0];
-     UIImageView *view1 = self.addPhotoImagageViewArray[1];
-     UIImageView *view2 = self.addPhotoImagageViewArray[2];
-     NSLog(@"%@", view0.image);
-     */
+    NSLog(@"Go");
 }
 
 #pragma mark - <UICollectionViewDataSource>

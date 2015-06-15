@@ -7,13 +7,21 @@
 //
 
 #import "RCRegisterInfoViewController.h"
+#import "RCRegiseterInfoModel.h"
 #import "RCRegisterUploadViewController.h"
+
+typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
+    kRCRegisterInfoSexTypeMale = 0,
+    kRCRegisterInfoSexTypeFemale
+};
 
 @interface RCRegisterInfoViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
 {
+    RCLocalTool *_localTool;
     UITextField *_snapChatField;
     RCPikerViewTextFiled *_ageField;
     NSInteger _pickerViewSelectedAge;
+    kRCRegisterInfoSexType _selectedSexType;
 }
 
 @end
@@ -30,6 +38,12 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (_localTool == nil) _localTool = [[RCLocalTool alloc] init];
+    [_localTool acquireLocation];
 }
 
 #pragma mark - Utility
@@ -79,15 +93,20 @@
     [self.view addSubview:genderLabel];
     
     //女性图片
-    UIImageView *femaleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(genderLabel.frame), CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.25, 44)];
-    femaleImageView.image = kRCImage(@"");
-    [self.view addSubview:femaleImageView];
+    UIButton *femaleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    femaleButton.frame = CGRectMake(CGRectGetMaxX(genderLabel.frame) - 20, CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.25, 44);
+    [femaleButton setBackgroundImage:kRCImage(@"") forState:UIControlStateNormal];
+    [femaleButton setBackgroundColor:[UIColor magentaColor]];
+    [femaleButton addTarget:self action:@selector(femaleButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:femaleButton];
 
-    
     //男性图片
-    UIImageView *maleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(femaleImageView.frame), CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.25, 44)];
-    maleImageView.image = kRCImage(@"");
-    [self.view addSubview:maleImageView];
+    UIButton *maleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    maleButton.frame = CGRectMake(CGRectGetMaxX(femaleButton.frame) + 20, CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.25, 44);
+    [maleButton setBackgroundImage:kRCImage(@"") forState:UIControlStateNormal];
+    [maleButton setBackgroundColor:[UIColor blueColor]];
+    [maleButton addTarget:self action:@selector(maleButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:maleButton];
 }
 
 - (void)modifyNavgationBar {
@@ -109,16 +128,71 @@
     [self.view endEditing:YES];
 }
 
-//InputView完成按钮事件
+- (void)femaleButtonDidClicked {
+    _selectedSexType = kRCRegisterInfoSexTypeFemale;
+}
+
+- (void)maleButtonDidClicked {
+    _selectedSexType = kRCRegisterInfoSexTypeMale;
+}
+
 - (void)completeButtonDidClick {
     _ageField.userText = [NSString stringWithFormat:@"%zd", _pickerViewSelectedAge];
     [self.view endEditing:YES];
 }
 
-//导航栏Done按钮事件
 - (void)doneButtonDidClicked {
-    RCRegisterUploadViewController *registerUploadVc = [[RCRegisterUploadViewController alloc] init];
-    [self.navigationController pushViewController:registerUploadVc animated:YES];
+    
+    //判断snaochatid年龄是否为空
+    if ([_snapChatField.text isEqualToString:@""]) {
+        [RCMBHUDTool showText:@"SnapChatID不能为空" hideDelay:1.0f];
+        return;
+    } else if (_ageField.userText == nil) {
+        [RCMBHUDTool showText:@"年龄不能为空" hideDelay:1.0f];
+        return;
+    }
+    
+    //获取用户存储的物理地址信息,usertoken
+    kAcquireUserDefaultLocalInfo
+    NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
+    
+    //请求设置
+    RCRegiseterInfoModel *registerInfoModel = [[RCRegiseterInfoModel alloc] init];
+    registerInfoModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
+    registerInfoModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi2.do";
+    registerInfoModel.parameters = @{@"plat": @1,
+                                     @"usertoken": usertoken,
+                                     @"countryid": coutryID,
+                                     @"cityid": cityID,
+                                     @"lon": @(longitude),
+                                     @"lat": @(latitude),
+                                     @"pushtoken": @"123",
+                                     @"age": @(_pickerViewSelectedAge),
+                                     @"gender": @(_selectedSexType),
+                                     @"snapchatid": _snapChatField.text
+                                     };
+
+    //发送请求
+    [RCMBHUDTool showIndicator];
+    [registerInfoModel requestServerWithModel:registerInfoModel success:^(id resultModel) {
+        RCRegiseterInfoModel *result = (RCRegiseterInfoModel *)resultModel;
+        [RCMBHUDTool hideshowIndicator];
+        if ([result.mess isEqualToString:@"succ"]) {
+            [RCMBHUDTool hideshowIndicator];
+            RCRegisterUploadViewController *registerUploadVc = [[RCRegisterUploadViewController alloc] init];
+            [self.navigationController pushViewController:registerUploadVc animated:YES];
+        } else if ([result.mess isEqualToString:@"usertoken error"]) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:@"usertoken error" hideDelay:1.0f];
+        } else {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:@"服务器异常" hideDelay:1.0f];
+        }
+        
+    } failure:^(NSError *error) {
+        [RCMBHUDTool hideshowIndicator];
+        [RCMBHUDTool showText:@"请检查网络" hideDelay:1.0f];
+    }];
 }
 
 #pragma mark - <UIPickerViewDataSource, UIPickerViewDelegate>

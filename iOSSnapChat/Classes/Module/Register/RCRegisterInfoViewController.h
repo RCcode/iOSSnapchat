@@ -10,7 +10,4 @@
 
 @interface RCRegisterInfoViewController : RCBaseArrowViewController
 
-//注册第二部所需的usertoken
-@property (nonatomic, copy) NSString *usertoken;
-
 @end

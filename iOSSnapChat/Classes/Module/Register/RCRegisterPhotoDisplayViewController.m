@@ -86,7 +86,7 @@
 
 - (void)doneButtonDidClicked {
     RCRegisterUploadPhotoViewController *registerUploadPhotoVc = [[RCRegisterUploadPhotoViewController alloc] init];
-    registerUploadPhotoVc.selectedGalleryPhoto = _selectedGalleryPhoto;
+    registerUploadPhotoVc.selectedPassPhoto = _selectedGalleryPhoto;
     [self.navigationController pushViewController:registerUploadPhotoVc animated:YES];
 }
 

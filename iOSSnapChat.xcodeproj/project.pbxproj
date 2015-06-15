@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30165C791B2E836E000C0549 /* RCLocalTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 30165C781B2E836E000C0549 /* RCLocalTool.m */; };
+		30165C7F1B2E8D8C000C0549 /* RCRegiseterInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30165C7E1B2E8D8C000C0549 /* RCRegiseterInfoModel.m */; };
 		3039E1501B2686F000C1861F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E14E1B2686F000C1861F /* AppDelegate.m */; };
 		3039E1511B2686F000C1861F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E14F1B2686F000C1861F /* main.m */; };
 		3039E1551B26881F00C1861F /* Const.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E1541B26881F00C1861F /* Const.m */; };
@@ -40,6 +42,7 @@
 		30D02E241B294830004E5F9A /* RCRegisterInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E1F1B294830004E5F9A /* RCRegisterInfoViewController.m */; };
 		30D02E281B295D75004E5F9A /* NSString+RCStringSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E271B295D75004E5F9A /* NSString+RCStringSize.m */; };
 		30D02E2B1B296781004E5F9A /* RCRegisterUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */; };
+		30D5DE4C1B2E726800B3875B /* RCMBHUDTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D5DE4B1B2E726800B3875B /* RCMBHUDTool.m */; };
 		30E401A81B25AC0400A70AED /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A71B25AC0400A70AED /* Images.xcassets */; };
 		30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A91B25AC0400A70AED /* LaunchScreen.xib */; };
 		30E401B71B25AC0400A70AED /* iOSSnapChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E401B61B25AC0400A70AED /* iOSSnapChatTests.m */; };
@@ -59,6 +62,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		30165C771B2E836E000C0549 /* RCLocalTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLocalTool.h; sourceTree = "<group>"; };
+		30165C781B2E836E000C0549 /* RCLocalTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLocalTool.m; sourceTree = "<group>"; };
+		30165C7D1B2E8D8C000C0549 /* RCRegiseterInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegiseterInfoModel.h; sourceTree = "<group>"; };
+		30165C7E1B2E8D8C000C0549 /* RCRegiseterInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegiseterInfoModel.m; sourceTree = "<group>"; };
 		3039E14D1B2686F000C1861F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3039E14E1B2686F000C1861F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3039E14F1B2686F000C1861F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -127,6 +134,8 @@
 		30D02E271B295D75004E5F9A /* NSString+RCStringSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RCStringSize.m"; sourceTree = "<group>"; };
 		30D02E291B296781004E5F9A /* RCRegisterUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadViewController.h; sourceTree = "<group>"; };
 		30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadViewController.m; sourceTree = "<group>"; };
+		30D5DE4A1B2E726800B3875B /* RCMBHUDTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMBHUDTool.h; sourceTree = "<group>"; };
+		30D5DE4B1B2E726800B3875B /* RCMBHUDTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMBHUDTool.m; sourceTree = "<group>"; };
 		30E401971B25AC0400A70AED /* iOSSnapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSnapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E4019B1B25AC0400A70AED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30E401A71B25AC0400A70AED /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -256,6 +265,10 @@
 				30CE928E1B27E21A00826FCA /* RCNetworkManager.m */,
 				30CF4A6D1B2A8058006FD39F /* RCCamerGalleryManager.h */,
 				30CF4A6E1B2A8058006FD39F /* RCCamerGalleryManager.m */,
+				30165C771B2E836E000C0549 /* RCLocalTool.h */,
+				30165C781B2E836E000C0549 /* RCLocalTool.m */,
+				30D5DE4A1B2E726800B3875B /* RCMBHUDTool.h */,
+				30D5DE4B1B2E726800B3875B /* RCMBHUDTool.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -265,6 +278,8 @@
 			children = (
 				30CE929A1B28110E00826FCA /* RCRegiseterAccountModel.h */,
 				30CE929B1B28110E00826FCA /* RCRegiseterAccountModel.m */,
+				30165C7D1B2E8D8C000C0549 /* RCRegiseterInfoModel.h */,
+				30165C7E1B2E8D8C000C0549 /* RCRegiseterInfoModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -512,6 +527,7 @@
 				30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */,
 				3039E1501B2686F000C1861F /* AppDelegate.m in Sources */,
 				30A33A1E1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m in Sources */,
+				30165C7F1B2E8D8C000C0549 /* RCRegiseterInfoModel.m in Sources */,
 				30D02E2B1B296781004E5F9A /* RCRegisterUploadViewController.m in Sources */,
 				3039E16F1B268A0600C1861F /* AFSecurityPolicy.m in Sources */,
 				30D02E131B2943C1004E5F9A /* RCPikerViewTextFiled.m in Sources */,
@@ -539,8 +555,10 @@
 				30CE92AB1B283E1300826FCA /* RCBaseArrowViewController.m in Sources */,
 				30D02E101B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m in Sources */,
 				30D02E281B295D75004E5F9A /* NSString+RCStringSize.m in Sources */,
+				30D5DE4C1B2E726800B3875B /* RCMBHUDTool.m in Sources */,
 				30CE92931B27E88500826FCA /* RCModelBase.m in Sources */,
 				30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */,
+				30165C791B2E836E000C0549 /* RCLocalTool.m in Sources */,
 				30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

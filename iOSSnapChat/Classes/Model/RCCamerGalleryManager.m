@@ -60,9 +60,6 @@ static id _instance;
         instance.sourceType = UIImagePickerControllerSourceTypeCamera;
         currentViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         [currentViewController presentViewController:instance animated:YES completion:nil];
-
-        
-        
     } else {
         NSLog(@"不能打开相机");
         return;

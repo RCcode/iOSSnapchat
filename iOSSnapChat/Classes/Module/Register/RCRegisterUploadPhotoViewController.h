@@ -10,6 +10,6 @@
 
 @interface RCRegisterUploadPhotoViewController : RCBaseArrowViewController
 
-@property (nonatomic, strong) UIImage *selectedGalleryPhoto;
+@property (nonatomic, strong) UIImage *selectedPassPhoto;
 
 @end
