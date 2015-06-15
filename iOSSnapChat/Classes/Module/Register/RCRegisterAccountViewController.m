@@ -76,7 +76,7 @@
                                         @"cityid": cityID,
                                         @"lon": @(longitude),
                                         @"lat": @(latitude),
-                                        @"pushtoken": @"123"
+                                        @"pushtoken": pushtoken
                                         };
  
     //判断邮箱是否正确

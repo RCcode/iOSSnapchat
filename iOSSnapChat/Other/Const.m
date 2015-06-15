@@ -9,6 +9,7 @@ NSString *const kRCUserDefaultLongitudeKey = @"kRCUserDefaultLongitudeKey";
 NSString *const kRCUserDefaultLatitudeKey = @"kRCUserDefaultLatitudeKey";
 
 //用户个人信息
+NSString *const kRCRemoteNotificationsKey = @"kRCRemoteNotificationsKey";
 NSString *const kRCUserDefaultUserTokenKey = @"kRCUserDefaultUserTokenKey";
 
 //获取相机或相册照片

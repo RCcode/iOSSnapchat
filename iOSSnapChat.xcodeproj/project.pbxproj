@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		30165C791B2E836E000C0549 /* RCLocalTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 30165C781B2E836E000C0549 /* RCLocalTool.m */; };
 		30165C7F1B2E8D8C000C0549 /* RCRegiseterInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30165C7E1B2E8D8C000C0549 /* RCRegiseterInfoModel.m */; };
+		30165C831B2EE73E000C0549 /* RCLoginNormalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30165C821B2EE73E000C0549 /* RCLoginNormalModel.m */; };
 		3039E1501B2686F000C1861F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E14E1B2686F000C1861F /* AppDelegate.m */; };
 		3039E1511B2686F000C1861F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E14F1B2686F000C1861F /* main.m */; };
 		3039E1551B26881F00C1861F /* Const.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E1541B26881F00C1861F /* Const.m */; };
@@ -66,6 +67,8 @@
 		30165C781B2E836E000C0549 /* RCLocalTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLocalTool.m; sourceTree = "<group>"; };
 		30165C7D1B2E8D8C000C0549 /* RCRegiseterInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegiseterInfoModel.h; sourceTree = "<group>"; };
 		30165C7E1B2E8D8C000C0549 /* RCRegiseterInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegiseterInfoModel.m; sourceTree = "<group>"; };
+		30165C811B2EE73E000C0549 /* RCLoginNormalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLoginNormalModel.h; sourceTree = "<group>"; };
+		30165C821B2EE73E000C0549 /* RCLoginNormalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLoginNormalModel.m; sourceTree = "<group>"; };
 		3039E14D1B2686F000C1861F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3039E14E1B2686F000C1861F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3039E14F1B2686F000C1861F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -280,6 +283,8 @@
 				30CE929B1B28110E00826FCA /* RCRegiseterAccountModel.m */,
 				30165C7D1B2E8D8C000C0549 /* RCRegiseterInfoModel.h */,
 				30165C7E1B2E8D8C000C0549 /* RCRegiseterInfoModel.m */,
+				30165C811B2EE73E000C0549 /* RCLoginNormalModel.h */,
+				30165C821B2EE73E000C0549 /* RCLoginNormalModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -556,6 +561,7 @@
 				30D02E101B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m in Sources */,
 				30D02E281B295D75004E5F9A /* NSString+RCStringSize.m in Sources */,
 				30D5DE4C1B2E726800B3875B /* RCMBHUDTool.m in Sources */,
+				30165C831B2EE73E000C0549 /* RCLoginNormalModel.m in Sources */,
 				30CE92931B27E88500826FCA /* RCModelBase.m in Sources */,
 				30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */,
 				30165C791B2E836E000C0549 /* RCLocalTool.m in Sources */,
@@ -692,7 +698,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/iOSSnapChat/Other/PrefixHeader.pch";
 				INFOPLIST_FILE = iOSSnapChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -705,7 +711,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/iOSSnapChat/Other/PrefixHeader.pch";
 				INFOPLIST_FILE = iOSSnapChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

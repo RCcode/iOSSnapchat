@@ -166,7 +166,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
                                      @"cityid": cityID,
                                      @"lon": @(longitude),
                                      @"lat": @(latitude),
-                                     @"pushtoken": @"123",
+                                     @"pushtoken": pushtoken,
                                      @"age": @(_pickerViewSelectedAge),
                                      @"gender": @(_selectedSexType),
                                      @"snapchatid": _snapChatField.text

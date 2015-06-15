@@ -24,8 +24,11 @@
 NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];\
 NSString *coutryID = [userDefault stringForKey:kRCUserDefaultCountryIDKey];\
 NSString *cityID = [userDefault stringForKey:kRCUserDefaultCityIDKey];\
+NSString *pushtoken = [userDefault stringForKey:kRCRemoteNotificationsKey];\
 double longitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];\
 double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
+
+#define IOS8 [[UIDevice currentDevice].systemVersion floatValue] >= 8.0
 
 //全局常量
 #import "Const.h"

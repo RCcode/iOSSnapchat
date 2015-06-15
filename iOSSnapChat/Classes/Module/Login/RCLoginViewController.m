@@ -11,6 +11,8 @@
 #import "RCBaseNavgationController.h"
 #import "RCSearchSnaperViewController.h"
 
+#import "RCLoginNormalModel.h"
+
 @interface RCLoginViewController ()
 
 @end
@@ -42,6 +44,29 @@
 - (void)nextButtonDidClicked {
 //    NSLog(@"email = %@ password = %@", self.emailField.text, self.passwordField.text);
     
+    kAcquireUserDefaultLocalInfo
+    
+    RCLoginNormalModel *loginUserInfoModel = [[RCLoginNormalModel alloc] init];
+    loginUserInfoModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Login.do";
+    loginUserInfoModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
+    loginUserInfoModel.parameters = @{@"plat": @1,
+                                      @"userid": self.emailField.text,
+                                      @"password": self.passwordField.text,
+                                      @"countryid": coutryID,
+                                      @"cityid": cityID,
+                                      @"lon": @(longitude),
+                                      @"lat": @(latitude),
+                                      @"pushtoken": pushtoken
+                                      };
+    [loginUserInfoModel requestServerWithModel:loginUserInfoModel success:^(id resultModel) {
+        NSLog(@"%@", resultModel);
+        
+        
+    } failure:^(NSError *error) {
+        NSLog(@"error");
+    }];
+    
+    return;
     RCSearchSnaperViewController *searchSnaperVc = [[RCSearchSnaperViewController alloc] init];
     RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:searchSnaperVc];
     [self presentViewController:navVc animated:YES completion:nil];
