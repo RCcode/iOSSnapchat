@@ -26,7 +26,6 @@
 		306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8201B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m */; };
 		306DD8251B2AE550008C29E0 /* RCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8241B2AE550008C29E0 /* RCLoginViewController.m */; };
 		306DD8281B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8271B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m */; };
-		30A33A1A1B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */; };
 		30A33A1E1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */; };
 		30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */; };
 		30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928E1B27E21A00826FCA /* RCNetworkManager.m */; };
@@ -36,7 +35,6 @@
 		30CF4A6F1B2A8058006FD39F /* RCCamerGalleryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CF4A6E1B2A8058006FD39F /* RCCamerGalleryManager.m */; };
 		30D02E101B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E0F1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m */; };
 		30D02E131B2943C1004E5F9A /* RCPikerViewTextFiled.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E121B2943C1004E5F9A /* RCPikerViewTextFiled.m */; };
-		30D02E201B294830004E5F9A /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30D02E161B294830004E5F9A /* Home.storyboard */; };
 		30D02E211B294830004E5F9A /* RCHomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E181B294830004E5F9A /* RCHomePageCell.m */; };
 		30D02E221B294830004E5F9A /* RCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E1A1B294830004E5F9A /* RCHomeViewController.m */; };
 		30D02E231B294830004E5F9A /* RCRegisterAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E1D1B294830004E5F9A /* RCRegisterAccountViewController.m */; };
@@ -44,6 +42,18 @@
 		30D02E281B295D75004E5F9A /* NSString+RCStringSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E271B295D75004E5F9A /* NSString+RCStringSize.m */; };
 		30D02E2B1B296781004E5F9A /* RCRegisterUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */; };
 		30D5DE4C1B2E726800B3875B /* RCMBHUDTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D5DE4B1B2E726800B3875B /* RCMBHUDTool.m */; };
+		30DA9A4F1B3152BF00BACBF7 /* ImageScaleUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A3B1B3152BF00BACBF7 /* ImageScaleUtil.m */; };
+		30DA9A501B3152BF00BACBF7 /* CameraApertureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A3D1B3152BF00BACBF7 /* CameraApertureView.m */; };
+		30DA9A511B3152BF00BACBF7 /* ControlBorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A3F1B3152BF00BACBF7 /* ControlBorder.m */; };
+		30DA9A521B3152BF00BACBF7 /* ControlBorder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30DA9A401B3152BF00BACBF7 /* ControlBorder.xib */; };
+		30DA9A531B3152BF00BACBF7 /* CornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A421B3152BF00BACBF7 /* CornerView.m */; };
+		30DA9A541B3152BF00BACBF7 /* ScreenshotBorder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30DA9A431B3152BF00BACBF7 /* ScreenshotBorder.xib */; };
+		30DA9A551B3152BF00BACBF7 /* ScreenshotBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A451B3152BF00BACBF7 /* ScreenshotBorderView.m */; };
+		30DA9A561B3152BF00BACBF7 /* ScrrenshotToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A471B3152BF00BACBF7 /* ScrrenshotToolBar.m */; };
+		30DA9A571B3152BF00BACBF7 /* ToolBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A491B3152BF00BACBF7 /* ToolBarItem.m */; };
+		30DA9A581B3152BF00BACBF7 /* UIImage+SubImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A4B1B3152BF00BACBF7 /* UIImage+SubImage.m */; };
+		30DA9A591B3152BF00BACBF7 /* CMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A4D1B3152BF00BACBF7 /* CMethods.m */; };
+		30DA9A5E1B316ACD00BACBF7 /* RCCutPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A5D1B316ACD00BACBF7 /* RCCutPhotoViewController.m */; };
 		30E401A81B25AC0400A70AED /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A71B25AC0400A70AED /* Images.xcassets */; };
 		30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A91B25AC0400A70AED /* LaunchScreen.xib */; };
 		30E401B71B25AC0400A70AED /* iOSSnapChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E401B61B25AC0400A70AED /* iOSSnapChatTests.m */; };
@@ -104,8 +114,6 @@
 		306DD8241B2AE550008C29E0 /* RCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLoginViewController.m; sourceTree = "<group>"; };
 		306DD8261B2AED27008C29E0 /* RCBaseRegisterLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseRegisterLoginViewController.h; sourceTree = "<group>"; };
 		306DD8271B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseRegisterLoginViewController.m; sourceTree = "<group>"; };
-		30A33A181B2989B50093C49B /* RCRegisterPhotoDisplayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterPhotoDisplayViewController.h; sourceTree = "<group>"; };
-		30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterPhotoDisplayViewController.m; sourceTree = "<group>"; };
 		30A33A1C1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadPhotoViewController.h; sourceTree = "<group>"; };
 		30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadPhotoViewController.m; sourceTree = "<group>"; };
 		30CE92891B27DDB400826FCA /* RCBaseNavgationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseNavgationController.h; sourceTree = "<group>"; };
@@ -124,7 +132,6 @@
 		30D02E0F1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPlaceHolderAlwaysTextField.m; sourceTree = "<group>"; };
 		30D02E111B2943C1004E5F9A /* RCPikerViewTextFiled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPikerViewTextFiled.h; sourceTree = "<group>"; };
 		30D02E121B2943C1004E5F9A /* RCPikerViewTextFiled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPikerViewTextFiled.m; sourceTree = "<group>"; };
-		30D02E161B294830004E5F9A /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		30D02E171B294830004E5F9A /* RCHomePageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHomePageCell.h; sourceTree = "<group>"; };
 		30D02E181B294830004E5F9A /* RCHomePageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHomePageCell.m; sourceTree = "<group>"; };
 		30D02E191B294830004E5F9A /* RCHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHomeViewController.h; sourceTree = "<group>"; };
@@ -139,6 +146,30 @@
 		30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadViewController.m; sourceTree = "<group>"; };
 		30D5DE4A1B2E726800B3875B /* RCMBHUDTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMBHUDTool.h; sourceTree = "<group>"; };
 		30D5DE4B1B2E726800B3875B /* RCMBHUDTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMBHUDTool.m; sourceTree = "<group>"; };
+		30DA9A3A1B3152BF00BACBF7 /* ImageScaleUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScaleUtil.h; sourceTree = "<group>"; };
+		30DA9A3B1B3152BF00BACBF7 /* ImageScaleUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScaleUtil.m; sourceTree = "<group>"; };
+		30DA9A3C1B3152BF00BACBF7 /* CameraApertureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraApertureView.h; sourceTree = "<group>"; };
+		30DA9A3D1B3152BF00BACBF7 /* CameraApertureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraApertureView.m; sourceTree = "<group>"; };
+		30DA9A3E1B3152BF00BACBF7 /* ControlBorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlBorder.h; sourceTree = "<group>"; };
+		30DA9A3F1B3152BF00BACBF7 /* ControlBorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlBorder.m; sourceTree = "<group>"; };
+		30DA9A401B3152BF00BACBF7 /* ControlBorder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlBorder.xib; sourceTree = "<group>"; };
+		30DA9A411B3152BF00BACBF7 /* CornerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CornerView.h; sourceTree = "<group>"; };
+		30DA9A421B3152BF00BACBF7 /* CornerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CornerView.m; sourceTree = "<group>"; };
+		30DA9A431B3152BF00BACBF7 /* ScreenshotBorder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScreenshotBorder.xib; sourceTree = "<group>"; };
+		30DA9A441B3152BF00BACBF7 /* ScreenshotBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenshotBorderView.h; sourceTree = "<group>"; };
+		30DA9A451B3152BF00BACBF7 /* ScreenshotBorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenshotBorderView.m; sourceTree = "<group>"; };
+		30DA9A461B3152BF00BACBF7 /* ScrrenshotToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrrenshotToolBar.h; sourceTree = "<group>"; };
+		30DA9A471B3152BF00BACBF7 /* ScrrenshotToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrrenshotToolBar.m; sourceTree = "<group>"; };
+		30DA9A481B3152BF00BACBF7 /* ToolBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolBarItem.h; sourceTree = "<group>"; };
+		30DA9A491B3152BF00BACBF7 /* ToolBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolBarItem.m; sourceTree = "<group>"; };
+		30DA9A4A1B3152BF00BACBF7 /* UIImage+SubImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SubImage.h"; sourceTree = "<group>"; };
+		30DA9A4B1B3152BF00BACBF7 /* UIImage+SubImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SubImage.m"; sourceTree = "<group>"; };
+		30DA9A4C1B3152BF00BACBF7 /* CMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMethods.h; sourceTree = "<group>"; };
+		30DA9A4D1B3152BF00BACBF7 /* CMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMethods.m; sourceTree = "<group>"; };
+		30DA9A5A1B3152CC00BACBF7 /* PRJ_ProtocolClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PRJ_ProtocolClass.h; sourceTree = "<group>"; };
+		30DA9A5B1B3152CC00BACBF7 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		30DA9A5C1B316ACD00BACBF7 /* RCCutPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCutPhotoViewController.h; sourceTree = "<group>"; };
+		30DA9A5D1B316ACD00BACBF7 /* RCCutPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCutPhotoViewController.m; sourceTree = "<group>"; };
 		30E401971B25AC0400A70AED /* iOSSnapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSnapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E4019B1B25AC0400A70AED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30E401A71B25AC0400A70AED /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -175,6 +206,7 @@
 		3039E1491B26864C00C1861F /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				30DA9A371B3152B100BACBF7 /* RCScreenShot */,
 				3039E1571B268A0600C1861F /* AFNetworking */,
 				30E40CA21B2C084200EBA6BF /* MBProgressHUD */,
 			);
@@ -296,6 +328,8 @@
 				30D02E0F1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m */,
 				30D02E111B2943C1004E5F9A /* RCPikerViewTextFiled.h */,
 				30D02E121B2943C1004E5F9A /* RCPikerViewTextFiled.m */,
+				30DA9A5C1B316ACD00BACBF7 /* RCCutPhotoViewController.h */,
+				30DA9A5D1B316ACD00BACBF7 /* RCCutPhotoViewController.m */,
 			);
 			path = UserControl;
 			sourceTree = "<group>";
@@ -314,7 +348,6 @@
 		30D02E151B294830004E5F9A /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				30D02E161B294830004E5F9A /* Home.storyboard */,
 				30D02E171B294830004E5F9A /* RCHomePageCell.h */,
 				30D02E181B294830004E5F9A /* RCHomePageCell.m */,
 				30D02E191B294830004E5F9A /* RCHomeViewController.h */,
@@ -332,8 +365,6 @@
 				30D02E1F1B294830004E5F9A /* RCRegisterInfoViewController.m */,
 				30D02E291B296781004E5F9A /* RCRegisterUploadViewController.h */,
 				30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */,
-				30A33A181B2989B50093C49B /* RCRegisterPhotoDisplayViewController.h */,
-				30A33A191B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m */,
 				306DD81F1B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.h */,
 				306DD8201B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m */,
 				30A33A1C1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.h */,
@@ -349,6 +380,35 @@
 				30D02E271B295D75004E5F9A /* NSString+RCStringSize.m */,
 			);
 			path = Category;
+			sourceTree = "<group>";
+		};
+		30DA9A371B3152B100BACBF7 /* RCScreenShot */ = {
+			isa = PBXGroup;
+			children = (
+				30DA9A3A1B3152BF00BACBF7 /* ImageScaleUtil.h */,
+				30DA9A3B1B3152BF00BACBF7 /* ImageScaleUtil.m */,
+				30DA9A3C1B3152BF00BACBF7 /* CameraApertureView.h */,
+				30DA9A3D1B3152BF00BACBF7 /* CameraApertureView.m */,
+				30DA9A3E1B3152BF00BACBF7 /* ControlBorder.h */,
+				30DA9A3F1B3152BF00BACBF7 /* ControlBorder.m */,
+				30DA9A401B3152BF00BACBF7 /* ControlBorder.xib */,
+				30DA9A411B3152BF00BACBF7 /* CornerView.h */,
+				30DA9A421B3152BF00BACBF7 /* CornerView.m */,
+				30DA9A431B3152BF00BACBF7 /* ScreenshotBorder.xib */,
+				30DA9A441B3152BF00BACBF7 /* ScreenshotBorderView.h */,
+				30DA9A451B3152BF00BACBF7 /* ScreenshotBorderView.m */,
+				30DA9A461B3152BF00BACBF7 /* ScrrenshotToolBar.h */,
+				30DA9A471B3152BF00BACBF7 /* ScrrenshotToolBar.m */,
+				30DA9A481B3152BF00BACBF7 /* ToolBarItem.h */,
+				30DA9A491B3152BF00BACBF7 /* ToolBarItem.m */,
+				30DA9A4A1B3152BF00BACBF7 /* UIImage+SubImage.h */,
+				30DA9A4B1B3152BF00BACBF7 /* UIImage+SubImage.m */,
+				30DA9A4C1B3152BF00BACBF7 /* CMethods.h */,
+				30DA9A4D1B3152BF00BACBF7 /* CMethods.m */,
+				30DA9A5A1B3152CC00BACBF7 /* PRJ_ProtocolClass.h */,
+				30DA9A5B1B3152CC00BACBF7 /* Common.h */,
+			);
+			path = RCScreenShot;
 			sourceTree = "<group>";
 		};
 		30E4018E1B25AC0400A70AED = {
@@ -508,9 +568,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3039E1851B269CD100C1861F /* Localizable.strings in Resources */,
+				30DA9A521B3152BF00BACBF7 /* ControlBorder.xib in Resources */,
 				30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */,
 				30E401A81B25AC0400A70AED /* Images.xcassets in Resources */,
-				30D02E201B294830004E5F9A /* Home.storyboard in Resources */,
+				30DA9A541B3152BF00BACBF7 /* ScreenshotBorder.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,19 +589,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30DA9A591B3152BF00BACBF7 /* CMethods.m in Sources */,
 				30E40CA11B2BDB7400EBA6BF /* RCSearchSnaperViewController.m in Sources */,
 				30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */,
 				3039E1501B2686F000C1861F /* AppDelegate.m in Sources */,
 				30A33A1E1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m in Sources */,
 				30165C7F1B2E8D8C000C0549 /* RCRegiseterInfoModel.m in Sources */,
 				30D02E2B1B296781004E5F9A /* RCRegisterUploadViewController.m in Sources */,
+				30DA9A551B3152BF00BACBF7 /* ScreenshotBorderView.m in Sources */,
 				3039E16F1B268A0600C1861F /* AFSecurityPolicy.m in Sources */,
 				30D02E131B2943C1004E5F9A /* RCPikerViewTextFiled.m in Sources */,
 				30E40CA51B2C086300EBA6BF /* MBProgressHUD.m in Sources */,
+				30DA9A531B3152BF00BACBF7 /* CornerView.m in Sources */,
 				3039E1551B26881F00C1861F /* Const.m in Sources */,
 				30E40C9D1B2BD0B000EBA6BF /* RCLoginForgetPasswordViewController.m in Sources */,
 				30D02E221B294830004E5F9A /* RCHomeViewController.m in Sources */,
+				30DA9A5E1B316ACD00BACBF7 /* RCCutPhotoViewController.m in Sources */,
+				30DA9A511B3152BF00BACBF7 /* ControlBorder.m in Sources */,
 				3039E16C1B268A0600C1861F /* AFHTTPRequestOperationManager.m in Sources */,
+				30DA9A581B3152BF00BACBF7 /* UIImage+SubImage.m in Sources */,
+				30DA9A4F1B3152BF00BACBF7 /* ImageScaleUtil.m in Sources */,
 				3039E1701B268A0600C1861F /* AFURLConnectionOperation.m in Sources */,
 				30CF4A6F1B2A8058006FD39F /* RCCamerGalleryManager.m in Sources */,
 				3039E16B1B268A0600C1861F /* AFHTTPRequestOperation.m in Sources */,
@@ -550,7 +618,8 @@
 				3039E1711B268A0600C1861F /* AFURLRequestSerialization.m in Sources */,
 				30D02E211B294830004E5F9A /* RCHomePageCell.m in Sources */,
 				3039E16D1B268A0600C1861F /* AFHTTPSessionManager.m in Sources */,
-				30A33A1A1B2989B50093C49B /* RCRegisterPhotoDisplayViewController.m in Sources */,
+				30DA9A561B3152BF00BACBF7 /* ScrrenshotToolBar.m in Sources */,
+				30DA9A501B3152BF00BACBF7 /* CameraApertureView.m in Sources */,
 				30D02E241B294830004E5F9A /* RCRegisterInfoViewController.m in Sources */,
 				3039E16E1B268A0600C1861F /* AFNetworkReachabilityManager.m in Sources */,
 				30D02E231B294830004E5F9A /* RCRegisterAccountViewController.m in Sources */,
@@ -561,6 +630,7 @@
 				30D02E101B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m in Sources */,
 				30D02E281B295D75004E5F9A /* NSString+RCStringSize.m in Sources */,
 				30D5DE4C1B2E726800B3875B /* RCMBHUDTool.m in Sources */,
+				30DA9A571B3152BF00BACBF7 /* ToolBarItem.m in Sources */,
 				30165C831B2EE73E000C0549 /* RCLoginNormalModel.m in Sources */,
 				30CE92931B27E88500826FCA /* RCModelBase.m in Sources */,
 				30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */,

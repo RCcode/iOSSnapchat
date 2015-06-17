@@ -11,12 +11,12 @@
 @interface RCRegiseterAccountModel : RCModelBase
 
 //状态码
-@property (nonatomic, assign) NSInteger state;
+@property (nonatomic, strong) NSNumber *state;
 //状态说明
 @property (nonatomic, copy) NSString *mess;
 //用户自动登录usertoken
 @property (nonatomic, copy) NSString *usertoken;
 //注册步骤
-@property (nonatomic, copy) NSString *step;
+@property (nonatomic, strong) NSNumber *step;
 
 @end

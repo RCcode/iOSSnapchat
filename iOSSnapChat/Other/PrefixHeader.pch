@@ -30,10 +30,10 @@ double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
 
 #define IOS8 [[UIDevice currentDevice].systemVersion floatValue] >= 8.0
 
-//全局常量
 #import "Const.h"
-
-//全局头文件
+#import "CMethods.h"
+#import "Common.h"
+#import "PRJ_ProtocolClass.h"
 #import "Header.h"
 
 #endif

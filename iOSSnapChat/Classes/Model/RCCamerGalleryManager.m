@@ -7,6 +7,7 @@
 //
 
 #import "RCCamerGalleryManager.h"
+#import "RCCutPhotoViewController.h"
 
 @interface RCCamerGalleryManager () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
@@ -68,7 +69,11 @@ static id _instance;
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [_currentViewController dismissViewControllerAnimated:YES completion:^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:kRCCameraGalleryNotification object:nil userInfo:@{kRCCameraGalleryNotification: info[UIImagePickerControllerOriginalImage]}];
+        UIImage *selectPhoto = info[UIImagePickerControllerOriginalImage];
+        RCCutPhotoViewController *cutPhotoVc = [[RCCutPhotoViewController alloc] init];
+        cutPhotoVc.fromVc = _currentViewController;
+        cutPhotoVc.cutImage = selectPhoto;
+        [_currentViewController.navigationController pushViewController:cutPhotoVc animated:YES];
     }];
 }
 

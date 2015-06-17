@@ -63,8 +63,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     //关闭自动调节,避免尺寸错误
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-
-    
     //照片
     _photoCount = 1;
     UICollectionViewFlowLayout *photoCollectLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -117,6 +115,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         }
+        if (i == 2) addPhotoImageView.hidden = YES;
         [self.view addSubview:addPhotoImageView];
         [self.addPhotoImagageViewArray addObject:addPhotoImageView];
     }
@@ -176,12 +175,20 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 }
 
 - (void)acquireCamaraGalleryPhoto:(NSNotification *)notice {
+    [self.navigationController popViewControllerAnimated:YES];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     UIImage *selectedPhoto = notice.userInfo[kRCCameraGalleryNotification];
     if (_currentTapType == kRCCamerGalleryTapTypeReplace) {
         UIImageView *currentTapImageView = [_addPhotoImagageViewArray objectAtIndex:_tapIndex];
         currentTapImageView.image = selectedPhoto;
     } else if (_currentTapType == kRCCamerGalleryTapTypeAdd) {
+        if (_photoCount == 1) {
+            NSLog(@"动画");
+            UIImageView *imageView = (UIImageView *)self.addPhotoImagageViewArray[2];
+            imageView.hidden = NO;
+        }
+        
         UIImageView *currentTapImageView = [_addPhotoImagageViewArray objectAtIndex:_photoCount];
         _photoCount += 1;
         currentTapImageView.image = selectedPhoto;

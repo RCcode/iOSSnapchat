@@ -55,10 +55,7 @@
 #pragma mark - Utility
 //初始化布局
 - (void)initLayout {
-    _homePageCellLayout.itemSize = kRCScreenBounds.size;
-    _homePageCellLayout.minimumLineSpacing = 0;
-    _homePageCellLayout.minimumInteritemSpacing = 0;
-    _homePageCellLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    [self.collectionView registerClass:[RCHomePageCell class] forCellWithReuseIdentifier:kRCHomePageCellIdentifer];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.pagingEnabled = YES;
     self.collectionView.backgroundColor = [UIColor whiteColor];
@@ -129,6 +126,7 @@
 {
     RCHomePageCell *homePageCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kRCHomePageCellIdentifer forIndexPath:indexPath];
     [homePageCell drawTitle:_homePageTitleArray[indexPath.item] image:_homePageImageArray[indexPath.item]];
+    homePageCell.backgroundColor = [UIColor lightGrayColor];
     return homePageCell;
 }
 

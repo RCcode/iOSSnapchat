@@ -20,7 +20,9 @@ extern NSString *const kRCUserDefaultCityIDKey;
 extern NSString *const kRCUserDefaultLongitudeKey;
 extern NSString *const kRCUserDefaultLatitudeKey;
 
+extern NSString *const kRCApplicationFirstStartKey;
 extern NSString *const kRCRemoteNotificationsKey;
 extern NSString *const kRCUserDefaultUserTokenKey;
+extern NSString *const kRCUserDefaultResgisterStepKey;
 
 extern NSString *const kRCCameraGalleryNotification;

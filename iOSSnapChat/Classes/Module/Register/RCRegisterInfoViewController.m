@@ -142,7 +142,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 }
 
 - (void)doneButtonDidClicked {
-    
+
     //判断snaochatid年龄是否为空
     if ([_snapChatField.text isEqualToString:@""]) {
         [RCMBHUDTool showText:@"SnapChatID不能为空" hideDelay:1.0f];
@@ -171,11 +171,12 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
                                      @"gender": @(_selectedSexType),
                                      @"snapchatid": _snapChatField.text
                                      };
-
+    
     //发送请求
     [RCMBHUDTool showIndicator];
     [registerInfoModel requestServerWithModel:registerInfoModel success:^(id resultModel) {
         RCRegiseterInfoModel *result = (RCRegiseterInfoModel *)resultModel;
+        [userDefault setInteger:[result.step intValue] forKey:kRCUserDefaultResgisterStepKey];
         [RCMBHUDTool hideshowIndicator];
         if ([result.mess isEqualToString:@"succ"]) {
             [RCMBHUDTool hideshowIndicator];

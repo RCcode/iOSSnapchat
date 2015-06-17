@@ -7,7 +7,7 @@
 //
 
 #import "RCRegisterUploadViewController.h"
-#import "RCRegisterPhotoDisplayViewController.h"
+#import "RCRegisterUploadPhotoViewController.h"
 
 @interface RCRegisterUploadViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -77,17 +77,21 @@
         [[RCCamerGalleryManager shareManager] openGalleryAcquirePhotoWithCurrentViewController:self];
     }];
     
+    //取消
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    
     [uploadAlertVc addAction:cameraAction];
     [uploadAlertVc addAction:galleryAction];
+    [uploadAlertVc addAction:cancelAction];
     [self presentViewController:uploadAlertVc animated:YES completion:nil];
 }
 
 - (void)acquireCamaraGalleryPhoto:(NSNotification *)notice {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    UIImage *selectedGalleryPhoto = notice.userInfo[kRCCameraGalleryNotification];
-    RCRegisterPhotoDisplayViewController *registerPhotoDisplayVc = [[RCRegisterPhotoDisplayViewController alloc] init];
-    registerPhotoDisplayVc.selectedGalleryPhoto = selectedGalleryPhoto;
-    [self.navigationController pushViewController:registerPhotoDisplayVc animated:YES];
+    UIImage *selectedPhoto = notice.userInfo[kRCCameraGalleryNotification];
+    RCRegisterUploadPhotoViewController *registerUploadVc = [[RCRegisterUploadPhotoViewController alloc] init];
+    registerUploadVc.selectedPassPhoto = selectedPhoto;
+    [self.navigationController pushViewController:registerUploadVc animated:YES];
 }
 
 @end

@@ -42,8 +42,7 @@
 
 #pragma mark - Action
 - (void)nextButtonDidClicked {
-//    NSLog(@"email = %@ password = %@", self.emailField.text, self.passwordField.text);
-    
+
     kAcquireUserDefaultLocalInfo
     
     RCLoginNormalModel *loginUserInfoModel = [[RCLoginNormalModel alloc] init];
@@ -58,19 +57,18 @@
                                       @"lat": @(latitude),
                                       @"pushtoken": pushtoken
                                       };
-    [loginUserInfoModel requestServerWithModel:loginUserInfoModel success:^(id resultModel) {
-        NSLog(@"%@", resultModel);
-        
-        
-    } failure:^(NSError *error) {
-        NSLog(@"error");
-    }];
     
-    return;
-    RCSearchSnaperViewController *searchSnaperVc = [[RCSearchSnaperViewController alloc] init];
-    RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:searchSnaperVc];
-    [self presentViewController:navVc animated:YES completion:nil];
-
+    [RCMBHUDTool showIndicator];
+    [loginUserInfoModel requestServerWithModel:loginUserInfoModel success:^(id resultModel) {
+//        NSLog(@"%@", resultModel);
+        [RCMBHUDTool hideshowIndicator];
+        RCSearchSnaperViewController *searchSnaperVc = [[RCSearchSnaperViewController alloc] init];
+        RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:searchSnaperVc];
+        [self presentViewController:navVc animated:YES completion:nil];
+    } failure:^(NSError *error) {
+        [RCMBHUDTool hideshowIndicator];
+        [RCMBHUDTool showText:@"请检查网络" hideDelay:1.0f];
+    }];
 }
 
 - (void)forgetPasswordButtonDidClicked {

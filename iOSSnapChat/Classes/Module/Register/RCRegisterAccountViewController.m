@@ -52,7 +52,6 @@
 
 #pragma mark - Action
 - (void)nextButtonDidClicked {
-    
     //判断邮箱密码是否为空
     if ([self.emailField.text isEqualToString:@""]) {
         [RCMBHUDTool showText:@"邮箱不能为空" hideDelay:1.0f];
@@ -64,7 +63,7 @@
     
     //获取用户存储的物理地址信息
     kAcquireUserDefaultLocalInfo
-
+    
     //请求设置
     RCRegiseterAccountModel *registerAccountModel = [[RCRegiseterAccountModel alloc] init];
     registerAccountModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
@@ -78,13 +77,14 @@
                                         @"lat": @(latitude),
                                         @"pushtoken": pushtoken
                                         };
- 
+    
     //判断邮箱是否正确
     if ([self validateEmail:self.emailField.text]) {
         //发送请求
         [RCMBHUDTool showIndicator];
         [registerAccountModel requestServerWithModel:registerAccountModel success:^(id resultModel) {
             RCRegiseterAccountModel *result = (RCRegiseterAccountModel *)resultModel;
+            [userDefault setInteger:[result.step intValue] forKey:kRCUserDefaultResgisterStepKey];
             if ([result.mess isEqualToString:@"succ"]) {
                 [RCMBHUDTool hideshowIndicator];
                 //保存usertoken
@@ -95,6 +95,7 @@
                 [RCMBHUDTool hideshowIndicator];
                 [RCMBHUDTool showText:@"注册账户已经存在" hideDelay:1.0f];
             } else {
+                NSLog(@"%d", [result.step intValue]);
                 [RCMBHUDTool hideshowIndicator];
                 [RCMBHUDTool showText:@"服务器异常" hideDelay:1.0f];
             }

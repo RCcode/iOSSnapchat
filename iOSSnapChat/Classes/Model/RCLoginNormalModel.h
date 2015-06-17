@@ -12,8 +12,7 @@
 @interface RCLoginUserInfo : NSObject
 
 @property (nonatomic, copy) NSString *userid;
-
-@property (nonatomic, copy) NSString *pushtoken;
+@property (nonatomic, copy) NSString *iospushtoken;
 @property (nonatomic, copy) NSString *countryid;
 @property (nonatomic, copy) NSString *cityid;
 @property (nonatomic, copy) NSString *gender;
@@ -24,6 +23,13 @@
 @property (nonatomic, copy) NSString *url1;
 @property (nonatomic, copy) NSString *url2;
 @property (nonatomic, copy) NSString *url3;
+
+//未启用字段
+@property (nonatomic, copy) NSString *gender2;
+@property (nonatomic, copy) NSString *password;
+@property (nonatomic, copy) NSString *usertoken;
+@property (nonatomic, copy) NSString *pushtoken;
+@property (nonatomic, copy) NSString *status;
 
 @end
 

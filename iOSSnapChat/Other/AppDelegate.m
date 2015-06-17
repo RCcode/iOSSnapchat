@@ -7,6 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "RCHomeViewController.h"
+#import "RCBaseNavgationController.h"
+#import "RCRegisterAccountViewController.h"
+#import "RCRegisterInfoViewController.h"
+#import "RCRegisterUploadViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,55 +21,48 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    
-    if (launchOptions) {
-        //推送启动
-    }
-    
-    //IOS8推送
-    if (IOS8) {
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert) categories:nil];
-        [application registerUserNotificationSettings:settings];
-        [application registerForRemoteNotifications];
-    } else {
-        [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-    }
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:kRCApplicationFirstStartKey]) {
+        //设置第一次启动默认值
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kRCApplicationFirstStartKey];
+        [[NSUserDefaults standardUserDefaults] setObject:@"123456" forKey:kRCRemoteNotificationsKey];
+        [[NSUserDefaults standardUserDefaults] setInteger:-1 forKey:kRCUserDefaultResgisterStepKey];
+        
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.itemSize = kRCScreenBounds.size;
+        layout.minimumLineSpacing = 0;
+        layout.minimumInteritemSpacing = 0;
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        RCHomeViewController *homeVc = [[RCHomeViewController alloc] initWithCollectionViewLayout:layout];
+        self.window.rootViewController = homeVc;
+        [self.window makeKeyAndVisible];
+    } else {
+        NSInteger step = [[NSUserDefaults standardUserDefaults] integerForKey:kRCUserDefaultResgisterStepKey];
+        if (step == -1) {
+            RCRegisterAccountViewController *registerAccountVc = [[RCRegisterAccountViewController alloc] init];
+            RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerAccountVc];
+            self.window.rootViewController = navVc;
+        } else if (step == 1) {
+            RCRegisterInfoViewController *registerInfoVc = [[RCRegisterInfoViewController alloc] init];
+            RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerInfoVc];
+            self.window.rootViewController = navVc;
+        } else if (step == 2) {
+            RCRegisterUploadViewController *registerUploadVc = [[RCRegisterUploadViewController alloc] init];
+            RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerUploadVc];
+            self.window.rootViewController = navVc;
+        } if (step == 0) {
+            //注册完成
+        }
+        [self.window makeKeyAndVisible];
+        NSLog(@"%d", step);
+    }
     return YES;
 }
 
 //只支持竖屏
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
     return UIInterfaceOrientationMaskPortrait;
-}
-
-//注册远程推送
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSMutableString *deviToken = [NSMutableString stringWithString:[NSString stringWithFormat:@"%@", deviceToken]];
-    [deviToken deleteCharactersInRange:NSMakeRange(0, 1)];
-    [deviToken deleteCharactersInRange:NSMakeRange(deviToken.length - 1, 1)];
-    NSString *result = [deviToken stringByReplacingOccurrencesOfString:@" " withString:@""];
-    [[NSUserDefaults standardUserDefaults] setObject:result forKey:kRCRemoteNotificationsKey];
-    NSLog(@"PushToken = %@", result);
-}
-
-//注册远程推送失败
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"注册远程推送失败");
-    [[NSUserDefaults standardUserDefaults] setObject:@"123456" forKey:kRCRemoteNotificationsKey];
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    if (application.applicationState == UIApplicationStateActive) {
-        //远程通知转变成一个本地通知
-        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-        localNotification.userInfo = userInfo;
-        localNotification.soundName = UILocalNotificationDefaultSoundName;
-        localNotification.alertBody = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
-        localNotification.fireDate = [NSDate date];
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
