@@ -9,6 +9,7 @@
 #import "RCLoginViewController.h"
 #import "RCLoginForgetPasswordViewController.h"
 #import "RCBaseNavgationController.h"
+#import "RCUserInfoModel.h"
 #import "RCLoginAutoModel.h"
 #import "RCLoginNormalModel.h"
 #import "RCMainLikeViewController.h"
@@ -105,6 +106,7 @@
     [RCMBHUDTool showIndicator];
     [loginNormalModel requestServerWithModel:loginNormalModel success:^(id resultModel) {
         RCLoginNormalModel *result = (RCLoginNormalModel *)resultModel;
+        [userDefault setObject:result.usertoken forKey:kRCUserDefaultUserTokenKey];
         [RCMBHUDTool hideshowIndicator];
         [self enterApplicationMain:result.userInfo];
     } failure:^(NSError *error) {
@@ -120,6 +122,8 @@
 
 - (void)enterApplicationMain:(RCUserInfoModel *)userInfo {
     RCMainLikeViewController *mainLikeVc = [[RCMainLikeViewController alloc] init];
+    //登录完成时的usertoken
+    mainLikeVc.immediateUserToken = [[NSUserDefaults standardUserDefaults] stringForKey:kRCUserDefaultUserTokenKey];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mainLikeVc];
     [self presentViewController:nav animated:YES completion:nil];
 }

@@ -10,4 +10,6 @@
 
 @interface RCMainLikeViewController : UIViewController
 
+@property (nonatomic, copy) NSString *immediateUserToken;
+
 @end
