@@ -1,20 +1,19 @@
 //
-//  RCLoginNormalModel.m
+//  RCLoginAutoModel.m
 //  iOSSnapChat
 //
-//  Created by zhao liang on 15/6/15.
+//  Created by zhao liang on 15/6/17.
 //  Copyright (c) 2015年 gongtao. All rights reserved.
 //
 
-#import "RCLoginNormalModel.h"
+#import "RCLoginAutoModel.h"
 #import "RCUserInfoModel.h"
 
-@implementation RCLoginNormalModel
+@implementation RCLoginAutoModel
 
 - (void)parse:(id)responseObject {
     _state = (NSString *)responseObject[@"state"];
     _mess = responseObject[@"mess"];
-    _usertoken = responseObject[@"usertoken"];
     NSDictionary *userInfoDict = responseObject[@"user_info"];
     RCUserInfoModel *userInfo = [[RCUserInfoModel alloc] init];
     [userInfo setValuesForKeysWithDictionary:userInfoDict];

@@ -12,6 +12,7 @@
 #import "RCRegisterAccountViewController.h"
 #import "RCRegisterInfoViewController.h"
 #import "RCRegisterUploadViewController.h"
+#import "RCLoginViewController.h"
 
 @interface AppDelegate ()
 
@@ -25,9 +26,14 @@
 
     if (![[NSUserDefaults standardUserDefaults] boolForKey:kRCApplicationFirstStartKey]) {
         //设置第一次启动默认值
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kRCApplicationFirstStartKey];
-        [[NSUserDefaults standardUserDefaults] setObject:@"123456" forKey:kRCRemoteNotificationsKey];
-        [[NSUserDefaults standardUserDefaults] setInteger:-1 forKey:kRCUserDefaultResgisterStepKey];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:YES forKey:kRCApplicationFirstStartKey];
+        [userDefault setObject:@"123456" forKey:kRCRemoteNotificationsKey];
+        [userDefault setInteger:-1 forKey:kRCUserDefaultResgisterStepKey];
+        [userDefault setObject:@"" forKey:kRCUserDefaultCountryIDKey];
+        [userDefault setObject:@"" forKey:kRCUserDefaultCityIDKey];
+        [userDefault setDouble:0 forKey:kRCUserDefaultLongitudeKey];
+        [userDefault setDouble:0 forKey:kRCUserDefaultLatitudeKey];
         
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.itemSize = kRCScreenBounds.size;
@@ -39,23 +45,40 @@
         [self.window makeKeyAndVisible];
     } else {
         NSInteger step = [[NSUserDefaults standardUserDefaults] integerForKey:kRCUserDefaultResgisterStepKey];
-        if (step == -1) {
-            RCRegisterAccountViewController *registerAccountVc = [[RCRegisterAccountViewController alloc] init];
-            RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerAccountVc];
-            self.window.rootViewController = navVc;
-        } else if (step == 1) {
-            RCRegisterInfoViewController *registerInfoVc = [[RCRegisterInfoViewController alloc] init];
-            RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerInfoVc];
-            self.window.rootViewController = navVc;
-        } else if (step == 2) {
-            RCRegisterUploadViewController *registerUploadVc = [[RCRegisterUploadViewController alloc] init];
-            RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerUploadVc];
-            self.window.rootViewController = navVc;
-        } if (step == 0) {
-            //注册完成
+        
+        RCBaseNavgationController *navVc = nil;
+        switch (step) {
+            case -1:
+            {
+                RCRegisterAccountViewController *registerAccountVc = [[RCRegisterAccountViewController alloc] init];
+                navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerAccountVc];
+                break;
+            }
+            case 1:
+            {
+                RCRegisterInfoViewController *registerInfoVc = [[RCRegisterInfoViewController alloc] init];
+                navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerInfoVc];
+                
+                break;
+            }
+            case 2:
+            {
+                RCRegisterUploadViewController *registerUploadVc = [[RCRegisterUploadViewController alloc] init];
+                navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerUploadVc];
+                break;
+            }
+            case 0:
+            {
+                RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
+                navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
+                break;
+            }
+            default:
+                break;
         }
+        self.window.rootViewController = navVc;
         [self.window makeKeyAndVisible];
-        NSLog(@"%d", step);
+        NSLog(@"Root Step = %d", step);
     }
     return YES;
 }

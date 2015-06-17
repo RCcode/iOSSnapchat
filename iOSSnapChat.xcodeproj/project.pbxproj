@@ -26,6 +26,9 @@
 		306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8201B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m */; };
 		306DD8251B2AE550008C29E0 /* RCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8241B2AE550008C29E0 /* RCLoginViewController.m */; };
 		306DD8281B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8271B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m */; };
+		307F53751B317C9900554C92 /* RCLoginAutoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 307F53741B317C9900554C92 /* RCLoginAutoModel.m */; };
+		307F53781B317CB900554C92 /* RCUserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 307F53771B317CB900554C92 /* RCUserInfoModel.m */; };
+		307F537C1B318C3D00554C92 /* RCMainLikeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 307F537B1B318C3D00554C92 /* RCMainLikeViewController.m */; };
 		30A33A1E1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */; };
 		30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */; };
 		30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928E1B27E21A00826FCA /* RCNetworkManager.m */; };
@@ -58,7 +61,6 @@
 		30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E401A91B25AC0400A70AED /* LaunchScreen.xib */; };
 		30E401B71B25AC0400A70AED /* iOSSnapChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E401B61B25AC0400A70AED /* iOSSnapChatTests.m */; };
 		30E40C9D1B2BD0B000EBA6BF /* RCLoginForgetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E40C9C1B2BD0B000EBA6BF /* RCLoginForgetPasswordViewController.m */; };
-		30E40CA11B2BDB7400EBA6BF /* RCSearchSnaperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E40CA01B2BDB7400EBA6BF /* RCSearchSnaperViewController.m */; };
 		30E40CA51B2C086300EBA6BF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E40CA41B2C086300EBA6BF /* MBProgressHUD.m */; };
 /* End PBXBuildFile section */
 
@@ -114,6 +116,12 @@
 		306DD8241B2AE550008C29E0 /* RCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLoginViewController.m; sourceTree = "<group>"; };
 		306DD8261B2AED27008C29E0 /* RCBaseRegisterLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseRegisterLoginViewController.h; sourceTree = "<group>"; };
 		306DD8271B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseRegisterLoginViewController.m; sourceTree = "<group>"; };
+		307F53731B317C9900554C92 /* RCLoginAutoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLoginAutoModel.h; sourceTree = "<group>"; };
+		307F53741B317C9900554C92 /* RCLoginAutoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLoginAutoModel.m; sourceTree = "<group>"; };
+		307F53761B317CB900554C92 /* RCUserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCUserInfoModel.h; sourceTree = "<group>"; };
+		307F53771B317CB900554C92 /* RCUserInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCUserInfoModel.m; sourceTree = "<group>"; };
+		307F537A1B318C3D00554C92 /* RCMainLikeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainLikeViewController.h; sourceTree = "<group>"; };
+		307F537B1B318C3D00554C92 /* RCMainLikeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeViewController.m; sourceTree = "<group>"; };
 		30A33A1C1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadPhotoViewController.h; sourceTree = "<group>"; };
 		30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadPhotoViewController.m; sourceTree = "<group>"; };
 		30CE92891B27DDB400826FCA /* RCBaseNavgationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseNavgationController.h; sourceTree = "<group>"; };
@@ -179,8 +187,6 @@
 		30E401B61B25AC0400A70AED /* iOSSnapChatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSSnapChatTests.m; sourceTree = "<group>"; };
 		30E40C9B1B2BD0B000EBA6BF /* RCLoginForgetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLoginForgetPasswordViewController.h; sourceTree = "<group>"; };
 		30E40C9C1B2BD0B000EBA6BF /* RCLoginForgetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLoginForgetPasswordViewController.m; sourceTree = "<group>"; };
-		30E40C9F1B2BDB7400EBA6BF /* RCSearchSnaperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSearchSnaperViewController.h; sourceTree = "<group>"; };
-		30E40CA01B2BDB7400EBA6BF /* RCSearchSnaperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSearchSnaperViewController.m; sourceTree = "<group>"; };
 		30E40CA31B2C086300EBA6BF /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		30E40CA41B2C086300EBA6BF /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -278,6 +284,15 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		307F53791B318A9C00554C92 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				307F537A1B318C3D00554C92 /* RCMainLikeViewController.h */,
+				307F537B1B318C3D00554C92 /* RCMainLikeViewController.m */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		30CE92881B27DDAF00826FCA /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,8 +330,12 @@
 				30CE929B1B28110E00826FCA /* RCRegiseterAccountModel.m */,
 				30165C7D1B2E8D8C000C0549 /* RCRegiseterInfoModel.h */,
 				30165C7E1B2E8D8C000C0549 /* RCRegiseterInfoModel.m */,
+				307F53761B317CB900554C92 /* RCUserInfoModel.h */,
+				307F53771B317CB900554C92 /* RCUserInfoModel.m */,
 				30165C811B2EE73E000C0549 /* RCLoginNormalModel.h */,
 				30165C821B2EE73E000C0549 /* RCLoginNormalModel.m */,
+				307F53731B317C9900554C92 /* RCLoginAutoModel.h */,
+				307F53741B317C9900554C92 /* RCLoginAutoModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -340,7 +359,7 @@
 				30D02E151B294830004E5F9A /* Home */,
 				30D02E1B1B294830004E5F9A /* Register */,
 				306DD8221B2AE512008C29E0 /* Login */,
-				30E40C9E1B2BDA7F00EBA6BF /* Search */,
+				307F53791B318A9C00554C92 /* Main */,
 			);
 			path = Module;
 			sourceTree = "<group>";
@@ -467,15 +486,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		30E40C9E1B2BDA7F00EBA6BF /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				30E40C9F1B2BDB7400EBA6BF /* RCSearchSnaperViewController.h */,
-				30E40CA01B2BDB7400EBA6BF /* RCSearchSnaperViewController.m */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
 		30E40CA21B2C084200EBA6BF /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -590,7 +600,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				30DA9A591B3152BF00BACBF7 /* CMethods.m in Sources */,
-				30E40CA11B2BDB7400EBA6BF /* RCSearchSnaperViewController.m in Sources */,
 				30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */,
 				3039E1501B2686F000C1861F /* AppDelegate.m in Sources */,
 				30A33A1E1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m in Sources */,
@@ -599,8 +608,10 @@
 				30DA9A551B3152BF00BACBF7 /* ScreenshotBorderView.m in Sources */,
 				3039E16F1B268A0600C1861F /* AFSecurityPolicy.m in Sources */,
 				30D02E131B2943C1004E5F9A /* RCPikerViewTextFiled.m in Sources */,
+				307F53751B317C9900554C92 /* RCLoginAutoModel.m in Sources */,
 				30E40CA51B2C086300EBA6BF /* MBProgressHUD.m in Sources */,
 				30DA9A531B3152BF00BACBF7 /* CornerView.m in Sources */,
+				307F537C1B318C3D00554C92 /* RCMainLikeViewController.m in Sources */,
 				3039E1551B26881F00C1861F /* Const.m in Sources */,
 				30E40C9D1B2BD0B000EBA6BF /* RCLoginForgetPasswordViewController.m in Sources */,
 				30D02E221B294830004E5F9A /* RCHomeViewController.m in Sources */,
@@ -634,6 +645,7 @@
 				30165C831B2EE73E000C0549 /* RCLoginNormalModel.m in Sources */,
 				30CE92931B27E88500826FCA /* RCModelBase.m in Sources */,
 				30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */,
+				307F53781B317CB900554C92 /* RCUserInfoModel.m in Sources */,
 				30165C791B2E836E000C0549 /* RCLocalTool.m in Sources */,
 				30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */,
 			);

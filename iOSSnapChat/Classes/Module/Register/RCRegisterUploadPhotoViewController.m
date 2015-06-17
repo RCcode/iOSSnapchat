@@ -108,6 +108,8 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
             NSData *uploadImageDataOne = UIImageJPEGRepresentation(_selectedPassPhoto, 1.0f);
             [RCMBHUDTool showIndicator];
             [[RCNetworkManager shareManager] POSTRequest:@"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi3.do?method=upload" parameters:@{@"plat": @1, @"usertoken": usertoken, @"index": @1} upateFileData:uploadImageDataOne success:^(id responseObject) {
+                NSDictionary *result = (NSDictionary *)responseObject;
+                [userDefault setInteger:[result[@"step"] intValue] forKey:kRCUserDefaultResgisterStepKey];
                 [RCMBHUDTool hideshowIndicator];
                 [RCMBHUDTool showText:@"完成上传第1张" hideDelay:1.0f];
             } failure:^(NSError *error) {
@@ -184,11 +186,10 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
         currentTapImageView.image = selectedPhoto;
     } else if (_currentTapType == kRCCamerGalleryTapTypeAdd) {
         if (_photoCount == 1) {
-            NSLog(@"动画");
+#warning 实现动画
             UIImageView *imageView = (UIImageView *)self.addPhotoImagageViewArray[2];
             imageView.hidden = NO;
         }
-        
         UIImageView *currentTapImageView = [_addPhotoImagageViewArray objectAtIndex:_photoCount];
         _photoCount += 1;
         currentTapImageView.image = selectedPhoto;
@@ -200,6 +201,8 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     NSData *uploadImageDataOne = UIImageJPEGRepresentation(selectedPhoto, 1.0f);
     [RCMBHUDTool showIndicator];
     [[RCNetworkManager shareManager] POSTRequest:@"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi3.do?method=upload" parameters:@{@"plat": @1, @"usertoken": usertoken, @"index": @(_uploadIndex)} upateFileData:uploadImageDataOne success:^(id responseObject) {
+        NSDictionary *result = (NSDictionary *)responseObject;
+        [userDefault setInteger:[result[@"step"] intValue] forKey:kRCUserDefaultResgisterStepKey];
         [RCMBHUDTool hideshowIndicator];
         [RCMBHUDTool showText:[NSString stringWithFormat:@"完成上传第%d张", _uploadIndex] hideDelay:1.0f];
         //刷新显示数据

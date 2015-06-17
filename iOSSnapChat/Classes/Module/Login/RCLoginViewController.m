@@ -9,11 +9,14 @@
 #import "RCLoginViewController.h"
 #import "RCLoginForgetPasswordViewController.h"
 #import "RCBaseNavgationController.h"
-#import "RCSearchSnaperViewController.h"
-
+#import "RCLoginAutoModel.h"
 #import "RCLoginNormalModel.h"
+#import "RCMainLikeViewController.h"
 
 @interface RCLoginViewController ()
+{
+    BOOL _isOnce;
+}
 
 @end
 
@@ -28,6 +31,47 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (!_isOnce) {
+        _isOnce = YES;
+        [RCMBHUDTool showIndicator];
+        kAcquireUserDefaultLocalInfo
+        NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
+        
+        //自动登录
+        RCLoginAutoModel *loginAutoModel = [[RCLoginAutoModel alloc] init];
+        loginAutoModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/AutoLogin.do";
+        loginAutoModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
+        loginAutoModel.parameters =@{@"plat": @1,
+                                     @"usertoken": usertoken,
+                                     @"countryid": coutryID,
+                                     @"cityid": cityID,
+                                     @"lon": @(longitude),
+                                     @"lat": @(latitude),
+                                     @"pushtoken": pushtoken
+                                     };
+        
+        [loginAutoModel requestServerWithModel:loginAutoModel success:^(id resultModel) {
+            RCLoginAutoModel *result = (RCLoginAutoModel *)resultModel;
+            if ([result.mess isEqualToString:@"succ"]) {
+                [RCMBHUDTool hideshowIndicator];
+                [RCMBHUDTool showText:@"自动登录完成" hideDelay:1];
+                [self enterApplicationMain:result.userInfo];
+            } else {
+                [RCMBHUDTool showText:@"usertoken过期请手动登陆" hideDelay:1];
+            }
+        } failure:^(NSError *error) {
+            NSLog(@"%@", error);
+        }];
+    }
+    
+    }
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
 }
 
 #pragma mark - Utility
@@ -45,26 +89,24 @@
 
     kAcquireUserDefaultLocalInfo
     
-    RCLoginNormalModel *loginUserInfoModel = [[RCLoginNormalModel alloc] init];
-    loginUserInfoModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Login.do";
-    loginUserInfoModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
-    loginUserInfoModel.parameters = @{@"plat": @1,
-                                      @"userid": self.emailField.text,
-                                      @"password": self.passwordField.text,
-                                      @"countryid": coutryID,
-                                      @"cityid": cityID,
-                                      @"lon": @(longitude),
-                                      @"lat": @(latitude),
-                                      @"pushtoken": pushtoken
-                                      };
+    RCLoginNormalModel *loginNormalModel = [[RCLoginNormalModel alloc] init];
+    loginNormalModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Login.do";
+    loginNormalModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
+    loginNormalModel.parameters = @{@"plat": @1,
+                                    @"userid": self.emailField.text,
+                                    @"password": self.passwordField.text,
+                                    @"countryid": coutryID,
+                                    @"cityid": cityID,
+                                    @"lon": @(longitude),
+                                    @"lat": @(latitude),
+                                    @"pushtoken": pushtoken
+                                    };
     
     [RCMBHUDTool showIndicator];
-    [loginUserInfoModel requestServerWithModel:loginUserInfoModel success:^(id resultModel) {
-//        NSLog(@"%@", resultModel);
+    [loginNormalModel requestServerWithModel:loginNormalModel success:^(id resultModel) {
+        RCLoginNormalModel *result = (RCLoginNormalModel *)resultModel;
         [RCMBHUDTool hideshowIndicator];
-        RCSearchSnaperViewController *searchSnaperVc = [[RCSearchSnaperViewController alloc] init];
-        RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:searchSnaperVc];
-        [self presentViewController:navVc animated:YES completion:nil];
+        [self enterApplicationMain:result.userInfo];
     } failure:^(NSError *error) {
         [RCMBHUDTool hideshowIndicator];
         [RCMBHUDTool showText:@"请检查网络" hideDelay:1.0f];
@@ -76,8 +118,10 @@
     [self.navigationController pushViewController:loginForgetPasswordVc animated:YES];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.view endEditing:YES];
+- (void)enterApplicationMain:(RCUserInfoModel *)userInfo {
+    RCMainLikeViewController *mainLikeVc = [[RCMainLikeViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mainLikeVc];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 @end
