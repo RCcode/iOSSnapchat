@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RCUserInfoModel.h"
 
 @interface RCMainLikeViewController : UIViewController
 
-@property (nonatomic, copy) NSString *immediateUserToken;
+@property (nonatomic, strong) RCUserInfoModel *loginUserInfo;
 
 @end

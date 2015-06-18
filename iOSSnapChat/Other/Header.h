@@ -9,18 +9,16 @@
 #ifndef iOSSnapChat_Header_h
 #define iOSSnapChat_Header_h
 
-//全局单例
-#import "RCNetworkManager.h"
-#import "RCCamerGalleryManager.h"
-
-//分类
 #import "NSString+RCStringSize.h"
 
-//全局控件
 #import "RCPlaceHolderAlwaysTextField.h"
 #import "RCPikerViewTextFiled.h"
 
-//工具
+#import "UIImageView+WebCache.h"
+
+//Manager
+#import "RCNetworkManager.h"
+#import "RCCamerGalleryManager.h"
 #import "RCLocalTool.h"
 #import "RCMBHUDTool.h"
 

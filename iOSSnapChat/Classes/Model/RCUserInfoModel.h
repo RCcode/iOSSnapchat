@@ -14,8 +14,8 @@
 @property (nonatomic, copy) NSString *iospushtoken;
 @property (nonatomic, copy) NSString *countryid;
 @property (nonatomic, copy) NSString *cityid;
-@property (nonatomic, copy) NSString *gender;
-@property (nonatomic, copy) NSString *age;
+@property (nonatomic, strong) NSNumber *gender;
+@property (nonatomic, strong) NSNumber *age;
 @property (nonatomic, copy) NSString *snapchatid;
 @property (nonatomic, copy) NSString *lon;
 @property (nonatomic, copy) NSString *lat;
@@ -29,5 +29,6 @@
 @property (nonatomic, copy) NSString *usertoken;
 @property (nonatomic, copy) NSString *pushtoken;
 @property (nonatomic, copy) NSString *status;
+@property (nonatomic, copy) NSString *flag;
 
 @end

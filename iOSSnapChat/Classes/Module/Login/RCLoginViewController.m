@@ -62,14 +62,14 @@
                 [RCMBHUDTool showText:@"自动登录完成" hideDelay:1];
                 [self enterApplicationMain:result.userInfo];
             } else {
-                [RCMBHUDTool showText:@"usertoken过期请手动登陆" hideDelay:1];
+                [RCMBHUDTool hideshowIndicator];
+                [RCMBHUDTool showText:@"usertoken过期/连接超时,请手动登陆" hideDelay:1];
             }
         } failure:^(NSError *error) {
             NSLog(@"%@", error);
         }];
     }
-    
-    }
+}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
@@ -122,8 +122,7 @@
 
 - (void)enterApplicationMain:(RCUserInfoModel *)userInfo {
     RCMainLikeViewController *mainLikeVc = [[RCMainLikeViewController alloc] init];
-    //登录完成时的usertoken
-    mainLikeVc.immediateUserToken = [[NSUserDefaults standardUserDefaults] stringForKey:kRCUserDefaultUserTokenKey];
+    mainLikeVc.loginUserInfo = userInfo;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mainLikeVc];
     [self presentViewController:nav animated:YES completion:nil];
 }

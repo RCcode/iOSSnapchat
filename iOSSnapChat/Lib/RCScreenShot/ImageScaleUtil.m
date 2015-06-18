@@ -22,8 +22,8 @@
 
 + (CGFloat)getTheScaleForImageSize:(CGSize)size
 {
-    CGFloat width = kWinSize.width;
-    CGFloat height = kWinSize.height - 64;
+    CGFloat width = kRCScreenWidth;
+    CGFloat height = kRCScreenHeight - 64;
     CGFloat scale = 0;
     
     if (size.width > size.height)

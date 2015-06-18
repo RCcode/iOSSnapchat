@@ -30,7 +30,6 @@
 
 #pragma mark - Utility
 - (void)setUpUI {
-    
 #warning frame
     self.arrowTitle = @"";
     self.view.backgroundColor = [UIColor whiteColor];
