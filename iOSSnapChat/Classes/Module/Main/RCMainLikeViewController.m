@@ -16,19 +16,26 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
     kRCMainLikeTypeLike
 };
 
+typedef struct {
+    float longitude;
+    float latitude;
+}RCLocation;
+
 #define kRMainLikeCollectionViewCellReuseIdentifier @"kRMainLikeCollectionViewCellReuseIdentifier"
 
 @interface RCMainLikeViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
     NSMutableArray *_userList;
     NSInteger _currentIndex;
-    
+
     UIImageView *_backImageView;
     UICollectionView *_likePhotoCollectionView;
     UIImageView *_sexImageView;
     UILabel *_ageLabel;
+    UILabel *_distanceLabel;
     UILabel *_indexLabel;
 }
+
 @end
 
 @implementation RCMainLikeViewController
@@ -60,7 +67,8 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
     mainMatchModel.parameters = @{@"plat": @1,
                                   @"usertoken": usertoken,
                                   @"gender": self.loginUserInfo.gender,
-                                  @"gender2": self.loginUserInfo.gender2,
+//                                  @"gender2": self.loginUserInfo.gender2,
+                                  @"gender2": @"1",
                                   @"lon": @(longitude),
                                   @"lat": @(latitude),
                                   @"pageno": @1
@@ -69,10 +77,12 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
     [mainMatchModel requestServerWithModel:mainMatchModel success:^(id resultModel) {
         RCMainMatchModel *result = (RCMainMatchModel *)resultModel;
         if ([result.mess isEqualToString:@"succ"]) {
+            //创建缓存
+            
             NSLog(@"获取数据成功, 刷新最新数据");
             _userList = result.list;
             [_likePhotoCollectionView reloadData];
-            [self reloadSexAndAge];
+            [self reloadInfo];
         } else {
             NSLog(@"usertoken错误");
         }
@@ -121,6 +131,11 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
     [backImageView addSubview:ageLabel];
     _ageLabel = ageLabel;
     
+    //Distance
+    UILabel *distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(kRCScreenWidth - 40 - 80 - 20, CGRectGetMaxY(likePhotoCollectionView.frame) + 20, 80, 20)];
+    [backImageView addSubview:distanceLabel];
+    _distanceLabel = distanceLabel;
+    
     //UnLike
     UIButton *unLikeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     unLikeButton.tag = kRCMainLikeTypeUnlike;
@@ -140,7 +155,7 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
     [self.view addSubview:likeButton];
 }
 
-- (void)reloadSexAndAge {
+- (void)reloadInfo {
     if (_userList == nil) return;
     RCUserInfoModel *userInfo = _userList[_currentIndex];
     if (userInfo == nil) return;
@@ -152,6 +167,28 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
     }
     _ageLabel.text = [NSString stringWithFormat:@"%d", [userInfo.age intValue]];
     _indexLabel.text = [NSString stringWithFormat:@"%d/%d", 1, [self acquirePhotoCount:userInfo]];
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    double userLongitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];
+    double userLatitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
+    double choiceLongtitude = [userInfo.lon floatValue];
+    double choiceLatitude = [userInfo.lat floatValue];
+    
+    if (userLongitude == 0 || userLatitude == 0 || choiceLongtitude == 100000 || choiceLatitude == 100000) {
+        NSLog(@"地理位置获取不正确，不显示");
+        _distanceLabel.text = @"";
+    } else {
+        RCLocation fromLocation = {userLongitude, userLatitude};
+        RCLocation toLocation = {choiceLongtitude, choiceLatitude};
+        _distanceLabel.text = [NSString stringWithFormat:@"%.1f m", [self distanceFromLocation:fromLocation toLocation:toLocation]];
+    }
+}
+
+
+- (float)distanceFromLocation:(RCLocation)fromLocation toLocation:(RCLocation)toLocation {
+    return sqrt(((fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180 *
+                 (fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180) +
+                 (((fromLocation.latitude - toLocation.latitude) * M_PI * 12656/180) * ((fromLocation.latitude - toLocation.latitude) * M_PI * 12656 / 180)));
 }
 
 - (NSInteger)acquirePhotoCount:(RCUserInfoModel *)userInfo {
@@ -186,12 +223,6 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
         if ([result.mess isEqualToString:@"succ"]) {
             if (sender.tag == kRCMainLikeTypeLike) {
                 //执行喜欢动画
-                [UIView beginAnimations:@"like" context:nil];
-                [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-                [UIView setAnimationDuration:1];
-                [UIView setAnimationDelegate:self];
-                [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:_backImageView cache:YES];
-                [UIView commitAnimations];
             } else if (sender.tag == kRCMainLikeTypeUnlike) {
                 //执行不喜欢动画
                 NSLog(@"执行不喜欢动画");
@@ -207,7 +238,7 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
             }
             //刷新数据
             [_likePhotoCollectionView reloadData];
-            [self reloadSexAndAge];
+            [self reloadInfo];
             [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
         } else {
             NSLog(@"Like/UnLike操作失败");

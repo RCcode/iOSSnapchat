@@ -17,8 +17,8 @@
 @property (nonatomic, strong) NSNumber *gender;
 @property (nonatomic, strong) NSNumber *age;
 @property (nonatomic, copy) NSString *snapchatid;
-@property (nonatomic, copy) NSString *lon;
-@property (nonatomic, copy) NSString *lat;
+@property (nonatomic, strong) NSNumber *lon;
+@property (nonatomic, strong) NSNumber *lat;
 @property (nonatomic, copy) NSString *url1;
 @property (nonatomic, copy) NSString *url2;
 @property (nonatomic, copy) NSString *url3;
