@@ -13,6 +13,7 @@
 
 #import "RCPlaceHolderAlwaysTextField.h"
 #import "RCPikerViewTextFiled.h"
+#import "RCPhotoView.h"
 
 #import "UIImageView+WebCache.h"
 

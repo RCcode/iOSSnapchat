@@ -10,6 +10,11 @@
 #import "RCMainMatchModel.h"
 #import "RCMainLikeModel.h"
 #import "RCMainLikeCollectionViewCell.h"
+#import "RCMainLikeTableViewCell.h"
+
+#define kRCMainLikeActionAnimationKey @"kRCMainLikeActionAnimationKey"
+#define kRMainLikeCollectionViewCellReuseIdentifier @"kRMainLikeCollectionViewCellReuseIdentifier"
+#define kRCMainLikeMenuTableViewCellIdentifer @"kRCMainLikeMenuTableViewCellIdentifer"
 
 typedef NS_ENUM(NSInteger, kRCMainLikeType) {
     kRCMainLikeTypeUnlike = 0,
@@ -21,10 +26,12 @@ typedef struct {
     float latitude;
 }RCLocation;
 
-#define kRMainLikeCollectionViewCellReuseIdentifier @"kRMainLikeCollectionViewCellReuseIdentifier"
 
-@interface RCMainLikeViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+
+@interface RCMainLikeViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
+    BOOL _isMainLikeMenuViewLazyLoading;
+    
     NSMutableArray *_userList;
     NSInteger _currentIndex;
 
@@ -34,27 +41,193 @@ typedef struct {
     UILabel *_ageLabel;
     UILabel *_distanceLabel;
     UILabel *_indexLabel;
+    
+    UILabel *_idLabel;
+    RCPhotoView *_photoView;
+    UITextView *_idTextView;
+    UIButton *_editButton;
 }
+
+@property (nonatomic, strong) UIView *mainLikeCoverView;
+@property (nonatomic, strong) UIView *mainLikeMenuView;
+@property (nonatomic, strong) UIView *mainLikeEditCoverView;
+@property (nonatomic, strong) UIView *mainLikeEditView;
 
 @end
 
 @implementation RCMainLikeViewController
 
+#pragma mark - LazyLoading
+- (UIView *)mainLikeCoverView {
+    if (_mainLikeCoverView == nil) {
+        UIView *mainLikeCoverView = [[UIView alloc] initWithFrame:kRCScreenBounds];
+        mainLikeCoverView.hidden = YES;
+        mainLikeCoverView.backgroundColor = [UIColor blackColor];
+        mainLikeCoverView.alpha = 0.3;
+        [[UIApplication sharedApplication].keyWindow addSubview:mainLikeCoverView];
+        _mainLikeCoverView = mainLikeCoverView;
+    }
+    return _mainLikeCoverView;
+}
+
+- (UIView *)mainLikeMenuView {
+    if (_mainLikeMenuView == nil) {
+        UIView *mainLikeMenuView = [[UIView alloc] init];
+        //用户信息
+        UIView *userInfoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth - 40, 200)];
+        userInfoView.backgroundColor = [UIColor purpleColor];
+        [mainLikeMenuView addSubview:userInfoView];
+        
+        RCPhotoView *photoView = [[RCPhotoView alloc] init];
+        photoView.frame = CGRectMake((kRCScreenWidth - 40) / 3, (200 - (kRCScreenWidth - 40) / 3) / 2 , (kRCScreenWidth - 40) / 3, (kRCScreenWidth - 40) / 3);
+        photoView.photoURL = [NSURL URLWithString:self.loginUserInfo.url1];
+        [photoView.camaraButton addTarget:self action:@selector(camaraButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
+        [userInfoView addSubview:photoView];
+        _photoView = photoView;
+        
+        UILabel *idLabel = [[UILabel alloc] initWithFrame:CGRectMake(- (200 - (CGRectGetMaxY(photoView.frame) + 10) - 10 + 10) / 2, CGRectGetMaxY(photoView.frame) + 10, kRCScreenWidth - 40, 200 - (CGRectGetMaxY(photoView.frame) + 10) - 10)];
+        idLabel.text = [NSString stringWithFormat:@"ID: %@", self.loginUserInfo.snapchatid];
+        idLabel.textColor = [UIColor whiteColor];
+        idLabel.textAlignment = NSTextAlignmentCenter;
+        [userInfoView addSubview:idLabel];
+        _idLabel = idLabel;
+        
+        CGSize size = [idLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: idLabel.font} context:nil].size;
+        UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [editButton addTarget:self action:@selector(editButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
+        editButton.frame = CGRectMake((kRCScreenWidth - 40) / 2 + size.width / 2 + 10 - (200 - (CGRectGetMaxY(photoView.frame) + 10) - 10 + 10) / 2, CGRectGetMaxY(photoView.frame) + 10, 200 - (CGRectGetMaxY(photoView.frame) + 10) - 10, 200 - (CGRectGetMaxY(photoView.frame) + 10) - 10);
+        [editButton setBackgroundColor:[UIColor magentaColor]];
+        [userInfoView addSubview:editButton];
+        _editButton = editButton;
+        
+        //菜单信息
+        UITableView *menuView = [[UITableView alloc] initWithFrame:CGRectMake(0, 200, kRCScreenWidth - 40, kRCScreenHeight - 200)];
+        [menuView registerClass:[RCMainLikeTableViewCell class] forCellReuseIdentifier:kRCMainLikeMenuTableViewCellIdentifer];
+        menuView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        menuView.dataSource = self;
+        menuView.delegate = self;
+        [mainLikeMenuView addSubview:menuView];
+
+        [[UIApplication sharedApplication].keyWindow addSubview:mainLikeMenuView];
+        UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizerDidSwipe:)];
+        swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+        [mainLikeMenuView addGestureRecognizer:swipeRecognizer];
+        
+        _mainLikeMenuView = mainLikeMenuView;
+    }
+    return _mainLikeMenuView;
+}
+
+- (UIView *)mainLikeEditCoverView {
+    if (_mainLikeEditCoverView == nil) {
+        UIView *mainLikeEditCoverView = [[UIView alloc] initWithFrame:kRCScreenBounds];
+        mainLikeEditCoverView.hidden = YES;
+        mainLikeEditCoverView.backgroundColor = [UIColor blackColor];
+        mainLikeEditCoverView.alpha = 0.3;
+        [[UIApplication sharedApplication].keyWindow addSubview:mainLikeEditCoverView];
+        _mainLikeEditCoverView = mainLikeEditCoverView;
+    }
+    return _mainLikeEditCoverView;
+}
+
+- (UIView *)mainLikeEditView {
+    if (_mainLikeEditView == nil) {
+        UIView *mainLikeEditView = [[UIView alloc] initWithFrame:CGRectMake(20, kRCScreenHeight / 3, kRCScreenWidth - 40, kRCScreenHeight / 3)];
+        mainLikeEditView.backgroundColor = [UIColor lightGrayColor];
+        mainLikeEditView.layer.cornerRadius = 10;
+        mainLikeEditView.layer.masksToBounds = YES;
+        [[UIApplication sharedApplication].keyWindow addSubview:mainLikeEditView];
+        
+        //snapchat ID
+        UILabel *snapchatIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, kRCScreenWidth - 40, 20)];
+        snapchatIdLabel.textAlignment = NSTextAlignmentCenter;
+        snapchatIdLabel.text = @"Your snapchat ID";
+        snapchatIdLabel.textColor = [UIColor darkGrayColor];
+        [mainLikeEditView addSubview:snapchatIdLabel];
+        
+        //ID textfield
+        UITextView *idTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, kRCScreenHeight / 3 / 2 - 20, kRCScreenWidth - 40, 40)];
+        idTextView.backgroundColor = [UIColor lightGrayColor];
+        idTextView.font = kRCBoldSystemFont(17);
+        idTextView.textAlignment = NSTextAlignmentCenter;
+        [mainLikeEditView addSubview:idTextView];
+        _idTextView = idTextView;
+        
+        UIView *separatorLine = [[UIView alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(idTextView.frame) - 1, kRCScreenWidth - 40 - 40, 1)];
+        separatorLine.backgroundColor = [UIColor darkGrayColor];
+        [mainLikeEditView addSubview:separatorLine];
+        
+        //cancel
+        UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        cancelButton.frame = CGRectMake(0, kRCScreenHeight / 3 - 40, (kRCScreenWidth - 40) / 2, 40);
+        [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+        [cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [cancelButton addTarget:self action:@selector(cancelButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
+        [mainLikeEditView addSubview:cancelButton];
+        
+        //done
+        UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        doneButton.frame = CGRectMake((kRCScreenWidth - 40) / 2, kRCScreenHeight / 3 - 40, (kRCScreenWidth - 40) / 2, 40);
+        [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+        [doneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [doneButton addTarget:self action:@selector(doneButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
+        [mainLikeEditView addSubview:doneButton];
+        
+        _mainLikeEditView = mainLikeEditView;
+    }
+    return _mainLikeEditView;
+}
+
 #pragma mark - LifeCircle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"Snaper";
     
+    [self navgationSettings];
     [self loadData];
     [self setUpUI];
+    [self addONotification];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
+- (void)dealloc {
+    [_likePhotoCollectionView.layer removeAnimationForKey:kRCMainLikeActionAnimationKey];
+    [_mainLikeCoverView removeFromSuperview];
+    [_mainLikeMenuView removeFromSuperview];
+    [_mainLikeEditCoverView removeFromSuperview];
+    [_mainLikeEditView removeFromSuperview];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Utility
+- (void)navgationSettings {
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @"Snaper";
+    
+    //Menu
+    UIButton *menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    menuButton.frame = CGRectMake(0, 0, 44, 44);
+    [menuButton setTitle:@"Men" forState:UIControlStateNormal];
+    [menuButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [menuButton addTarget:self action:@selector(menuButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *menuButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
+
+    //Message
+    UIButton *msgButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    msgButton.frame = CGRectMake(0, 0, 44, 44);
+    [msgButton setTitle:@"Msg" forState:UIControlStateNormal];
+    [msgButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [msgButton addTarget:self action:@selector(msgButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *msgButtonItem = [[UIBarButtonItem alloc] initWithCustomView:msgButton];
+    
+    self.navigationItem.leftBarButtonItem = menuButtonItem;
+    self.navigationItem.rightBarButtonItem = msgButtonItem;
+}
+
 - (void)loadData {
     RCMainMatchModel *mainMatchModel = [[RCMainMatchModel alloc] init];
     mainMatchModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/excavate/ExcavateUser.do";
@@ -155,6 +328,22 @@ typedef struct {
     [self.view addSubview:likeButton];
 }
 
+- (void)addONotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHid:) name:UIKeyboardDidHideNotification object:nil];
+}
+
+- (void)keyboardDidShow:(NSNotification *)notice {
+    CGRect keyboardRect = [notice.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    [UIView animateWithDuration:0.25f animations:^{
+        _mainLikeEditView.frame = CGRectMake(20, keyboardRect.origin.y - kRCScreenHeight / 3 - 20, kRCScreenWidth - 40, kRCScreenHeight / 3);
+    }];
+}
+
+- (void)keyboardDidHid:(NSNotification *)notice {
+    _mainLikeEditView.frame = CGRectMake(20, kRCScreenHeight / 3, kRCScreenWidth - 40, kRCScreenHeight / 3);
+}
+
 - (void)reloadInfo {
     if (_userList == nil) return;
     RCUserInfoModel *userInfo = _userList[_currentIndex];
@@ -175,8 +364,7 @@ typedef struct {
     double choiceLatitude = [userInfo.lat floatValue];
     
     if (userLongitude == 0 || userLatitude == 0 || choiceLongtitude == 100000 || choiceLatitude == 100000) {
-        NSLog(@"地理位置获取不正确，不显示");
-        _distanceLabel.text = @"";
+        _distanceLabel.text = @"NULL";
     } else {
         RCLocation fromLocation = {userLongitude, userLatitude};
         RCLocation toLocation = {choiceLongtitude, choiceLatitude};
@@ -204,6 +392,30 @@ typedef struct {
 }
 
 #pragma mark - Action
+- (void)menuButtonDidClick {
+    if (!_isMainLikeMenuViewLazyLoading) {
+        //第一次懒加载执行
+        self.mainLikeCoverView.hidden = YES;
+        self.mainLikeMenuView.frame = CGRectMake(- (kRCScreenWidth - 40), 0, kRCScreenWidth - 40, kRCScreenHeight);
+        _isMainLikeMenuViewLazyLoading = YES;
+    }
+    self.mainLikeCoverView.hidden = NO;
+    [UIView animateWithDuration:0.5f delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.3 options:UIViewAnimationOptionLayoutSubviews animations:^{
+        _mainLikeMenuView.frame = CGRectMake(0, 0, kRCScreenWidth - 40, kRCScreenHeight);
+    } completion:nil];
+}
+
+- (void)gestureRecognizerDidSwipe:(UISwipeGestureRecognizer *)recognizer {
+    self.mainLikeCoverView.hidden = YES;
+    [UIView animateWithDuration:0.5f animations:^{
+        self.mainLikeMenuView.frame = CGRectMake(- (kRCScreenWidth - 40), 0, kRCScreenWidth - 40, kRCScreenHeight);
+    }];
+}
+
+- (void)msgButtonDidClick {
+    
+}
+
 - (void)choiceButtonDidClicked:(UIButton *)sender {
     
     RCUserInfoModel *userInfo = _userList[_currentIndex];
@@ -221,13 +433,15 @@ typedef struct {
     [mainLikeModel requestServerWithModel:mainLikeModel success:^(id resultModel) {
         RCMainLikeModel *result = (RCMainLikeModel *)resultModel;
         if ([result.mess isEqualToString:@"succ"]) {
+            CATransition *transitionAnimation = [CATransition animation];
+            transitionAnimation.duration = 0.5f;
+            transitionAnimation.type = kCATransitionPush;
             if (sender.tag == kRCMainLikeTypeLike) {
-                //执行喜欢动画
+                transitionAnimation.subtype = kCATransitionFromLeft;
             } else if (sender.tag == kRCMainLikeTypeUnlike) {
-                //执行不喜欢动画
-                NSLog(@"执行不喜欢动画");
+                transitionAnimation.subtype = kCATransitionFromRight;
             }
-            
+            [_likePhotoCollectionView.layer addAnimation:transitionAnimation forKey:kRCMainLikeActionAnimationKey];
             _currentIndex ++;
             //浏览完当前数据
             if (_currentIndex == 20) {
@@ -249,7 +463,68 @@ typedef struct {
     }];
 }
 
-#pragma mark - <UICollectionViewDataSource>
+
+- (void)camaraButtonDidClick {
+    NSLog(@"Menu");
+}
+
+- (void)editButtonDidClick {
+    self.mainLikeEditCoverView.hidden = NO;
+    self.mainLikeEditView.hidden = NO;
+    
+    _idTextView.text = [_idLabel.text substringFromIndex:3];
+    _idTextView.selectedRange = NSMakeRange(0, _idTextView.text.length);
+    [_idTextView becomeFirstResponder];
+}
+
+- (void)cancelButtonDidClick {
+    self.mainLikeEditCoverView.hidden = YES;
+    self.mainLikeEditView.hidden = YES;
+    
+    [_idTextView resignFirstResponder];
+}
+
+- (void)doneButtonDidClick {
+    self.mainLikeEditCoverView.hidden = YES;
+    self.mainLikeEditView.hidden = YES;
+    
+    [_idTextView resignFirstResponder];
+    //发送请求
+#warning 修改snapID
+    _idLabel.text = [NSString stringWithFormat:@"ID:%@", _idTextView.text];
+    CGSize size = [_idLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: _idLabel.font} context:nil].size;
+    _editButton.frame = CGRectMake((kRCScreenWidth - 40) / 2 + size.width / 2 + 10 - (200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10 + 10) / 2, CGRectGetMaxY(_photoView.frame) + 10, 200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10, 200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10);
+}
+
+#pragma mark - <UITableViewDataSource, UITableViewDelegate>
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 4;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    RCMainLikeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRCMainLikeMenuTableViewCellIdentifer];
+    if (indexPath.row == 0) {
+        cell.showTitle = @"Show";
+        cell.isMore = YES;
+        cell.moreTitle = @"Boys";
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    } else if (indexPath.row == 1) {
+        cell.showTitle = @"Feedback";
+        cell.isMore = NO;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else if (indexPath.row == 2) {
+        cell.showTitle = @"Share";
+        cell.isMore = NO;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else if (indexPath.row == 3) {
+        cell.showTitle = @"Log out";
+        cell.isMore = NO;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    return cell;
+}
+
+#pragma mark - <UICollectionViewDataSource, UICollectionViewDelegate>
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return [self acquirePhotoCount:_userList[_currentIndex]];
 }

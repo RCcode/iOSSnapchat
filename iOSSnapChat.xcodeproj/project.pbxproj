@@ -44,6 +44,9 @@
 		30D02E241B294830004E5F9A /* RCRegisterInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E1F1B294830004E5F9A /* RCRegisterInfoViewController.m */; };
 		30D02E281B295D75004E5F9A /* NSString+RCStringSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E271B295D75004E5F9A /* NSString+RCStringSize.m */; };
 		30D02E2B1B296781004E5F9A /* RCRegisterUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */; };
+		30D1F4021B33EB7900286840 /* RCPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1F4011B33EB7900286840 /* RCPhotoView.m */; };
+		30D1F4041B33F1BD00286840 /* default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 30D1F4031B33F1BD00286840 /* default.jpg */; };
+		30D1F40A1B342B6A00286840 /* RCMainLikeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1F4091B342B6A00286840 /* RCMainLikeTableViewCell.m */; };
 		30D5DE4C1B2E726800B3875B /* RCMBHUDTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D5DE4B1B2E726800B3875B /* RCMBHUDTool.m */; };
 		30D64B501B32782000061AB0 /* RCMainMatchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D64B4F1B32782000061AB0 /* RCMainMatchModel.m */; };
 		30D64B731B329DA000061AB0 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D64B531B329DA000061AB0 /* MKAnnotationView+WebCache.m */; };
@@ -63,7 +66,6 @@
 		30D64B811B329DA000061AB0 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D64B701B329DA000061AB0 /* UIImageView+WebCache.m */; };
 		30D64B821B329DA000061AB0 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D64B721B329DA000061AB0 /* UIView+WebCacheOperation.m */; };
 		30D64B861B329F3F00061AB0 /* RCMainLikeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D64B851B329F3F00061AB0 /* RCMainLikeCollectionViewCell.m */; };
-		30D64B881B32AA1E00061AB0 /* default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 30D64B871B32AA1E00061AB0 /* default.jpg */; };
 		30D64B8B1B32B25600061AB0 /* RCMainLikeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D64B8A1B32B25600061AB0 /* RCMainLikeModel.m */; };
 		30DA9A4F1B3152BF00BACBF7 /* ImageScaleUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A3B1B3152BF00BACBF7 /* ImageScaleUtil.m */; };
 		30DA9A501B3152BF00BACBF7 /* CameraApertureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DA9A3D1B3152BF00BACBF7 /* CameraApertureView.m */; };
@@ -172,6 +174,11 @@
 		30D02E271B295D75004E5F9A /* NSString+RCStringSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RCStringSize.m"; sourceTree = "<group>"; };
 		30D02E291B296781004E5F9A /* RCRegisterUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadViewController.h; sourceTree = "<group>"; };
 		30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadViewController.m; sourceTree = "<group>"; };
+		30D1F4001B33EB7900286840 /* RCPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPhotoView.h; sourceTree = "<group>"; };
+		30D1F4011B33EB7900286840 /* RCPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPhotoView.m; sourceTree = "<group>"; };
+		30D1F4031B33F1BD00286840 /* default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default.jpg; sourceTree = "<group>"; };
+		30D1F4081B342B6A00286840 /* RCMainLikeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainLikeTableViewCell.h; sourceTree = "<group>"; };
+		30D1F4091B342B6A00286840 /* RCMainLikeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeTableViewCell.m; sourceTree = "<group>"; };
 		30D5DE4A1B2E726800B3875B /* RCMBHUDTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMBHUDTool.h; sourceTree = "<group>"; };
 		30D5DE4B1B2E726800B3875B /* RCMBHUDTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMBHUDTool.m; sourceTree = "<group>"; };
 		30D64B4E1B32782000061AB0 /* RCMainMatchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainMatchModel.h; sourceTree = "<group>"; };
@@ -211,7 +218,6 @@
 		30D64B721B329DA000061AB0 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		30D64B841B329F3F00061AB0 /* RCMainLikeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainLikeCollectionViewCell.h; sourceTree = "<group>"; };
 		30D64B851B329F3F00061AB0 /* RCMainLikeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeCollectionViewCell.m; sourceTree = "<group>"; };
-		30D64B871B32AA1E00061AB0 /* default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default.jpg; sourceTree = "<group>"; };
 		30D64B891B32B25600061AB0 /* RCMainLikeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainLikeModel.h; sourceTree = "<group>"; };
 		30D64B8A1B32B25600061AB0 /* RCMainLikeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeModel.m; sourceTree = "<group>"; };
 		30DA9A3A1B3152BF00BACBF7 /* ImageScaleUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScaleUtil.h; sourceTree = "<group>"; };
@@ -283,6 +289,7 @@
 		3039E14C1B2686F000C1861F /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				30D1F4031B33F1BD00286840 /* default.jpg */,
 				3039E14F1B2686F000C1861F /* main.m */,
 				3039E14D1B2686F000C1861F /* AppDelegate.h */,
 				3039E14E1B2686F000C1861F /* AppDelegate.m */,
@@ -348,9 +355,10 @@
 		307F53791B318A9C00554C92 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				30D64B871B32AA1E00061AB0 /* default.jpg */,
 				30D64B841B329F3F00061AB0 /* RCMainLikeCollectionViewCell.h */,
 				30D64B851B329F3F00061AB0 /* RCMainLikeCollectionViewCell.m */,
+				30D1F4081B342B6A00286840 /* RCMainLikeTableViewCell.h */,
+				30D1F4091B342B6A00286840 /* RCMainLikeTableViewCell.m */,
 				307F537A1B318C3D00554C92 /* RCMainLikeViewController.h */,
 				307F537B1B318C3D00554C92 /* RCMainLikeViewController.m */,
 			);
@@ -417,6 +425,8 @@
 				30D02E121B2943C1004E5F9A /* RCPikerViewTextFiled.m */,
 				30DA9A5C1B316ACD00BACBF7 /* RCCutPhotoViewController.h */,
 				30DA9A5D1B316ACD00BACBF7 /* RCCutPhotoViewController.m */,
+				30D1F4001B33EB7900286840 /* RCPhotoView.h */,
+				30D1F4011B33EB7900286840 /* RCPhotoView.m */,
 			);
 			path = UserControl;
 			sourceTree = "<group>";
@@ -690,7 +700,7 @@
 				30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */,
 				30E401A81B25AC0400A70AED /* Images.xcassets in Resources */,
 				30DA9A541B3152BF00BACBF7 /* ScreenshotBorder.xib in Resources */,
-				30D64B881B32AA1E00061AB0 /* default.jpg in Resources */,
+				30D1F4041B33F1BD00286840 /* default.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,9 +780,11 @@
 				30D64B7D1B329DA000061AB0 /* UIImage+GIF.m in Sources */,
 				30D5DE4C1B2E726800B3875B /* RCMBHUDTool.m in Sources */,
 				30DA9A571B3152BF00BACBF7 /* ToolBarItem.m in Sources */,
+				30D1F40A1B342B6A00286840 /* RCMainLikeTableViewCell.m in Sources */,
 				30165C831B2EE73E000C0549 /* RCLoginNormalModel.m in Sources */,
 				30CE92931B27E88500826FCA /* RCModelBase.m in Sources */,
 				30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */,
+				30D1F4021B33EB7900286840 /* RCPhotoView.m in Sources */,
 				307F53781B317CB900554C92 /* RCUserInfoModel.m in Sources */,
 				30165C791B2E836E000C0549 /* RCLocalTool.m in Sources */,
 				30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */,
