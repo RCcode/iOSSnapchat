@@ -27,7 +27,7 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:kRCUserDefaultUserTokenKey] == nil) {
         [[NSUserDefaults standardUserDefaults] setObject:@"defaultUsertoken" forKey:kRCUserDefaultUserTokenKey];
     }
-    
+
     if (![[NSUserDefaults standardUserDefaults] boolForKey:kRCApplicationFirstStartKey]) {
         //设置第一次启动默认值
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -38,6 +38,7 @@
         [userDefault setObject:@"" forKey:kRCUserDefaultCityIDKey];
         [userDefault setDouble:0 forKey:kRCUserDefaultLongitudeKey];
         [userDefault setDouble:0 forKey:kRCUserDefaultLatitudeKey];
+        [userDefault setInteger:-1 forKey:kRCUserDefaultGenderKey];
         
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.itemSize = kRCScreenBounds.size;

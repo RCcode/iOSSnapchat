@@ -14,12 +14,13 @@
 #import "RCMainLikeTableViewCell.h"
 #import "RCMainLikePhotoDetailViewController.h"
 #import "RCMainLikeMessageViewController.h"
+#import <MessageUI/MessageUI.h>
 
 #define kRCMainLikeActionAnimationKey @"kRCMainLikeActionAnimationKey"
 #define kRMainLikeCollectionViewCellReuseIdentifier @"kRMainLikeCollectionViewCellReuseIdentifier"
 #define kRCMainLikeMenuTableViewCellIdentifer @"kRCMainLikeMenuTableViewCellIdentifer"
 
-@interface RCMainLikeViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface RCMainLikeViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
 {
     BOOL _isMainLikeMenuViewLazyLoading;
     
@@ -177,7 +178,7 @@
     [self navgationSettings];
     [self loadData];
     [self setUpUI];
-    [self addONotification];
+    [self addNotification];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -226,13 +227,13 @@
     mainMatchModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     
     kAcquireUserDefaultUsertoken
+    NSInteger gender2 = [userDefault integerForKey:kRCUserDefaultGenderKey];
     double longitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];
     double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
     mainMatchModel.parameters = @{@"plat": @1,
                                   @"usertoken": usertoken,
                                   @"gender": self.loginUserInfo.gender,
-//                                  @"gender2": self.loginUserInfo.gender2,
-                                  @"gender2": @"1",
+                                  @"gender2": @(gender2),
                                   @"lon": @(longitude),
                                   @"lat": @(latitude),
                                   @"pageno": @1
@@ -326,7 +327,7 @@
     [self.view addSubview:shareButton];
 }
 
-- (void)addONotification {
+- (void)addNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHid:) name:UIKeyboardDidHideNotification object:nil];
 }
@@ -539,7 +540,24 @@
     if (indexPath.row == 0) {
         cell.showTitle = @"Show";
         cell.isMore = YES;
-        cell.moreTitle = @"Boys";
+        NSString *moreTitle = nil;
+        switch ([[NSUserDefaults standardUserDefaults] integerForKey:kRCUserDefaultGenderKey]) {
+            case -1:
+                moreTitle = @"NoSetting";
+                break;
+            case 0:
+                moreTitle = @"Boys";
+                break;
+            case 1:
+                moreTitle = @"Girls";
+                break;
+            case 2:
+                moreTitle = @"All";
+                break;
+            default:
+                break;
+        }
+        cell.moreTitle = moreTitle;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     } else if (indexPath.row == 1) {
         cell.showTitle = @"Feedback";
@@ -555,6 +573,50 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        //性取向
+        UIAlertController *alertVc = [[UIAlertController alloc] init];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        UIAlertAction *noSettingAction = [UIAlertAction actionWithTitle:@"NoSetting" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [userDefault setInteger:-1 forKey:kRCUserDefaultGenderKey];
+            [tableView reloadData];
+        }];
+        UIAlertAction *boysAction = [UIAlertAction actionWithTitle:@"Boys" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [userDefault setInteger:0 forKey:kRCUserDefaultGenderKey];
+            [tableView reloadData];
+        }];
+        UIAlertAction *girlsAction = [UIAlertAction actionWithTitle:@"Girls" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [userDefault setInteger:1 forKey:kRCUserDefaultGenderKey];
+            [tableView reloadData];
+        }];
+        UIAlertAction *allAction = [UIAlertAction actionWithTitle:@"All" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [userDefault setInteger:2 forKey:kRCUserDefaultGenderKey];
+            [tableView reloadData];
+        }];
+        [alertVc addAction:noSettingAction];
+        [alertVc addAction:boysAction];
+        [alertVc addAction:girlsAction];
+        [alertVc addAction:allAction];
+        [self presentViewController:alertVc animated:YES completion:nil];
+    } else if (indexPath.row == 1) {
+        //邮件
+        MFMailComposeViewController *mailPicker = [[MFMailComposeViewController alloc] init];
+        if (!mailPicker) {
+            return;
+        }
+        mailPicker.mailComposeDelegate = self;
+        [mailPicker setSubject:@"Email主题"];
+        NSArray *toRecipients = [NSArray arrayWithObjects:@"first@exameple.com", nil];
+        [mailPicker setToRecipients:toRecipients];
+        NSArray *ccRecipients = [NSArray arrayWithObjects:@"second@example.com", nil];
+        [mailPicker setCcRecipients:ccRecipients];
+        NSArray *bccRecipients = [NSArray arrayWithObjects:@"three@example.com", nil];
+        [mailPicker setBccRecipients:bccRecipients];
+        [self presentViewController:mailPicker animated:YES completion:nil];
+    }
 }
 
 #pragma mark - <UICollectionViewDataSource, UICollectionViewDelegate>
@@ -592,6 +654,32 @@
     };
 
     [self.navigationController pushViewController:mainLikePhotoDetailVc animated:YES];
+}
+
+#pragma mark - <MFMailComposeViewControllerDelegate>
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    //关闭邮件发送窗口
+    [self dismissViewControllerAnimated:YES completion:nil];
+    NSString *msg;
+    switch (result) {
+        case MFMailComposeResultCancelled:
+            msg = @"用户取消编辑邮件";
+            break;
+        case MFMailComposeResultSaved:
+            msg = @"用户成功保存邮件";
+            break;
+        case MFMailComposeResultSent:
+            msg = @"用户点击发送，将邮件放到队列中，还没发送";
+            break;
+        case MFMailComposeResultFailed:
+            msg = @"用户试图保存或者发送邮件失败";
+            break;
+        default:
+            msg = @"";
+            break;
+    }
+    NSLog(@"%@", msg);
 }
 
 @end

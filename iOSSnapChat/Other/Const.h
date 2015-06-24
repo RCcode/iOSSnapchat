@@ -25,6 +25,7 @@ extern NSString *const kRCApplicationFirstStartKey;
 extern NSString *const kRCRemoteNotificationsKey;
 extern NSString *const kRCUserDefaultUserTokenKey;
 extern NSString *const kRCUserDefaultResgisterStepKey;
+extern NSString *const kRCUserDefaultGenderKey;
 
 //notification
 extern NSString *const kRCCameraGalleryNotification;
