@@ -1,5 +1,5 @@
 //
-//  RCMainInformModel.h
+//  RCMainLikeMessageModel.h
 //  iOSSnapChat
 //
 //  Created by zhao liang on 15/6/24.
@@ -8,11 +8,13 @@
 
 #import "RCModelBase.h"
 
-@interface RCMainInformModel : RCModelBase
+@interface RCMainLikeMessageModel : RCModelBase
 
 //状态码
 @property (nonatomic, copy) NSString *state;
 //状态说明
 @property (nonatomic, copy) NSString *mess;
+//消息信息表
+@property (nonatomic, strong) NSMutableArray *list;
 
 @end

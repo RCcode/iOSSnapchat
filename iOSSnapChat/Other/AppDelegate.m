@@ -24,6 +24,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:kRCUserDefaultUserTokenKey] == nil) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"defaultUsertoken" forKey:kRCUserDefaultUserTokenKey];
+    }
+    
     if (![[NSUserDefaults standardUserDefaults] boolForKey:kRCApplicationFirstStartKey]) {
         //设置第一次启动默认值
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -69,10 +73,6 @@
             }
             case 0:
             {
-                if ([[NSUserDefaults standardUserDefaults] objectForKey:kRCUserDefaultUserTokenKey] == nil) {
-                    [[NSUserDefaults standardUserDefaults] setObject:@"defaultUsertoken" forKey:kRCUserDefaultUserTokenKey];
-                }
-                
                 RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
                 navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
                 break;

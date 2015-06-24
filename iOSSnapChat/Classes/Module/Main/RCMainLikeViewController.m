@@ -9,25 +9,15 @@
 #import "RCMainLikeViewController.h"
 #import "RCMainMatchModel.h"
 #import "RCMainLikeModel.h"
+#import "RCMainModifyIDModel.h"
 #import "RCMainLikeCollectionViewCell.h"
 #import "RCMainLikeTableViewCell.h"
 #import "RCMainLikePhotoDetailViewController.h"
+#import "RCMainLikeMessageViewController.h"
 
 #define kRCMainLikeActionAnimationKey @"kRCMainLikeActionAnimationKey"
 #define kRMainLikeCollectionViewCellReuseIdentifier @"kRMainLikeCollectionViewCellReuseIdentifier"
 #define kRCMainLikeMenuTableViewCellIdentifer @"kRCMainLikeMenuTableViewCellIdentifer"
-
-typedef NS_ENUM(NSInteger, kRCMainLikeType) {
-    kRCMainLikeTypeUnlike = 0,
-    kRCMainLikeTypeLike
-};
-
-typedef struct {
-    float longitude;
-    float latitude;
-}RCLocation;
-
-
 
 @interface RCMainLikeViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
@@ -327,6 +317,13 @@ typedef struct {
     [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [likeButton addTarget:self action:@selector(choiceButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:likeButton];
+    
+    //Share
+    UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    shareButton.frame = CGRectMake(CGRectGetMaxX(backImageView.frame) - 40, CGRectGetMaxY(likeButton.frame) + 20, 40, 40);
+    [shareButton setBackgroundColor:[UIColor greenColor]];
+    [shareButton addTarget:self action:@selector(shareButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shareButton];
 }
 
 - (void)addONotification {
@@ -369,7 +366,7 @@ typedef struct {
     } else {
         RCLocation fromLocation = {userLongitude, userLatitude};
         RCLocation toLocation = {choiceLongtitude, choiceLatitude};
-        _distanceLabel.text = [NSString stringWithFormat:@"%.1f m", [self distanceFromLocation:fromLocation toLocation:toLocation]];
+        _distanceLabel.text = [NSString stringWithFormat:@"%f m", [self distanceFromLocation:fromLocation toLocation:toLocation]];
     }
 }
 
@@ -414,11 +411,15 @@ typedef struct {
 }
 
 - (void)messageButtonDidClick {
-    NSLog(@"MSG");
+    RCMainLikeMessageViewController *messageVc = [[RCMainLikeMessageViewController alloc] init];
+    [self.navigationController pushViewController:messageVc animated:YES];
 }
 
 - (void)choiceButtonDidClicked:(UIButton *)sender {
-    
+    [self sendLikeUnLikeRequest:sender.tag];
+}
+
+- (void)sendLikeUnLikeRequest:(kRCMainLikeType)type {
     RCUserInfoModel *userInfo = _userList[_currentIndex];
     NSString *usertoken = [[NSUserDefaults standardUserDefaults] stringForKey:kRCUserDefaultUserTokenKey];
     //发送请求
@@ -428,7 +429,7 @@ typedef struct {
     mainLikeModel.parameters = @{@"plat": @1,
                                  @"usertoken": usertoken,
                                  @"userid2": userInfo.userid,
-                                 @"type": @(sender.tag)
+                                 @"type": @(type)
                                  };
     
     [mainLikeModel requestServerWithModel:mainLikeModel success:^(id resultModel) {
@@ -437,9 +438,9 @@ typedef struct {
             CATransition *transitionAnimation = [CATransition animation];
             transitionAnimation.duration = 0.5f;
             transitionAnimation.type = kCATransitionPush;
-            if (sender.tag == kRCMainLikeTypeLike) {
+            if (type == kRCMainLikeTypeLike) {
                 transitionAnimation.subtype = kCATransitionFromLeft;
-            } else if (sender.tag == kRCMainLikeTypeUnlike) {
+            } else if (type == kRCMainLikeTypeUnlike) {
                 transitionAnimation.subtype = kCATransitionFromRight;
             }
             [_likePhotoCollectionView.layer addAnimation:transitionAnimation forKey:kRCMainLikeActionAnimationKey];
@@ -463,7 +464,6 @@ typedef struct {
         NSLog(@"服务器错误");
     }];
 }
-
 
 - (void)camaraButtonDidClick {
     NSLog(@"Menu");
@@ -491,10 +491,42 @@ typedef struct {
     
     [_idTextView resignFirstResponder];
     //发送请求
-#warning 修改snapID
     _idLabel.text = [NSString stringWithFormat:@"ID:%@", _idTextView.text];
     CGSize size = [_idLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: _idLabel.font} context:nil].size;
     _editButton.frame = CGRectMake((kRCScreenWidth - 40) / 2 + size.width / 2 + 10 - (200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10 + 10) / 2, CGRectGetMaxY(_photoView.frame) + 10, 200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10, 200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10);
+    
+    kAcquireUserDefaultUsertoken
+    RCMainModifyIDModel *modifyModel = [[RCMainModifyIDModel alloc] init];
+    modifyModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/ChangeSnapchat.do";
+    modifyModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
+    modifyModel.parameters = @{@"plat": @1,
+                               @"usertoken": usertoken,
+                               @"snapchatid": _idTextView.text
+                               };
+    [modifyModel requestServerWithModel:modifyModel success:^(id resultModel) {
+        if ([modifyModel.mess isEqualToString:@"succ"]) {
+            [RCMBHUDTool showText:@"修改成功" hideDelay:1];
+        } else {
+            [RCMBHUDTool showText:@"修改失败" hideDelay:1];
+        }
+    } failure:^(NSError *error) {
+        [RCMBHUDTool showText:@"网络问题" hideDelay:1];
+    }];
+}
+
+- (void)shareButtonDidClick {
+
+    NSString *shareString = @"分享内容";
+//    UIImage *shareImage = [UIImage imageNamed:@"分享图片.png"];
+    NSURL *shareURL = [NSURL URLWithString:@"http://www.baidu.com"];
+    NSArray *activityItems = @[shareString, shareURL];
+    
+    UIActivityViewController *activityVc = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+    activityVc.excludedActivityTypes = @[UIActivityTypePrint];
+    activityVc.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError){
+    };
+    
+    [self presentViewController:activityVc animated:YES completion:nil];
 }
 
 #pragma mark - <UITableViewDataSource, UITableViewDelegate>
@@ -553,6 +585,12 @@ typedef struct {
     RCMainLikePhotoDetailViewController *mainLikePhotoDetailVc = [[RCMainLikePhotoDetailViewController alloc] init];
     mainLikePhotoDetailVc.selectedItem = indexPath.item;
     mainLikePhotoDetailVc.selectedUserInfo = _userList[_currentIndex];
+    kRCWeak(self)
+    mainLikePhotoDetailVc.complete = ^(kRCMainLikeType type) {
+        NSLog(@"执行回调 type = %d", type);
+        [weakself sendLikeUnLikeRequest:type];
+    };
+
     [self.navigationController pushViewController:mainLikePhotoDetailVc animated:YES];
 }
 

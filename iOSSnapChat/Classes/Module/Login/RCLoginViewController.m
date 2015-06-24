@@ -107,6 +107,7 @@
         RCLoginNormalModel *result = (RCLoginNormalModel *)resultModel;
         if ([result.mess isEqualToString:@"succ"]) {
             [userDefault setObject:result.usertoken forKey:kRCUserDefaultUserTokenKey];
+            [userDefault setInteger:0 forKey:kRCUserDefaultResgisterStepKey];
             [RCMBHUDTool hideshowIndicator];
             [self enterApplicationMain:result.userInfo];
         } else {

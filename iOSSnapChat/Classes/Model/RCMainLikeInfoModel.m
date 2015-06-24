@@ -1,14 +1,14 @@
 //
-//  RCMainInformModel.m
+//  RCMainLikeInfoModel.m
 //  iOSSnapChat
 //
 //  Created by zhao liang on 15/6/24.
 //  Copyright (c) 2015年 gongtao. All rights reserved.
 //
 
-#import "RCMainInformModel.h"
+#import "RCMainLikeInfoModel.h"
 
-@implementation RCMainInformModel
+@implementation RCMainLikeInfoModel
 
 - (void)parse:(id)responseObject {
     [self setValuesForKeysWithDictionary:responseObject];
