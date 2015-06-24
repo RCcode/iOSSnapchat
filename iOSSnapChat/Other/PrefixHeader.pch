@@ -20,6 +20,15 @@
 #define kRCWeak(obj) __weak typeof(obj) weak##obj = obj;
 
 //获取用户存储的物理地址信息
+#define kAcquireUserDefaultAll \
+NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];\
+NSString *coutryID = [userDefault stringForKey:kRCUserDefaultCountryIDKey];\
+NSString *cityID = [userDefault stringForKey:kRCUserDefaultCityIDKey];\
+NSString *pushtoken = [userDefault stringForKey:kRCRemoteNotificationsKey];\
+double longitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];\
+double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey]; \
+NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
+
 #define kAcquireUserDefaultLocalInfo \
 NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];\
 NSString *coutryID = [userDefault stringForKey:kRCUserDefaultCountryIDKey];\
@@ -27,6 +36,10 @@ NSString *cityID = [userDefault stringForKey:kRCUserDefaultCityIDKey];\
 NSString *pushtoken = [userDefault stringForKey:kRCRemoteNotificationsKey];\
 double longitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];\
 double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
+
+#define kAcquireUserDefaultUsertoken \
+NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];\
+NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
 
 #define IOS8 [[UIDevice currentDevice].systemVersion floatValue] >= 8.0
 

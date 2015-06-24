@@ -21,6 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self inheritSetting];
     [self setUpUI];
 }
 
@@ -29,10 +30,13 @@
 }
 
 #pragma mark - Utility
-- (void)setUpUI {
-#warning frame
+- (void)inheritSetting {
     self.arrowTitle = @"";
     self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)setUpUI {
+#warning frame
     
     //邮箱
     UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectMake(20, 84, kRCScreenWidth - 40, 44)];

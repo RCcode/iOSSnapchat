@@ -69,6 +69,10 @@
             }
             case 0:
             {
+                if ([[NSUserDefaults standardUserDefaults] objectForKey:kRCUserDefaultUserTokenKey] == nil) {
+                    [[NSUserDefaults standardUserDefaults] setObject:@"defaultUsertoken" forKey:kRCUserDefaultUserTokenKey];
+                }
+                
                 RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
                 navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
                 break;

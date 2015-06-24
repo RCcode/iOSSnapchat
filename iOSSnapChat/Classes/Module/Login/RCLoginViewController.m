@@ -39,8 +39,7 @@
     if (!_isOnce) {
         _isOnce = YES;
         [RCMBHUDTool showIndicator];
-        kAcquireUserDefaultLocalInfo
-        NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
+        kAcquireUserDefaultAll
         
         //自动登录
         RCLoginAutoModel *loginAutoModel = [[RCLoginAutoModel alloc] init];
@@ -106,9 +105,14 @@
     [RCMBHUDTool showIndicator];
     [loginNormalModel requestServerWithModel:loginNormalModel success:^(id resultModel) {
         RCLoginNormalModel *result = (RCLoginNormalModel *)resultModel;
-        [userDefault setObject:result.usertoken forKey:kRCUserDefaultUserTokenKey];
-        [RCMBHUDTool hideshowIndicator];
-        [self enterApplicationMain:result.userInfo];
+        if ([result.mess isEqualToString:@"succ"]) {
+            [userDefault setObject:result.usertoken forKey:kRCUserDefaultUserTokenKey];
+            [RCMBHUDTool hideshowIndicator];
+            [self enterApplicationMain:result.userInfo];
+        } else {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:@"账号或密码错误" hideDelay:1];
+        }
     } failure:^(NSError *error) {
         [RCMBHUDTool hideshowIndicator];
         [RCMBHUDTool showText:@"请检查网络" hideDelay:1.0f];

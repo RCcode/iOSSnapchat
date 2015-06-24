@@ -103,8 +103,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
         if (i == 0) {
             [addPhotoImageView setImage:_selectedPassPhoto];
             //上传第一张图片
-            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-            NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
+            kAcquireUserDefaultUsertoken
             NSData *uploadImageDataOne = UIImageJPEGRepresentation(_selectedPassPhoto, 1.0f);
             [RCMBHUDTool showIndicator];
             [[RCNetworkManager shareManager] POSTRequest:@"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi3.do?method=upload" parameters:@{@"plat": @1, @"usertoken": usertoken, @"index": @1} upateFileData:uploadImageDataOne success:^(id responseObject) {
@@ -196,8 +195,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     }
     
     //上传图片
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
+    kAcquireUserDefaultUsertoken
     NSData *uploadImageDataOne = UIImageJPEGRepresentation(selectedPhoto, 1.0f);
     [RCMBHUDTool showIndicator];
     [[RCNetworkManager shareManager] POSTRequest:@"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi3.do?method=upload" parameters:@{@"plat": @1, @"usertoken": usertoken, @"index": @(_uploadIndex)} upateFileData:uploadImageDataOne success:^(id responseObject) {

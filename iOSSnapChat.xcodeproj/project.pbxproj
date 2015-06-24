@@ -44,6 +44,8 @@
 		30D02E241B294830004E5F9A /* RCRegisterInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E1F1B294830004E5F9A /* RCRegisterInfoViewController.m */; };
 		30D02E281B295D75004E5F9A /* NSString+RCStringSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E271B295D75004E5F9A /* NSString+RCStringSize.m */; };
 		30D02E2B1B296781004E5F9A /* RCRegisterUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */; };
+		30D10A7D1B3A588600C13332 /* RCMainInformModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D10A7C1B3A588600C13332 /* RCMainInformModel.m */; };
+		30D10A801B3A603300C13332 /* RCMainLikePhotoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D10A7F1B3A603300C13332 /* RCMainLikePhotoDetailViewController.m */; };
 		30D1F4021B33EB7900286840 /* RCPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1F4011B33EB7900286840 /* RCPhotoView.m */; };
 		30D1F4041B33F1BD00286840 /* default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 30D1F4031B33F1BD00286840 /* default.jpg */; };
 		30D1F40A1B342B6A00286840 /* RCMainLikeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1F4091B342B6A00286840 /* RCMainLikeTableViewCell.m */; };
@@ -174,6 +176,10 @@
 		30D02E271B295D75004E5F9A /* NSString+RCStringSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RCStringSize.m"; sourceTree = "<group>"; };
 		30D02E291B296781004E5F9A /* RCRegisterUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadViewController.h; sourceTree = "<group>"; };
 		30D02E2A1B296781004E5F9A /* RCRegisterUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadViewController.m; sourceTree = "<group>"; };
+		30D10A7B1B3A588600C13332 /* RCMainInformModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainInformModel.h; sourceTree = "<group>"; };
+		30D10A7C1B3A588600C13332 /* RCMainInformModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainInformModel.m; sourceTree = "<group>"; };
+		30D10A7E1B3A603300C13332 /* RCMainLikePhotoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainLikePhotoDetailViewController.h; sourceTree = "<group>"; };
+		30D10A7F1B3A603300C13332 /* RCMainLikePhotoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikePhotoDetailViewController.m; sourceTree = "<group>"; };
 		30D1F4001B33EB7900286840 /* RCPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPhotoView.h; sourceTree = "<group>"; };
 		30D1F4011B33EB7900286840 /* RCPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPhotoView.m; sourceTree = "<group>"; };
 		30D1F4031B33F1BD00286840 /* default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default.jpg; sourceTree = "<group>"; };
@@ -361,6 +367,8 @@
 				30D1F4091B342B6A00286840 /* RCMainLikeTableViewCell.m */,
 				307F537A1B318C3D00554C92 /* RCMainLikeViewController.h */,
 				307F537B1B318C3D00554C92 /* RCMainLikeViewController.m */,
+				30D10A7E1B3A603300C13332 /* RCMainLikePhotoDetailViewController.h */,
+				30D10A7F1B3A603300C13332 /* RCMainLikePhotoDetailViewController.m */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -412,6 +420,8 @@
 				30D64B4F1B32782000061AB0 /* RCMainMatchModel.m */,
 				30D64B891B32B25600061AB0 /* RCMainLikeModel.h */,
 				30D64B8A1B32B25600061AB0 /* RCMainLikeModel.m */,
+				30D10A7B1B3A588600C13332 /* RCMainInformModel.h */,
+				30D10A7C1B3A588600C13332 /* RCMainInformModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -737,6 +747,7 @@
 				3039E1551B26881F00C1861F /* Const.m in Sources */,
 				30D64B731B329DA000061AB0 /* MKAnnotationView+WebCache.m in Sources */,
 				30E40C9D1B2BD0B000EBA6BF /* RCLoginForgetPasswordViewController.m in Sources */,
+				30D10A801B3A603300C13332 /* RCMainLikePhotoDetailViewController.m in Sources */,
 				30D02E221B294830004E5F9A /* RCHomeViewController.m in Sources */,
 				30DA9A5E1B316ACD00BACBF7 /* RCCutPhotoViewController.m in Sources */,
 				30DA9A511B3152BF00BACBF7 /* ControlBorder.m in Sources */,
@@ -750,6 +761,7 @@
 				30D64B811B329DA000061AB0 /* UIImageView+WebCache.m in Sources */,
 				3039E1701B268A0600C1861F /* AFURLConnectionOperation.m in Sources */,
 				30CF4A6F1B2A8058006FD39F /* RCCamerGalleryManager.m in Sources */,
+				30D10A7D1B3A588600C13332 /* RCMainInformModel.m in Sources */,
 				3039E16B1B268A0600C1861F /* AFHTTPRequestOperation.m in Sources */,
 				306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */,
 				306DD8251B2AE550008C29E0 /* RCLoginViewController.m in Sources */,

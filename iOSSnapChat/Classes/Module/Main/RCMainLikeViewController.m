@@ -11,6 +11,7 @@
 #import "RCMainLikeModel.h"
 #import "RCMainLikeCollectionViewCell.h"
 #import "RCMainLikeTableViewCell.h"
+#import "RCMainLikePhotoDetailViewController.h"
 
 #define kRCMainLikeActionAnimationKey @"kRCMainLikeActionAnimationKey"
 #define kRMainLikeCollectionViewCellReuseIdentifier @"kRMainLikeCollectionViewCellReuseIdentifier"
@@ -34,6 +35,7 @@ typedef struct {
     
     NSMutableArray *_userList;
     NSInteger _currentIndex;
+
 
     UIImageView *_backImageView;
     UICollectionView *_likePhotoCollectionView;
@@ -217,15 +219,15 @@ typedef struct {
     UIBarButtonItem *menuButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
 
     //Message
-    UIButton *msgButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    msgButton.frame = CGRectMake(0, 0, 44, 44);
-    [msgButton setTitle:@"Msg" forState:UIControlStateNormal];
-    [msgButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [msgButton addTarget:self action:@selector(msgButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *msgButtonItem = [[UIBarButtonItem alloc] initWithCustomView:msgButton];
+    UIButton *messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    messageButton.frame = CGRectMake(0, 0, 44, 44);
+    [messageButton setTitle:@"msg" forState:UIControlStateNormal];
+    [messageButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [messageButton addTarget:self action:@selector(messageButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *messageButtonItem = [[UIBarButtonItem alloc] initWithCustomView:messageButton];
     
     self.navigationItem.leftBarButtonItem = menuButtonItem;
-    self.navigationItem.rightBarButtonItem = msgButtonItem;
+    self.navigationItem.rightBarButtonItem = messageButtonItem;
 }
 
 - (void)loadData {
@@ -233,8 +235,7 @@ typedef struct {
     mainMatchModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/excavate/ExcavateUser.do";
     mainMatchModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
+    kAcquireUserDefaultUsertoken
     double longitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];
     double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
     mainMatchModel.parameters = @{@"plat": @1,
@@ -412,8 +413,8 @@ typedef struct {
     }];
 }
 
-- (void)msgButtonDidClick {
-    
+- (void)messageButtonDidClick {
+    NSLog(@"MSG");
 }
 
 - (void)choiceButtonDidClicked:(UIButton *)sender {
@@ -546,6 +547,13 @@ typedef struct {
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     RCUserInfoModel *userInfo = _userList[_currentIndex];
     _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(scrollView.contentOffset.x / (kRCScreenWidth - 40)) + 1, [self acquirePhotoCount:userInfo]];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    RCMainLikePhotoDetailViewController *mainLikePhotoDetailVc = [[RCMainLikePhotoDetailViewController alloc] init];
+    mainLikePhotoDetailVc.selectedItem = indexPath.item;
+    mainLikePhotoDetailVc.selectedUserInfo = _userList[_currentIndex];
+    [self.navigationController pushViewController:mainLikePhotoDetailVc animated:YES];
 }
 
 @end

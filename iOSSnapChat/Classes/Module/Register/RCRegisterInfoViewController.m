@@ -153,8 +153,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
     }
     
     //获取用户存储的物理地址信息,usertoken
-    kAcquireUserDefaultLocalInfo
-    NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
+    kAcquireUserDefaultAll
     
     //请求设置
     RCRegiseterInfoModel *registerInfoModel = [[RCRegiseterInfoModel alloc] init];
