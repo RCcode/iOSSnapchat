@@ -88,7 +88,6 @@
 - (void)nextButtonDidClicked {
 
     kAcquireUserDefaultLocalInfo
-    
     RCLoginNormalModel *loginNormalModel = [[RCLoginNormalModel alloc] init];
     loginNormalModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Login.do";
     loginNormalModel.modelRequestMethod = kRCModelRequestMethodTypePOST;

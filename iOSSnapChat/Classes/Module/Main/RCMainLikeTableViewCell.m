@@ -19,11 +19,9 @@
 
 @implementation RCMainLikeTableViewCell
 
-
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         UIImageView *showImageView = [[UIImageView alloc] init];
-        showImageView.backgroundColor = RandomColor;
         [self.contentView addSubview:showImageView];
         _showImageView = showImageView;
         
@@ -43,6 +41,11 @@
     _showImageView.frame = CGRectMake(5, 5, self.frame.size.height - 10, self.frame.size.height - 10);
     _showLabel.frame = CGRectMake(CGRectGetMaxX(_showImageView.frame) + 5, 5, 200, self.frame.size.height - 10);
     _moreLabel.frame = CGRectMake(self.frame.size.width - 5 - 100, 5, 100, self.frame.size.height - 10);
+}
+
+- (void)setShowIcon:(UIImage *)showIcon {
+    _showIcon = showIcon;
+    _showImageView.image = [UIImage imageNamed:@""];
 }
 
 - (void)setShowTitle:(NSString *)showTitle {

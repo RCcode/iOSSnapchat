@@ -29,6 +29,6 @@
 @property (nonatomic, copy) NSString *usertoken;
 @property (nonatomic, copy) NSString *pushtoken;
 @property (nonatomic, copy) NSString *status;
-@property (nonatomic, copy) NSString *flag;
+@property (nonatomic, strong) NSNumber *flag;
 
 @end

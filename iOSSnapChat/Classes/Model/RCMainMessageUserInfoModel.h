@@ -1,15 +1,15 @@
 //
-//  RCMainMessageUserInfo.h
+//  RCMainMessageUserInfoModel.h
 //  iOSSnapChat
 //
-//  Created by zhao liang on 15/6/24.
+//  Created by zhao liang on 15/6/25.
 //  Copyright (c) 2015年 gongtao. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "RCUserInfoModel.h"
+@class RCUserInfoModel;
 
-@interface RCMainMessageUserInfo : NSObject
+@interface RCMainMessageUserInfoModel : NSObject
 
 @property (nonatomic, copy) NSString *date_time;
 @property (nonatomic, assign) NSNumber *flag;

@@ -49,7 +49,11 @@
 		30D10A861B3A932100C13332 /* RCMainLikeMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D10A851B3A932100C13332 /* RCMainLikeMessageModel.m */; };
 		30D10A891B3A933400C13332 /* RCMainLikeInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D10A881B3A933400C13332 /* RCMainLikeInfoModel.m */; };
 		30D10A8C1B3A97B300C13332 /* RCMainModifyIDModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D10A8B1B3A97B300C13332 /* RCMainModifyIDModel.m */; };
-		30D10A8F1B3AB45500C13332 /* RCMainMessageUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D10A8E1B3AB45500C13332 /* RCMainMessageUserInfo.m */; };
+		30D1EF591B3BA1C500AE7BBE /* RCMainLikeMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1EF581B3BA1C500AE7BBE /* RCMainLikeMessageTableViewCell.m */; };
+		30D1EF5C1B3BA1F800AE7BBE /* RCMainMessageUserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1EF5B1B3BA1F800AE7BBE /* RCMainMessageUserInfoModel.m */; };
+		30D1EF5F1B3BB1C000AE7BBE /* RCMainLikeLikeYouViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1EF5E1B3BB1C000AE7BBE /* RCMainLikeLikeYouViewController.m */; };
+		30D1EF621B3BB3BE00AE7BBE /* RCBaseNormalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1EF611B3BB3BE00AE7BBE /* RCBaseNormalViewController.m */; };
+		30D1EF651B3BDCAA00AE7BBE /* RCMainLikeMatchYouViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1EF641B3BDCAA00AE7BBE /* RCMainLikeMatchYouViewController.m */; };
 		30D1F4021B33EB7900286840 /* RCPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1F4011B33EB7900286840 /* RCPhotoView.m */; };
 		30D1F4041B33F1BD00286840 /* default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 30D1F4031B33F1BD00286840 /* default.jpg */; };
 		30D1F40A1B342B6A00286840 /* RCMainLikeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1F4091B342B6A00286840 /* RCMainLikeTableViewCell.m */; };
@@ -190,8 +194,16 @@
 		30D10A881B3A933400C13332 /* RCMainLikeInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeInfoModel.m; sourceTree = "<group>"; };
 		30D10A8A1B3A97B300C13332 /* RCMainModifyIDModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainModifyIDModel.h; sourceTree = "<group>"; };
 		30D10A8B1B3A97B300C13332 /* RCMainModifyIDModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainModifyIDModel.m; sourceTree = "<group>"; };
-		30D10A8D1B3AB45500C13332 /* RCMainMessageUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainMessageUserInfo.h; sourceTree = "<group>"; };
-		30D10A8E1B3AB45500C13332 /* RCMainMessageUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainMessageUserInfo.m; sourceTree = "<group>"; };
+		30D1EF571B3BA1C500AE7BBE /* RCMainLikeMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainLikeMessageTableViewCell.h; sourceTree = "<group>"; };
+		30D1EF581B3BA1C500AE7BBE /* RCMainLikeMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeMessageTableViewCell.m; sourceTree = "<group>"; };
+		30D1EF5A1B3BA1F800AE7BBE /* RCMainMessageUserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainMessageUserInfoModel.h; sourceTree = "<group>"; };
+		30D1EF5B1B3BA1F800AE7BBE /* RCMainMessageUserInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainMessageUserInfoModel.m; sourceTree = "<group>"; };
+		30D1EF5D1B3BB1C000AE7BBE /* RCMainLikeLikeYouViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainLikeLikeYouViewController.h; sourceTree = "<group>"; };
+		30D1EF5E1B3BB1C000AE7BBE /* RCMainLikeLikeYouViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeLikeYouViewController.m; sourceTree = "<group>"; };
+		30D1EF601B3BB3BE00AE7BBE /* RCBaseNormalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseNormalViewController.h; sourceTree = "<group>"; };
+		30D1EF611B3BB3BE00AE7BBE /* RCBaseNormalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseNormalViewController.m; sourceTree = "<group>"; };
+		30D1EF631B3BDCAA00AE7BBE /* RCMainLikeMatchYouViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainLikeMatchYouViewController.h; sourceTree = "<group>"; };
+		30D1EF641B3BDCAA00AE7BBE /* RCMainLikeMatchYouViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeMatchYouViewController.m; sourceTree = "<group>"; };
 		30D1F4001B33EB7900286840 /* RCPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPhotoView.h; sourceTree = "<group>"; };
 		30D1F4011B33EB7900286840 /* RCPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPhotoView.m; sourceTree = "<group>"; };
 		30D1F4031B33F1BD00286840 /* default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default.jpg; sourceTree = "<group>"; };
@@ -381,8 +393,14 @@
 				307F537B1B318C3D00554C92 /* RCMainLikeViewController.m */,
 				30D10A7E1B3A603300C13332 /* RCMainLikePhotoDetailViewController.h */,
 				30D10A7F1B3A603300C13332 /* RCMainLikePhotoDetailViewController.m */,
+				30D1EF571B3BA1C500AE7BBE /* RCMainLikeMessageTableViewCell.h */,
+				30D1EF581B3BA1C500AE7BBE /* RCMainLikeMessageTableViewCell.m */,
 				30D10A811B3A909B00C13332 /* RCMainLikeMessageViewController.h */,
 				30D10A821B3A909B00C13332 /* RCMainLikeMessageViewController.m */,
+				30D1EF5D1B3BB1C000AE7BBE /* RCMainLikeLikeYouViewController.h */,
+				30D1EF5E1B3BB1C000AE7BBE /* RCMainLikeLikeYouViewController.m */,
+				30D1EF631B3BDCAA00AE7BBE /* RCMainLikeMatchYouViewController.h */,
+				30D1EF641B3BDCAA00AE7BBE /* RCMainLikeMatchYouViewController.m */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -394,6 +412,8 @@
 				30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */,
 				30CE92A91B283E1300826FCA /* RCBaseArrowViewController.h */,
 				30CE92AA1B283E1300826FCA /* RCBaseArrowViewController.m */,
+				30D1EF601B3BB3BE00AE7BBE /* RCBaseNormalViewController.h */,
+				30D1EF611B3BB3BE00AE7BBE /* RCBaseNormalViewController.m */,
 				306DD8261B2AED27008C29E0 /* RCBaseRegisterLoginViewController.h */,
 				306DD8271B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m */,
 				30CE92911B27E88500826FCA /* RCModelBase.h */,
@@ -440,8 +460,8 @@
 				30D10A851B3A932100C13332 /* RCMainLikeMessageModel.m */,
 				30D10A8A1B3A97B300C13332 /* RCMainModifyIDModel.h */,
 				30D10A8B1B3A97B300C13332 /* RCMainModifyIDModel.m */,
-				30D10A8D1B3AB45500C13332 /* RCMainMessageUserInfo.h */,
-				30D10A8E1B3AB45500C13332 /* RCMainMessageUserInfo.m */,
+				30D1EF5A1B3BA1F800AE7BBE /* RCMainMessageUserInfoModel.h */,
+				30D1EF5B1B3BA1F800AE7BBE /* RCMainMessageUserInfoModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -778,6 +798,7 @@
 				30DA9A581B3152BF00BACBF7 /* UIImage+SubImage.m in Sources */,
 				30DA9A4F1B3152BF00BACBF7 /* ImageScaleUtil.m in Sources */,
 				30D64B7E1B329DA000061AB0 /* UIImage+MultiFormat.m in Sources */,
+				30D1EF621B3BB3BE00AE7BBE /* RCBaseNormalViewController.m in Sources */,
 				30D64B7B1B329DA000061AB0 /* SDWebImagePrefetcher.m in Sources */,
 				30D10A8C1B3A97B300C13332 /* RCMainModifyIDModel.m in Sources */,
 				30D64B811B329DA000061AB0 /* UIImageView+WebCache.m in Sources */,
@@ -788,7 +809,7 @@
 				306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */,
 				306DD8251B2AE550008C29E0 /* RCLoginViewController.m in Sources */,
 				30D64B771B329DA000061AB0 /* SDWebImageDecoder.m in Sources */,
-				30D10A8F1B3AB45500C13332 /* RCMainMessageUserInfo.m in Sources */,
+				30D1EF591B3BA1C500AE7BBE /* RCMainLikeMessageTableViewCell.m in Sources */,
 				3039E1511B2686F000C1861F /* main.m in Sources */,
 				30D10A861B3A932100C13332 /* RCMainLikeMessageModel.m in Sources */,
 				3039E1711B268A0600C1861F /* AFURLRequestSerialization.m in Sources */,
@@ -800,9 +821,11 @@
 				30DA9A501B3152BF00BACBF7 /* CameraApertureView.m in Sources */,
 				30D64B861B329F3F00061AB0 /* RCMainLikeCollectionViewCell.m in Sources */,
 				30D02E241B294830004E5F9A /* RCRegisterInfoViewController.m in Sources */,
+				30D1EF5F1B3BB1C000AE7BBE /* RCMainLikeLikeYouViewController.m in Sources */,
 				3039E16E1B268A0600C1861F /* AFNetworkReachabilityManager.m in Sources */,
 				30D02E231B294830004E5F9A /* RCRegisterAccountViewController.m in Sources */,
 				306DD8281B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m in Sources */,
+				30D1EF651B3BDCAA00AE7BBE /* RCMainLikeMatchYouViewController.m in Sources */,
 				3039E1721B268A0600C1861F /* AFURLResponseSerialization.m in Sources */,
 				30D64B781B329DA000061AB0 /* SDWebImageDownloader.m in Sources */,
 				30D64B7F1B329DA000061AB0 /* UIImage+WebP.m in Sources */,
@@ -813,6 +836,7 @@
 				30D02E101B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m in Sources */,
 				30D64B741B329DA000061AB0 /* NSData+ImageContentType.m in Sources */,
 				30D02E281B295D75004E5F9A /* NSString+RCStringSize.m in Sources */,
+				30D1EF5C1B3BA1F800AE7BBE /* RCMainMessageUserInfoModel.m in Sources */,
 				30D64B7D1B329DA000061AB0 /* UIImage+GIF.m in Sources */,
 				30D5DE4C1B2E726800B3875B /* RCMBHUDTool.m in Sources */,
 				30DA9A571B3152BF00BACBF7 /* ToolBarItem.m in Sources */,

@@ -7,22 +7,20 @@
 //
 
 #import "RCMainLikeMessageModel.h"
-#import "RCMainMessageUserInfo.h"
+#import "RCMainMessageUserInfoModel.h"
 #import "RCUserInfoModel.h"
 
 @implementation RCMainLikeMessageModel
 
 - (void)parse:(id)responseObject {
     NSDictionary *responseDict = (NSDictionary *)responseObject;
-    NSLog(@"%@", responseDict);
-    
     _mess = responseDict[@"mess"];
     _state = responseDict[@"state"];
     
     NSArray *user_infoArray = (NSArray *)responseObject[@"user_info"];
     NSMutableArray *list = [NSMutableArray arrayWithCapacity:0];
     for (NSDictionary *dict in user_infoArray) {
-        RCMainMessageUserInfo *mainMessageUserInfo = [[RCMainMessageUserInfo alloc] init];
+        RCMainMessageUserInfoModel *mainMessageUserInfo = [[RCMainMessageUserInfoModel alloc] init];
         mainMessageUserInfo.date_time = dict[@"date_time"];
         mainMessageUserInfo.flag = dict[@"flag"];
         mainMessageUserInfo.userid1 = dict[@"userid1"];

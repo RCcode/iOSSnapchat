@@ -413,6 +413,7 @@
 
 - (void)messageButtonDidClick {
     RCMainLikeMessageViewController *messageVc = [[RCMainLikeMessageViewController alloc] init];
+    messageVc.userInfo = self.loginUserInfo;
     [self.navigationController pushViewController:messageVc animated:YES];
 }
 
@@ -430,7 +431,7 @@
     mainLikeModel.parameters = @{@"plat": @1,
                                  @"usertoken": usertoken,
                                  @"userid2": userInfo.userid,
-                                 @"type": @(type)
+                                 @"flag": @(type)
                                  };
     
     [mainLikeModel requestServerWithModel:mainLikeModel success:^(id resultModel) {
@@ -583,18 +584,22 @@
         UIAlertAction *noSettingAction = [UIAlertAction actionWithTitle:@"NoSetting" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [userDefault setInteger:-1 forKey:kRCUserDefaultGenderKey];
             [tableView reloadData];
+            [self loadData];
         }];
         UIAlertAction *boysAction = [UIAlertAction actionWithTitle:@"Boys" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [userDefault setInteger:0 forKey:kRCUserDefaultGenderKey];
             [tableView reloadData];
+            [self loadData];
         }];
         UIAlertAction *girlsAction = [UIAlertAction actionWithTitle:@"Girls" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [userDefault setInteger:1 forKey:kRCUserDefaultGenderKey];
             [tableView reloadData];
+            [self loadData];
         }];
         UIAlertAction *allAction = [UIAlertAction actionWithTitle:@"All" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [userDefault setInteger:2 forKey:kRCUserDefaultGenderKey];
             [tableView reloadData];
+            [self loadData];
         }];
         [alertVc addAction:noSettingAction];
         [alertVc addAction:boysAction];

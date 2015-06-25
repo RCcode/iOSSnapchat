@@ -8,11 +8,17 @@
 
 #import "RCMainLikeMessageViewController.h"
 #import "RCMainLikeMessageModel.h"
-#import "RCMainMessageUserInfo.h"
+#import "RCMainMessageUserInfoModel.h"
 #import "RCUserInfoModel.h"
+#import "RCMainLikeMessageTableViewCell.h"
+#import "RCMainLikeLikeYouViewController.h"
+#import "RCMainLikeMatchYouViewController.h"
 
-@interface RCMainLikeMessageViewController ()
+#define kRCMainLikeMessageTableViewCellReuseIdentifier @"kRCMainLikeMessageTableViewCellReuseIdentifier"
+
+@interface RCMainLikeMessageViewController () <UITableViewDataSource, UITableViewDelegate>
 {
+    UITableView *_tableView;
     NSArray *_list;
 }
 
@@ -34,10 +40,7 @@
 }
 
 #pragma mark - Utility
-
 - (void)navgationSettings {
-    
-#warning 修改leftitem
     self.title = @"Message";
     self.view.backgroundColor = [UIColor whiteColor];
     //Report
@@ -57,13 +60,13 @@
     messageModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     messageModel.parameters = @{@"plat": @1,
                                 @"usertoken": usertoken,
-                                @"flag": @0,
+                                @"flag": @2,
                                 @"pageno": @1
                                 };
     [messageModel requestServerWithModel:messageModel success:^(id resultModel) {
         RCMainLikeMessageModel *result = (RCMainLikeMessageModel *)resultModel;
         _list = result.list;
-        [self.tableView reloadData];
+        [_tableView reloadData];
     } failure:^(NSError *error) {
         NSLog(@"%@", error);
     }];
@@ -71,8 +74,20 @@
 }
 
 - (void)setUpUI {
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth, kRCScreenHeight)];
+    [tableView registerClass:[RCMainLikeMessageTableViewCell class] forCellReuseIdentifier:kRCMainLikeMessageTableViewCellReuseIdentifier];
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tableView.dataSource = self;
+    tableView.delegate = self;
+    [self.view addSubview:tableView];
+    _tableView = tableView;
+}
+
+- (NSString *)acquireDateFormTimesp:(long long)timesp {
+    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:timesp];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"MM-dd";
+    return [formatter stringFromDate:confromTimesp];
 }
 
 #pragma mark - Action
@@ -85,17 +100,33 @@
     return _list.count;
 }
 
-/*
- RCMainLikeMessageModel *result = (RCMainLikeMessageModel *)resultModel;
- RCMainMessageUserInfo *messageUserInfo = result.list[0];
- RCUserInfoModel *userInfo = messageUserInfo.userinfo;
- */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    RCMainMessageUserInfo *messageUserInfo = _list[indexPath.row];
+    RCMainLikeMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRCMainLikeMessageTableViewCellReuseIdentifier];
+    RCMainMessageUserInfoModel *messageUserInfo = _list[indexPath.row];
     RCUserInfoModel *userInfo = messageUserInfo.userinfo;
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:userInfo.url1] placeholderImage:[UIImage imageNamed:@"default.jpg"]];
+    cell.showIconURL = [NSURL URLWithString:userInfo.url1];
+    cell.showTitle = ([messageUserInfo.flag intValue] == 1) ? [NSString stringWithFormat:@"Like you on %@", [self acquireDateFormTimesp:[messageUserInfo.date_time longLongValue] / 1000]] : [NSString stringWithFormat:@"Match you on %@", [self acquireDateFormTimesp:[messageUserInfo.date_time longLongValue] / 1000]];
+    cell.isMore = ([messageUserInfo.flag intValue] == 1) ? NO : YES;
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    RCMainMessageUserInfoModel *messageUserInfo = _list[indexPath.row];
+    RCUserInfoModel *userInfo = messageUserInfo.userinfo;
+    if ([messageUserInfo.flag intValue] == 1) {
+        //Like
+        RCMainLikeLikeYouViewController *mainLikeLikeYouVc = [[RCMainLikeLikeYouViewController alloc] init];
+        mainLikeLikeYouVc.iconURL = [NSURL URLWithString:userInfo.url1];
+        mainLikeLikeYouVc.userid = messageUserInfo.userid1;
+        [self.navigationController pushViewController:mainLikeLikeYouVc animated:YES];
+    } else if ([messageUserInfo.flag intValue] == 2) {
+        //Match
+        RCMainLikeMatchYouViewController *mainLikeMatchYouVc = [[RCMainLikeMatchYouViewController alloc] init];
+        mainLikeMatchYouVc.iconURLMe = [NSURL URLWithString:self.userInfo.url1];
+        mainLikeMatchYouVc.iconURLOhter = [NSURL URLWithString:userInfo.url1];
+        mainLikeMatchYouVc.snapchatid = userInfo.snapchatid;
+        [self.navigationController pushViewController:mainLikeMatchYouVc animated:YES];
+    }
 }
 
 

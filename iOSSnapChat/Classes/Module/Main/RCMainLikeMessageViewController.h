@@ -6,8 +6,11 @@
 //  Copyright (c) 2015年 gongtao. All rights reserved.
 //
 
-#import "RCBaseArrowViewController.h"
+#import "RCBaseNormalViewController.h"
+@class RCUserInfoModel;
 
-@interface RCMainLikeMessageViewController : UITableViewController
+@interface RCMainLikeMessageViewController : RCBaseNormalViewController
+
+@property (nonatomic, strong) RCUserInfoModel *userInfo;
 
 @end

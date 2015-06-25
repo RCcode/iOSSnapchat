@@ -7,6 +7,7 @@
 //
 
 #import "RCBaseRegisterLoginViewController.h"
+#import "RCHomeViewController.h"
 
 @interface RCBaseRegisterLoginViewController ()
 {
@@ -103,7 +104,15 @@
 
 //键盘消失
 - (void)keyBoardDidHid {
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = kRCScreenBounds.size;
+    layout.minimumLineSpacing = 0;
+    layout.minimumInteritemSpacing = 0;
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    RCHomeViewController *homeVc = [[RCHomeViewController alloc] initWithCollectionViewLayout:layout];
+    [UIApplication sharedApplication].keyWindow.rootViewController = homeVc;
 }
 
 //键盘出现
