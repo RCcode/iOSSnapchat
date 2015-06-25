@@ -8,8 +8,13 @@
 
 #import "RCMainLikeMessageViewController.h"
 #import "RCMainLikeMessageModel.h"
+#import "RCMainMessageUserInfo.h"
+#import "RCUserInfoModel.h"
 
 @interface RCMainLikeMessageViewController ()
+{
+    NSArray *_list;
+}
 
 @end
 
@@ -56,7 +61,9 @@
                                 @"pageno": @1
                                 };
     [messageModel requestServerWithModel:messageModel success:^(id resultModel) {
-        NSLog(@"%@", resultModel);
+        RCMainLikeMessageModel *result = (RCMainLikeMessageModel *)resultModel;
+        _list = result.list;
+        [self.tableView reloadData];
     } failure:^(NSError *error) {
         NSLog(@"%@", error);
     }];
@@ -64,12 +71,32 @@
 }
 
 - (void)setUpUI {
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 #pragma mark - Action
-
 - (void)categoryButtonDidClick {
     NSLog(@"Category");
 }
+
+#pragma mark - <UITableViewDataSource, UITableViewDelegate>
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _list.count;
+}
+
+/*
+ RCMainLikeMessageModel *result = (RCMainLikeMessageModel *)resultModel;
+ RCMainMessageUserInfo *messageUserInfo = result.list[0];
+ RCUserInfoModel *userInfo = messageUserInfo.userinfo;
+ */
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    RCMainMessageUserInfo *messageUserInfo = _list[indexPath.row];
+    RCUserInfoModel *userInfo = messageUserInfo.userinfo;
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:userInfo.url1] placeholderImage:[UIImage imageNamed:@"default.jpg"]];
+    return cell;
+}
+
 
 @end

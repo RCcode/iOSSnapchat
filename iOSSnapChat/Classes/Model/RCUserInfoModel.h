@@ -23,7 +23,7 @@
 @property (nonatomic, copy) NSString *url2;
 @property (nonatomic, copy) NSString *url3;
 
-//未启用字段
+//message字段
 @property (nonatomic, copy) NSString *gender2;
 @property (nonatomic, copy) NSString *password;
 @property (nonatomic, copy) NSString *usertoken;

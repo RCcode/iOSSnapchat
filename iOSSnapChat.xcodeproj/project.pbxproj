@@ -49,6 +49,7 @@
 		30D10A861B3A932100C13332 /* RCMainLikeMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D10A851B3A932100C13332 /* RCMainLikeMessageModel.m */; };
 		30D10A891B3A933400C13332 /* RCMainLikeInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D10A881B3A933400C13332 /* RCMainLikeInfoModel.m */; };
 		30D10A8C1B3A97B300C13332 /* RCMainModifyIDModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D10A8B1B3A97B300C13332 /* RCMainModifyIDModel.m */; };
+		30D10A8F1B3AB45500C13332 /* RCMainMessageUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D10A8E1B3AB45500C13332 /* RCMainMessageUserInfo.m */; };
 		30D1F4021B33EB7900286840 /* RCPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1F4011B33EB7900286840 /* RCPhotoView.m */; };
 		30D1F4041B33F1BD00286840 /* default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 30D1F4031B33F1BD00286840 /* default.jpg */; };
 		30D1F40A1B342B6A00286840 /* RCMainLikeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1F4091B342B6A00286840 /* RCMainLikeTableViewCell.m */; };
@@ -189,6 +190,8 @@
 		30D10A881B3A933400C13332 /* RCMainLikeInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeInfoModel.m; sourceTree = "<group>"; };
 		30D10A8A1B3A97B300C13332 /* RCMainModifyIDModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainModifyIDModel.h; sourceTree = "<group>"; };
 		30D10A8B1B3A97B300C13332 /* RCMainModifyIDModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainModifyIDModel.m; sourceTree = "<group>"; };
+		30D10A8D1B3AB45500C13332 /* RCMainMessageUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainMessageUserInfo.h; sourceTree = "<group>"; };
+		30D10A8E1B3AB45500C13332 /* RCMainMessageUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainMessageUserInfo.m; sourceTree = "<group>"; };
 		30D1F4001B33EB7900286840 /* RCPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPhotoView.h; sourceTree = "<group>"; };
 		30D1F4011B33EB7900286840 /* RCPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPhotoView.m; sourceTree = "<group>"; };
 		30D1F4031B33F1BD00286840 /* default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default.jpg; sourceTree = "<group>"; };
@@ -437,6 +440,8 @@
 				30D10A851B3A932100C13332 /* RCMainLikeMessageModel.m */,
 				30D10A8A1B3A97B300C13332 /* RCMainModifyIDModel.h */,
 				30D10A8B1B3A97B300C13332 /* RCMainModifyIDModel.m */,
+				30D10A8D1B3AB45500C13332 /* RCMainMessageUserInfo.h */,
+				30D10A8E1B3AB45500C13332 /* RCMainMessageUserInfo.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -783,6 +788,7 @@
 				306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */,
 				306DD8251B2AE550008C29E0 /* RCLoginViewController.m in Sources */,
 				30D64B771B329DA000061AB0 /* SDWebImageDecoder.m in Sources */,
+				30D10A8F1B3AB45500C13332 /* RCMainMessageUserInfo.m in Sources */,
 				3039E1511B2686F000C1861F /* main.m in Sources */,
 				30D10A861B3A932100C13332 /* RCMainLikeMessageModel.m in Sources */,
 				3039E1711B268A0600C1861F /* AFURLRequestSerialization.m in Sources */,

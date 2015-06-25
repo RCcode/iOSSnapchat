@@ -8,6 +8,6 @@
 
 #import "RCBaseArrowViewController.h"
 
-@interface RCMainLikeMessageViewController : UIViewController
+@interface RCMainLikeMessageViewController : UITableViewController
 
 @end
