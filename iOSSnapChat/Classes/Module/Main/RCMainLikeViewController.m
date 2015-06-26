@@ -10,7 +10,6 @@
 #import "RCMainMatchModel.h"
 #import "RCMainLikeModel.h"
 #import "RCMainModifyIDModel.h"
-#import "RCMainLikeUserInfo.h"
 #import "RCMainLikeCollectionViewCell.h"
 #import "RCMainLikeTableViewCell.h"
 #import "RCMainLikePhotoDetailViewController.h"

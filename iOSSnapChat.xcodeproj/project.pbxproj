@@ -36,7 +36,6 @@
 		30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE929B1B28110E00826FCA /* RCRegiseterAccountModel.m */; };
 		30CE92AB1B283E1300826FCA /* RCBaseArrowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92AA1B283E1300826FCA /* RCBaseArrowViewController.m */; };
 		30CF4A6F1B2A8058006FD39F /* RCCamerGalleryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CF4A6E1B2A8058006FD39F /* RCCamerGalleryManager.m */; };
-		30CFF0B81B3D0444007279F2 /* RCMainLikeUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CFF0B71B3D0444007279F2 /* RCMainLikeUserInfo.m */; };
 		30D02E101B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E0F1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m */; };
 		30D02E131B2943C1004E5F9A /* RCPikerViewTextFiled.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E121B2943C1004E5F9A /* RCPikerViewTextFiled.m */; };
 		30D02E211B294830004E5F9A /* RCHomePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D02E181B294830004E5F9A /* RCHomePageCell.m */; };
@@ -170,8 +169,6 @@
 		30CE92AA1B283E1300826FCA /* RCBaseArrowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseArrowViewController.m; sourceTree = "<group>"; };
 		30CF4A6D1B2A8058006FD39F /* RCCamerGalleryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCCamerGalleryManager.h; path = ../Model/RCCamerGalleryManager.h; sourceTree = "<group>"; };
 		30CF4A6E1B2A8058006FD39F /* RCCamerGalleryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCCamerGalleryManager.m; path = ../Model/RCCamerGalleryManager.m; sourceTree = "<group>"; };
-		30CFF0B61B3D0444007279F2 /* RCMainLikeUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainLikeUserInfo.h; sourceTree = "<group>"; };
-		30CFF0B71B3D0444007279F2 /* RCMainLikeUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeUserInfo.m; sourceTree = "<group>"; };
 		30D02E0E1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPlaceHolderAlwaysTextField.h; sourceTree = "<group>"; };
 		30D02E0F1B29402C004E5F9A /* RCPlaceHolderAlwaysTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPlaceHolderAlwaysTextField.m; sourceTree = "<group>"; };
 		30D02E111B2943C1004E5F9A /* RCPikerViewTextFiled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPikerViewTextFiled.h; sourceTree = "<group>"; };
@@ -470,8 +467,6 @@
 				30D10A8B1B3A97B300C13332 /* RCMainModifyIDModel.m */,
 				30D1EF5A1B3BA1F800AE7BBE /* RCMainMessageUserInfoModel.h */,
 				30D1EF5B1B3BA1F800AE7BBE /* RCMainMessageUserInfoModel.m */,
-				30CFF0B61B3D0444007279F2 /* RCMainLikeUserInfo.h */,
-				30CFF0B71B3D0444007279F2 /* RCMainLikeUserInfo.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -821,7 +816,6 @@
 				306DD8251B2AE550008C29E0 /* RCLoginViewController.m in Sources */,
 				30D64B771B329DA000061AB0 /* SDWebImageDecoder.m in Sources */,
 				30D1EF591B3BA1C500AE7BBE /* RCMainLikeMessageTableViewCell.m in Sources */,
-				30CFF0B81B3D0444007279F2 /* RCMainLikeUserInfo.m in Sources */,
 				3039E1511B2686F000C1861F /* main.m in Sources */,
 				30D10A861B3A932100C13332 /* RCMainLikeMessageModel.m in Sources */,
 				3039E1711B268A0600C1861F /* AFURLRequestSerialization.m in Sources */,
