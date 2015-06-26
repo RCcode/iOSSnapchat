@@ -56,11 +56,12 @@
 - (void)loadData {
     RCMainLikeMessageModel *messageModel = [[RCMainLikeMessageModel alloc] init];
     kAcquireUserDefaultUsertoken
+    int flag = [userDefault integerForKey:kRCUserDefaultCategoryKey];
     messageModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/message/getLikeUser.do";
     messageModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     messageModel.parameters = @{@"plat": @1,
                                 @"usertoken": usertoken,
-                                @"flag": @2,
+                                @"flag": @(flag),
                                 @"pageno": @1
                                 };
     [messageModel requestServerWithModel:messageModel success:^(id resultModel) {
@@ -70,7 +71,6 @@
     } failure:^(NSError *error) {
         NSLog(@"%@", error);
     }];
-    
 }
 
 - (void)setUpUI {
@@ -92,7 +92,32 @@
 
 #pragma mark - Action
 - (void)categoryButtonDidClick {
-    NSLog(@"Category");
+    UIAlertController *categoryAlertVc = [[UIAlertController alloc] init];
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    UIAlertAction *allAction = [UIAlertAction actionWithTitle:@"ALL" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [userDefault setInteger:2 forKey:kRCUserDefaultCategoryKey];
+        [self loadData];
+        [_tableView reloadData];
+    }];
+    
+    UIAlertAction *matchAction = [UIAlertAction actionWithTitle:@"Match" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [userDefault setInteger:1 forKey:kRCUserDefaultCategoryKey];
+        [self loadData];
+        [_tableView reloadData];
+    }];
+    
+    UIAlertAction *likeAction = [UIAlertAction actionWithTitle:@"Like" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [userDefault setInteger:0 forKey:kRCUserDefaultCategoryKey];
+        [self loadData];
+        [_tableView reloadData];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    [categoryAlertVc addAction:allAction];
+    [categoryAlertVc addAction:matchAction];
+    [categoryAlertVc addAction:likeAction];
+    [categoryAlertVc addAction:cancelAction];
+    [self presentViewController:categoryAlertVc animated:YES completion:nil];
 }
 
 #pragma mark - <UITableViewDataSource, UITableViewDelegate>

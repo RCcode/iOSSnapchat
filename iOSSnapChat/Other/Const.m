@@ -14,6 +14,7 @@ NSString *const kRCRemoteNotificationsKey = @"kRCRemoteNotificationsKey";
 NSString *const kRCUserDefaultUserTokenKey = @"kRCUserDefaultUserTokenKey";
 NSString *const kRCUserDefaultResgisterStepKey = @"kRCUserDefaultResgisterStepKey";
 NSString *const kRCUserDefaultGenderKey = @"kRCUserDefaultGenderKey";
+NSString *const kRCUserDefaultCategoryKey = @"kRCUserDefaultCategoryKey";
 
 //获取相机或相册照片
 NSString *const kRCCameraGalleryNotification = @"kRCCameraGalleryNotification";

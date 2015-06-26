@@ -6,6 +6,11 @@
 //  Copyright (c) 2015年 gongtao. All rights reserved.
 //
 
+#import "RCRegisterUploadPhotoViewController.h"
+#import "RCRegisterUploadPhotoCollectionViewCell.h"
+#import "RCLoginViewController.h"
+#import "RCBaseNavgationController.h"
+
 typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     kRCCamerGalleryTapTypeReplace = 0,
     kRCCamerGalleryTapTypeAdd
@@ -13,8 +18,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 
 #define kRRegisterUploadCollectionViewCellReuseIdentifier @"kRRegisterUploadCollectionViewCellReuseIdentifier"
 
-#import "RCRegisterUploadPhotoViewController.h"
-#import "RCRegisterUploadPhotoCollectionViewCell.h"
 
 @interface RCRegisterUploadPhotoViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
@@ -114,6 +117,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
             } failure:^(NSError *error) {
                 [RCMBHUDTool showText:@"上传失败" hideDelay:1.0f];
                 [self.navigationController popViewControllerAnimated:YES];
+                [RCMBHUDTool hideshowIndicator];
             }];
         }
         if (i == 2) addPhotoImageView.hidden = YES;
@@ -185,7 +189,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
         currentTapImageView.image = selectedPhoto;
     } else if (_currentTapType == kRCCamerGalleryTapTypeAdd) {
         if (_photoCount == 1) {
-#warning 实现动画
+#warning 实现动画 同时需要把图片改变的情况放入到图片上传成功的block中
             UIImageView *imageView = (UIImageView *)self.addPhotoImagageViewArray[2];
             imageView.hidden = NO;
         }
@@ -208,11 +212,13 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
         [_photoCollectionView reloadData];
     } failure:^(NSError *error) {
         [RCMBHUDTool showText:@"上传失败" hideDelay:1.0f];
+        [RCMBHUDTool hideshowIndicator];
     }];
 }
 
 - (void)goButtonDidClick {
-    NSLog(@"Go");
+    RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
+    [UIApplication sharedApplication].keyWindow.rootViewController = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
 }
 
 #pragma mark - <UICollectionViewDataSource>

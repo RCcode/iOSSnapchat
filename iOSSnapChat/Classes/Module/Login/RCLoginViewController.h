@@ -10,4 +10,6 @@
 
 @interface RCLoginViewController : RCBaseRegisterLoginViewController
 
+@property (nonatomic, assign) BOOL isLogout;
+
 @end

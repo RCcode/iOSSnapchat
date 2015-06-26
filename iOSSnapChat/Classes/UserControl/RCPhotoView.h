@@ -13,4 +13,6 @@
 @property (nonatomic, strong) NSURL *photoURL;
 @property (nonatomic, weak) UIButton *camaraButton;
 
+@property (nonatomic, weak) UIImageView *photoImageView;
+
 @end

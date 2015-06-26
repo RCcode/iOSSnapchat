@@ -15,9 +15,6 @@
 #import "RCMainLikeViewController.h"
 
 @interface RCLoginViewController ()
-{
-    BOOL _isOnce;
-}
 
 @end
 
@@ -36,38 +33,39 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (!_isOnce) {
-        _isOnce = YES;
-        [RCMBHUDTool showIndicator];
-        kAcquireUserDefaultAll
-        
-        //自动登录
-        RCLoginAutoModel *loginAutoModel = [[RCLoginAutoModel alloc] init];
-        loginAutoModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/AutoLogin.do";
-        loginAutoModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
-        loginAutoModel.parameters =@{@"plat": @1,
-                                     @"usertoken": usertoken,
-                                     @"countryid": coutryID,
-                                     @"cityid": cityID,
-                                     @"lon": @(longitude),
-                                     @"lat": @(latitude),
-                                     @"pushtoken": pushtoken
-                                     };
-        
-        [loginAutoModel requestServerWithModel:loginAutoModel success:^(id resultModel) {
-            RCLoginAutoModel *result = (RCLoginAutoModel *)resultModel;
-            if ([result.mess isEqualToString:@"succ"]) {
-                [RCMBHUDTool hideshowIndicator];
-                [RCMBHUDTool showText:@"自动登录完成" hideDelay:1];
-                [self enterApplicationMain:result.userInfo];
-            } else {
-                [RCMBHUDTool hideshowIndicator];
-                [RCMBHUDTool showText:@"usertoken过期/连接超时,请手动登陆" hideDelay:1];
-            }
-        } failure:^(NSError *error) {
-            NSLog(@"%@", error);
-        }];
+    
+    if (self.isLogout) {
+        return;
     }
+    [RCMBHUDTool showIndicator];
+    kAcquireUserDefaultAll
+    
+    //自动登录
+    RCLoginAutoModel *loginAutoModel = [[RCLoginAutoModel alloc] init];
+    loginAutoModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/AutoLogin.do";
+    loginAutoModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
+    loginAutoModel.parameters = @{@"plat": @1,
+                                  @"usertoken": usertoken,
+                                  @"countryid": coutryID,
+                                  @"cityid": cityID,
+                                  @"lon": @(longitude),
+                                  @"lat": @(latitude),
+                                  @"pushtoken": pushtoken
+                                  };
+    
+    [loginAutoModel requestServerWithModel:loginAutoModel success:^(id resultModel) {
+        RCLoginAutoModel *result = (RCLoginAutoModel *)resultModel;
+        if ([result.mess isEqualToString:@"succ"]) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:@"自动登录完成" hideDelay:1];
+            [self enterApplicationMain:result.userInfo];
+        } else {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:@"usertoken过期/连接超时,请手动登陆" hideDelay:1];
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

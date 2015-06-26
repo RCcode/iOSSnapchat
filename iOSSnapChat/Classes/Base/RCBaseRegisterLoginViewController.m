@@ -104,8 +104,6 @@
 
 //键盘消失
 - (void)keyBoardDidHid {
-//    [self dismissViewControllerAnimated:YES completion:nil];
-    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.itemSize = kRCScreenBounds.size;
     layout.minimumLineSpacing = 0;

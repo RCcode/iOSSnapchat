@@ -10,10 +10,14 @@
 #import "RCMainMatchModel.h"
 #import "RCMainLikeModel.h"
 #import "RCMainModifyIDModel.h"
+#import "RCMainLikeUserInfo.h"
 #import "RCMainLikeCollectionViewCell.h"
 #import "RCMainLikeTableViewCell.h"
 #import "RCMainLikePhotoDetailViewController.h"
 #import "RCMainLikeMessageViewController.h"
+#import "RCMainLikeModifyPhotoViewController.h"
+#import "RCLoginViewController.h"
+#import "RCBaseNavgationController.h"
 #import <MessageUI/MessageUI.h>
 
 #define kRCMainLikeActionAnimationKey @"kRCMainLikeActionAnimationKey"
@@ -45,6 +49,7 @@
 @property (nonatomic, strong) UIView *mainLikeMenuView;
 @property (nonatomic, strong) UIView *mainLikeEditCoverView;
 @property (nonatomic, strong) UIView *mainLikeEditView;
+@property (nonatomic, strong) RCMainLikeModifyPhotoViewController *mainLikeModifyPhotoVc;
 
 @end
 
@@ -169,6 +174,18 @@
         _mainLikeEditView = mainLikeEditView;
     }
     return _mainLikeEditView;
+}
+
+- (RCMainLikeModifyPhotoViewController *)mainLikeModifyPhotoVc {
+    if (_mainLikeModifyPhotoVc == nil) {
+        RCMainLikeModifyPhotoViewController *mainLikeModifyPhotoVc = [[RCMainLikeModifyPhotoViewController alloc] init];
+        mainLikeModifyPhotoVc.userInfo = self.loginUserInfo;
+        mainLikeModifyPhotoVc.complete = ^(UIImage *image) {
+            _photoView.photoImageView.image = image;
+        };
+        _mainLikeModifyPhotoVc = mainLikeModifyPhotoVc;
+    }
+    return _mainLikeModifyPhotoVc;
 }
 
 #pragma mark - LifeCircle
@@ -468,7 +485,13 @@
 }
 
 - (void)camaraButtonDidClick {
-    NSLog(@"Menu");
+    kRCWeak(self)
+    self.mainLikeCoverView.hidden = YES;
+    [UIView animateWithDuration:0.5f animations:^{
+        weakself.mainLikeMenuView.frame = CGRectMake(- (kRCScreenWidth - 40), 0, kRCScreenWidth - 40, kRCScreenHeight);
+    } completion:^(BOOL finished) {
+        [weakself.navigationController pushViewController:self.mainLikeModifyPhotoVc animated:YES];
+    }];
 }
 
 - (void)editButtonDidClick {
@@ -517,19 +540,18 @@
 }
 
 - (void)shareButtonDidClick {
-
-    NSString *shareString = @"分享内容";
-//    UIImage *shareImage = [UIImage imageNamed:@"分享图片.png"];
-    NSURL *shareURL = [NSURL URLWithString:@"http://www.baidu.com"];
-    NSArray *activityItems = @[shareString, shareURL];
-    
-    UIActivityViewController *activityVc = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
-    activityVc.excludedActivityTypes = @[UIActivityTypePrint];
-    activityVc.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError){
+    NSString *textToShare = @"shareContent";
+    UIImage *imageToShare = [UIImage imageNamed:@"default.jpg"];
+    NSURL *urlToShare = [NSURL URLWithString:@"http://www.baidu.com"];
+    NSArray *activityItems = @[textToShare, imageToShare, urlToShare];
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
+    activityVC.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+        NSLog(@"123456");
     };
-    
-    [self presentViewController:activityVc animated:YES completion:nil];
+    activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
+    [self presentViewController:activityVC animated:TRUE completion:nil];
 }
+
 
 #pragma mark - <UITableViewDataSource, UITableViewDelegate>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -621,6 +643,22 @@
         NSArray *bccRecipients = [NSArray arrayWithObjects:@"three@example.com", nil];
         [mailPicker setBccRecipients:bccRecipients];
         [self presentViewController:mailPicker animated:YES completion:nil];
+    } else if (indexPath.row == 2) {
+        NSString *textToShare = @"shareContent";
+        UIImage *imageToShare = [UIImage imageNamed:@"default.jpg"];
+        NSURL *urlToShare = [NSURL URLWithString:@"http://www.baidu.com"];
+        NSArray *activityItems = @[textToShare, imageToShare, urlToShare];
+        UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
+        activityVC.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+            NSLog(@"123456");
+        };
+        activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
+        [self presentViewController:activityVC animated:TRUE completion:nil];
+    } else if (indexPath.row == 3) {
+        RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
+        loginVc.isLogout = YES;
+        RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
+        [UIApplication sharedApplication].keyWindow.rootViewController = navVc;
     }
 }
 

@@ -9,9 +9,6 @@
 #import "RCPhotoView.h"
 
 @interface RCPhotoView ()
-{
-    UIImageView *_photoImageView;
-}
 
 @end
 
@@ -29,7 +26,6 @@
     if (self = [super initWithFrame:frame]) {
         UIImageView *photoImageView = [[UIImageView alloc] init];
         [self addSubview:photoImageView];
-        photoImageView.backgroundColor = [UIColor redColor];
         _photoImageView = photoImageView;
         
         UIButton *camaraButton = [UIButton buttonWithType:UIButtonTypeCustom];
