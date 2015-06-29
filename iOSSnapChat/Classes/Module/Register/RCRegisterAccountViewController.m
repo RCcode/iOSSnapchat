@@ -46,8 +46,6 @@
     self.arrowTitle = kRCLocalizedString(@"RegisterAccountSignUp");
     self.nextButtonText = @"Confirm";
     self.showForgetPassword = NO;
-    
-    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 #pragma mark - Action

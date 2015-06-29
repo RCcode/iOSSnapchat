@@ -34,7 +34,6 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
 
 #pragma mark - Utility
 - (void)navgationSettings {
-    self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Like!";
 }
 

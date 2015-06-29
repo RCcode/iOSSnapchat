@@ -42,7 +42,6 @@
 #pragma mark - Utility
 - (void)navgationSettings {
     self.title = @"Message";
-    self.view.backgroundColor = [UIColor whiteColor];
     //Report
     UIButton *categoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
     categoryButton.frame = CGRectMake(0, 0, 44, 44);

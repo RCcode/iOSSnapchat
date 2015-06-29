@@ -62,7 +62,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 #pragma mark - Utility
 - (void)setUpUI {
     self.arrowTitle = @"Upload photo";
-    self.view.backgroundColor = [UIColor whiteColor];
     //关闭自动调节,避免尺寸错误
     self.automaticallyAdjustsScrollViewInsets = NO;
     

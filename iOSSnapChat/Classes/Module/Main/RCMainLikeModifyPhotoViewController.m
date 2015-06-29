@@ -56,7 +56,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 
 #pragma mark - Utility
 - (void)setUpUI {
-    self.view.backgroundColor = [UIColor whiteColor];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     

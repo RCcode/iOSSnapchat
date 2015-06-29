@@ -50,7 +50,6 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 - (void)setUpUI {
 #warning Modify Frame/Number
     self.arrowTitle = kRCLocalizedString(@"RegisterInfoNULL");
-    self.view.backgroundColor = [UIColor whiteColor];
     
     //SnapChat账号
     UITextField *snapChatField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(40, 84, kRCScreenWidth - 80, 44)];

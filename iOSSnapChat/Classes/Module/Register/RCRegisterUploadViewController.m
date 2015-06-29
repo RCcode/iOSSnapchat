@@ -32,7 +32,6 @@
 #pragma mark - Utility
 - (void)setUpUI {
     self.arrowTitle = @"Upload photo";
-    self.view.backgroundColor = [UIColor whiteColor];
     
     //背景
     UIImageView *backGroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, kRCScreenWidth, (kRCScreenHeight - 64) * 0.6)];

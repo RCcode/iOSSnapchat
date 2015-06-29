@@ -44,7 +44,7 @@
 #pragma mark - Utility
 - (void)inheritSetting {
     self.arrowTitle = @"";
-    self.view.backgroundColor = [UIColor whiteColor];
+
 }
 
 - (void)navgationSettings {

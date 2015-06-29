@@ -17,6 +17,7 @@
 #import "RCMainLikeModifyPhotoViewController.h"
 #import "RCLoginViewController.h"
 #import "RCBaseNavgationController.h"
+#import "RCMainLikeMatchYouViewController.h"
 #import <MessageUI/MessageUI.h>
 
 #define kRCMainLikeActionAnimationKey @"kRCMainLikeActionAnimationKey"
@@ -213,8 +214,6 @@
 
 #pragma mark - Utility
 - (void)navgationSettings {
-    
-    self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Snaper";
     
     //Menu
@@ -450,30 +449,40 @@
                                  @"flag": @(type)
                                  };
     
+    CATransition *transitionAnimation = [CATransition animation];
+    transitionAnimation.duration = 0.5f;
+    transitionAnimation.type = kCATransitionPush;
+    if (type == kRCMainLikeTypeLike) {
+        transitionAnimation.subtype = kCATransitionFromLeft;
+    } else if (type == kRCMainLikeTypeUnlike) {
+        transitionAnimation.subtype = kCATransitionFromRight;
+    }
+    [_likePhotoCollectionView.layer addAnimation:transitionAnimation forKey:kRCMainLikeActionAnimationKey];
+    _currentIndex ++;
+    //浏览完当前数据
+    if (_currentIndex == 20) {
+        NSLog(@"重新刷数据");
+        [self loadData];
+        _currentIndex = 0;
+        return;
+    }
+    //刷新数据
+    [_likePhotoCollectionView reloadData];
+    [self reloadInfo];
+    [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+    
     [mainLikeModel requestServerWithModel:mainLikeModel success:^(id resultModel) {
         RCMainLikeModel *result = (RCMainLikeModel *)resultModel;
         if ([result.mess isEqualToString:@"succ"]) {
-            CATransition *transitionAnimation = [CATransition animation];
-            transitionAnimation.duration = 0.5f;
-            transitionAnimation.type = kCATransitionPush;
-            if (type == kRCMainLikeTypeLike) {
-                transitionAnimation.subtype = kCATransitionFromLeft;
-            } else if (type == kRCMainLikeTypeUnlike) {
-                transitionAnimation.subtype = kCATransitionFromRight;
+            NSLog(@"%d", [result.type intValue]);
+            if ([result.type intValue] == 2) {
+                RCMainLikeMatchYouViewController *mainLikeMatchYouVc = [[RCMainLikeMatchYouViewController alloc] init];
+                mainLikeMatchYouVc.iconURLMe = [NSURL URLWithString:self.loginUserInfo.url1];
+                mainLikeMatchYouVc.iconURLOhter = [NSURL URLWithString:[result.userinfo url1]];
+                mainLikeMatchYouVc.snapchatid = [result.userinfo snapchatid];
+                [self.navigationController pushViewController:mainLikeMatchYouVc animated:YES];
             }
-            [_likePhotoCollectionView.layer addAnimation:transitionAnimation forKey:kRCMainLikeActionAnimationKey];
-            _currentIndex ++;
-            //浏览完当前数据
-            if (_currentIndex == 20) {
-                NSLog(@"重新刷数据");
-                [self loadData];
-                _currentIndex = 0;
-                return;
-            }
-            //刷新数据
-            [_likePhotoCollectionView reloadData];
-            [self reloadInfo];
-            [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+            
         } else {
             NSLog(@"Like/UnLike操作失败");
             [RCMBHUDTool showText:@"操作失败，请重新Like/UnLike" hideDelay:1];

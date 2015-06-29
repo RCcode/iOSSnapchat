@@ -31,7 +31,6 @@
 
 #pragma mark - Utility
 - (void)navgationSettings {
-    self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Match!";
 }
 

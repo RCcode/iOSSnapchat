@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 gongtao. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "RCBaseViewController.h"
 
-@interface RCBaseArrowViewController : UIViewController
+@interface RCBaseArrowViewController : RCBaseViewController
 
 //在基类控制器设置箭头右边的文本
 @property (nonatomic, copy) NSString *arrowTitle;

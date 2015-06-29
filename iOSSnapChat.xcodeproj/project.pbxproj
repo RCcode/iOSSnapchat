@@ -23,6 +23,7 @@
 		3039E1721B268A0600C1861F /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E1681B268A0600C1861F /* AFURLResponseSerialization.m */; };
 		3039E1731B268A0600C1861F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E16A1B268A0600C1861F /* AFURLSessionManager.m */; };
 		3039E1851B269CD100C1861F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3039E1871B269CD100C1861F /* Localizable.strings */; };
+		30555CB11B3D57DF003CFA5F /* RCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CB01B3D57DF003CFA5F /* RCBaseViewController.m */; };
 		306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8201B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m */; };
 		306DD8251B2AE550008C29E0 /* RCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8241B2AE550008C29E0 /* RCLoginViewController.m */; };
 		306DD8281B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8271B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m */; };
@@ -143,6 +144,8 @@
 		3039E1861B269CD100C1861F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3039E1881B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		3039E1891B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		30555CAF1B3D57DF003CFA5F /* RCBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseViewController.h; sourceTree = "<group>"; };
+		30555CB01B3D57DF003CFA5F /* RCBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseViewController.m; sourceTree = "<group>"; };
 		306DD81F1B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		306DD8201B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		306DD8231B2AE550008C29E0 /* RCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLoginViewController.h; sourceTree = "<group>"; };
@@ -413,6 +416,8 @@
 		30CE92881B27DDAF00826FCA /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				30555CAF1B3D57DF003CFA5F /* RCBaseViewController.h */,
+				30555CB01B3D57DF003CFA5F /* RCBaseViewController.m */,
 				30CE92891B27DDB400826FCA /* RCBaseNavgationController.h */,
 				30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */,
 				30CE92A91B283E1300826FCA /* RCBaseArrowViewController.h */,
@@ -815,6 +820,7 @@
 				306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */,
 				306DD8251B2AE550008C29E0 /* RCLoginViewController.m in Sources */,
 				30D64B771B329DA000061AB0 /* SDWebImageDecoder.m in Sources */,
+				30555CB11B3D57DF003CFA5F /* RCBaseViewController.m in Sources */,
 				30D1EF591B3BA1C500AE7BBE /* RCMainLikeMessageTableViewCell.m in Sources */,
 				3039E1511B2686F000C1861F /* main.m in Sources */,
 				30D10A861B3A932100C13332 /* RCMainLikeMessageModel.m in Sources */,

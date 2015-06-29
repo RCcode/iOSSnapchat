@@ -78,8 +78,7 @@
     self.arrowTitle = @"Log In";
     self.nextButtonText = @"Log In";
     self.showForgetPassword = YES;
-    
-    self.view.backgroundColor = [UIColor whiteColor];
+
 }
 
 #pragma mark - Action

@@ -16,7 +16,7 @@
 //状态说明
 @property (nonatomic, copy) NSString *mess;
 //type
-@property (nonatomic, copy) NSString *type;
+@property (nonatomic, strong) NSNumber *type;
 //userInfo
 @property (nonatomic, strong) RCUserInfoModel *userinfo;
 

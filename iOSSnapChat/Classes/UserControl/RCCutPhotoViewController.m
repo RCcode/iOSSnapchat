@@ -32,7 +32,6 @@
 #pragma mark - Utility
 - (void)setUpUI {
     self.arrowTitle = @"";
-    self.view.backgroundColor = [UIColor whiteColor];
     
     //剪切控件
     _screentshotView = [[ScreenshotBorderView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth, kRCScreenHeight + 64)];
