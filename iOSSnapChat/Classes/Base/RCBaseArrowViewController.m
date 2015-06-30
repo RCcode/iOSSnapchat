@@ -8,16 +8,10 @@
 
 #import "RCBaseArrowViewController.h"
 
-//自定义导航栏返回图标尺寸
-#define kBackButtonF CGRectMake(0, 0, 44, 44)
-//自定义导航栏文本尺寸
-#define kBackTitleF CGRectMake(0, 0, 200, 44)
-//自定义导航栏文本字体
-#define kBackTitleFont kRCBoldSystemFont(17)
-
 @interface RCBaseArrowViewController ()
 {
-    UILabel *_arrowBackLabel;
+    UIBarButtonItem *_arrowBackButtonItem;
+    UIBarButtonItem *_arrowBackTitleItem;
 }
 
 @end
@@ -26,7 +20,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setUpArrowBackButton:kRCLocalizedString(@"Default")];
+    
+    [self setUpArrowBackButton:kRCLocalizedString(@"NULL")];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,25 +32,28 @@
 - (void)setUpArrowBackButton:(NSString *)title {
     //ButtonItem
     UIButton *arrowBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    arrowBackButton.frame = kBackButtonF;
-    [arrowBackButton setImage:kRCImage(@"") forState:UIControlStateNormal];
+#warning modify
+    arrowBackButton.frame = CGRectMake(0, 0, 20, 20);
+    [arrowBackButton setImage:[UIImage imageNamed:@"icon_back"] forState:UIControlStateNormal];
     [arrowBackButton addTarget:self action:@selector(arrowBackDidClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *arrowBackButtonItem = [[UIBarButtonItem alloc] initWithCustomView:arrowBackButton];
-    //LabelItem
-    UILabel *arrowBackLabel = [[UILabel alloc] init];
-    arrowBackLabel.frame = kBackTitleF;
-    arrowBackLabel.text = title;
-    arrowBackLabel.textColor = [UIColor whiteColor];
-    arrowBackLabel.font = kBackTitleFont;
-    _arrowBackLabel = arrowBackLabel;
-    UIBarButtonItem *arrowBackTitleItem = [[UIBarButtonItem alloc] initWithCustomView:arrowBackLabel];
-    //LeftItems
-    self.navigationItem.leftBarButtonItems = @[arrowBackButtonItem, arrowBackTitleItem];
+    _arrowBackButtonItem = arrowBackButtonItem;
+    self.navigationItem.leftBarButtonItems = @[arrowBackButtonItem];
 }
 
 - (void)setArrowTitle:(NSString *)arrowTitle {
     _arrowTitle = arrowTitle;
-    _arrowBackLabel.text = arrowTitle;
+    if ([arrowTitle isEqualToString:kRCLocalizedString(@"NULL")]) return;
+    //LabelItem
+    UILabel *arrowBackLabel = [[UILabel alloc] init];
+    arrowBackLabel.frame = kRCDefaultNacgationBarTitleFrame;
+    arrowBackLabel.text = arrowTitle;
+    arrowBackLabel.textColor = [UIColor whiteColor];
+    arrowBackLabel.font = kRCDefaultNacgationBarTitleFont;
+    arrowBackLabel.text = arrowTitle;
+    UIBarButtonItem *arrowBackTitleItem = [[UIBarButtonItem alloc] initWithCustomView:arrowBackLabel];
+    _arrowBackTitleItem = arrowBackTitleItem;
+    self.navigationItem.leftBarButtonItems = @[_arrowBackButtonItem, _arrowBackTitleItem];
 }
 
 - (void)arrowBackDidClicked {}

@@ -12,7 +12,6 @@
 
 @interface RCRegisterAccountViewController ()
 {
-    RCLocalTool *_localTool;
     BOOL _keyboardShow;
 }
 
@@ -37,14 +36,13 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (_localTool == nil) _localTool = [[RCLocalTool alloc] init];
-    [_localTool acquireLocation];
+    [[RCLocalTool shareManager] acquireLocation];
 }
 
 #pragma mark - Utility
 - (void)inheritSetting {
-    self.arrowTitle = kRCLocalizedString(@"RegisterAccountSignUp");
-    self.nextButtonText = @"Confirm";
+    self.nextButtonText = kRCLocalizedString(@"LoginRegisterButtonTitle");
+    self.title = kRCLocalizedString(@"RegisterAccountNavigationRegisterTitle");
     self.showForgetPassword = NO;
 }
 
@@ -52,10 +50,10 @@
 - (void)nextButtonDidClicked {
     //判断邮箱密码是否为空
     if ([self.emailField.text isEqualToString:@""]) {
-        [RCMBHUDTool showText:@"邮箱不能为空" hideDelay:1.0f];
+        [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountEmailErrorMessage") hideDelay:1.0f];
         return;
     } else if ([self.passwordField.text isEqualToString:@""]) {
-        [RCMBHUDTool showText:@"密码不能为空" hideDelay:1.0f];
+        [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountPasswordErrorMessage") hideDelay:1.0f];
         return;
     }
     

@@ -75,10 +75,10 @@
 #pragma mark - Utility
 //设置继承属性
 - (void)inheritSetting {
-    self.arrowTitle = @"Log In";
-    self.nextButtonText = @"Log In";
+    self.arrowTitle = kRCLocalizedString(@"NULL");
+    self.nextButtonText = kRCLocalizedString(@"LoginLoginButtonTitle");
+    self.title = kRCLocalizedString(@"RegisterAccountNavigationLoginTitle");
     self.showForgetPassword = YES;
-
 }
 
 #pragma mark - Action

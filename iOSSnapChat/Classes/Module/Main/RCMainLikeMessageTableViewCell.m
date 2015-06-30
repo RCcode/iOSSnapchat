@@ -23,7 +23,6 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         UIImageView *showImageView = [[UIImageView alloc] init];
-        showImageView.backgroundColor = RandomColor;
         [self.contentView addSubview:showImageView];
         _showImageView = showImageView;
         

@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		300F59D51B4100CA003DB7AB /* default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 300F59D41B4100CA003DB7AB /* default.jpg */; };
 		30165C791B2E836E000C0549 /* RCLocalTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 30165C781B2E836E000C0549 /* RCLocalTool.m */; };
 		30165C7F1B2E8D8C000C0549 /* RCRegiseterInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30165C7E1B2E8D8C000C0549 /* RCRegiseterInfoModel.m */; };
 		30165C831B2EE73E000C0549 /* RCLoginNormalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30165C821B2EE73E000C0549 /* RCLoginNormalModel.m */; };
+		3032267C1B42865800BBB571 /* RCCameraButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3032267B1B42865800BBB571 /* RCCameraButton.m */; };
 		3039E1501B2686F000C1861F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E14E1B2686F000C1861F /* AppDelegate.m */; };
 		3039E1511B2686F000C1861F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E14F1B2686F000C1861F /* main.m */; };
 		3039E1551B26881F00C1861F /* Const.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E1541B26881F00C1861F /* Const.m */; };
@@ -31,6 +33,7 @@
 		307F53781B317CB900554C92 /* RCUserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 307F53771B317CB900554C92 /* RCUserInfoModel.m */; };
 		307F537C1B318C3D00554C92 /* RCMainLikeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 307F537B1B318C3D00554C92 /* RCMainLikeViewController.m */; };
 		30A33A1E1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */; };
+		30C5CB3E1B40F9DA00DA2F82 /* RCUnderLineButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C5CB3D1B40F9DA00DA2F82 /* RCUnderLineButton.m */; };
 		30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */; };
 		30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928E1B27E21A00826FCA /* RCNetworkManager.m */; };
 		30CE92931B27E88500826FCA /* RCModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92921B27E88500826FCA /* RCModelBase.m */; };
@@ -57,7 +60,6 @@
 		30D1EF651B3BDCAA00AE7BBE /* RCMainLikeMatchYouViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1EF641B3BDCAA00AE7BBE /* RCMainLikeMatchYouViewController.m */; };
 		30D1EF681B3BFB7900AE7BBE /* RCMainLikeModifyPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1EF671B3BFB7900AE7BBE /* RCMainLikeModifyPhotoViewController.m */; };
 		30D1F4021B33EB7900286840 /* RCPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1F4011B33EB7900286840 /* RCPhotoView.m */; };
-		30D1F4041B33F1BD00286840 /* default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 30D1F4031B33F1BD00286840 /* default.jpg */; };
 		30D1F40A1B342B6A00286840 /* RCMainLikeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D1F4091B342B6A00286840 /* RCMainLikeTableViewCell.m */; };
 		30D5DE4C1B2E726800B3875B /* RCMBHUDTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D5DE4B1B2E726800B3875B /* RCMBHUDTool.m */; };
 		30D64B501B32782000061AB0 /* RCMainMatchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D64B4F1B32782000061AB0 /* RCMainMatchModel.m */; };
@@ -109,12 +111,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		300F59D41B4100CA003DB7AB /* default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default.jpg; sourceTree = "<group>"; };
 		30165C771B2E836E000C0549 /* RCLocalTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLocalTool.h; sourceTree = "<group>"; };
 		30165C781B2E836E000C0549 /* RCLocalTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLocalTool.m; sourceTree = "<group>"; };
 		30165C7D1B2E8D8C000C0549 /* RCRegiseterInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegiseterInfoModel.h; sourceTree = "<group>"; };
 		30165C7E1B2E8D8C000C0549 /* RCRegiseterInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegiseterInfoModel.m; sourceTree = "<group>"; };
 		30165C811B2EE73E000C0549 /* RCLoginNormalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLoginNormalModel.h; sourceTree = "<group>"; };
 		30165C821B2EE73E000C0549 /* RCLoginNormalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLoginNormalModel.m; sourceTree = "<group>"; };
+		3032267A1B42865800BBB571 /* RCCameraButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCameraButton.h; sourceTree = "<group>"; };
+		3032267B1B42865800BBB571 /* RCCameraButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCameraButton.m; sourceTree = "<group>"; };
 		3039E14D1B2686F000C1861F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3039E14E1B2686F000C1861F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3039E14F1B2686F000C1861F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -160,6 +165,8 @@
 		307F537B1B318C3D00554C92 /* RCMainLikeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeViewController.m; sourceTree = "<group>"; };
 		30A33A1C1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadPhotoViewController.h; sourceTree = "<group>"; };
 		30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadPhotoViewController.m; sourceTree = "<group>"; };
+		30C5CB3C1B40F9DA00DA2F82 /* RCUnderLineButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCUnderLineButton.h; sourceTree = "<group>"; };
+		30C5CB3D1B40F9DA00DA2F82 /* RCUnderLineButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCUnderLineButton.m; sourceTree = "<group>"; };
 		30CE92891B27DDB400826FCA /* RCBaseNavgationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseNavgationController.h; sourceTree = "<group>"; };
 		30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseNavgationController.m; sourceTree = "<group>"; };
 		30CE928D1B27E21A00826FCA /* RCNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCNetworkManager.h; sourceTree = "<group>"; };
@@ -212,7 +219,6 @@
 		30D1EF671B3BFB7900AE7BBE /* RCMainLikeModifyPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeModifyPhotoViewController.m; sourceTree = "<group>"; };
 		30D1F4001B33EB7900286840 /* RCPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPhotoView.h; sourceTree = "<group>"; };
 		30D1F4011B33EB7900286840 /* RCPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPhotoView.m; sourceTree = "<group>"; };
-		30D1F4031B33F1BD00286840 /* default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default.jpg; sourceTree = "<group>"; };
 		30D1F4081B342B6A00286840 /* RCMainLikeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainLikeTableViewCell.h; sourceTree = "<group>"; };
 		30D1F4091B342B6A00286840 /* RCMainLikeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainLikeTableViewCell.m; sourceTree = "<group>"; };
 		30D5DE4A1B2E726800B3875B /* RCMBHUDTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMBHUDTool.h; sourceTree = "<group>"; };
@@ -325,7 +331,7 @@
 		3039E14C1B2686F000C1861F /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				30D1F4031B33F1BD00286840 /* default.jpg */,
+				300F59D41B4100CA003DB7AB /* default.jpg */,
 				3039E14F1B2686F000C1861F /* main.m */,
 				3039E14D1B2686F000C1861F /* AppDelegate.h */,
 				3039E14E1B2686F000C1861F /* AppDelegate.m */,
@@ -487,6 +493,10 @@
 				30DA9A5D1B316ACD00BACBF7 /* RCCutPhotoViewController.m */,
 				30D1F4001B33EB7900286840 /* RCPhotoView.h */,
 				30D1F4011B33EB7900286840 /* RCPhotoView.m */,
+				30C5CB3C1B40F9DA00DA2F82 /* RCUnderLineButton.h */,
+				30C5CB3D1B40F9DA00DA2F82 /* RCUnderLineButton.m */,
+				3032267A1B42865800BBB571 /* RCCameraButton.h */,
+				3032267B1B42865800BBB571 /* RCCameraButton.m */,
 			);
 			path = UserControl;
 			sourceTree = "<group>";
@@ -760,7 +770,7 @@
 				30E401AB1B25AC0400A70AED /* LaunchScreen.xib in Resources */,
 				30E401A81B25AC0400A70AED /* Images.xcassets in Resources */,
 				30DA9A541B3152BF00BACBF7 /* ScreenshotBorder.xib in Resources */,
-				30D1F4041B33F1BD00286840 /* default.jpg in Resources */,
+				300F59D51B4100CA003DB7AB /* default.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,6 +825,7 @@
 				30D64B811B329DA000061AB0 /* UIImageView+WebCache.m in Sources */,
 				3039E1701B268A0600C1861F /* AFURLConnectionOperation.m in Sources */,
 				30CF4A6F1B2A8058006FD39F /* RCCamerGalleryManager.m in Sources */,
+				3032267C1B42865800BBB571 /* RCCameraButton.m in Sources */,
 				3039E16B1B268A0600C1861F /* AFHTTPRequestOperation.m in Sources */,
 				30D10A831B3A909B00C13332 /* RCMainLikeMessageViewController.m in Sources */,
 				306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */,
@@ -854,6 +865,7 @@
 				30DA9A571B3152BF00BACBF7 /* ToolBarItem.m in Sources */,
 				30D1F40A1B342B6A00286840 /* RCMainLikeTableViewCell.m in Sources */,
 				30165C831B2EE73E000C0549 /* RCLoginNormalModel.m in Sources */,
+				30C5CB3E1B40F9DA00DA2F82 /* RCUnderLineButton.m in Sources */,
 				30CE92931B27E88500826FCA /* RCModelBase.m in Sources */,
 				30CE929C1B28110E00826FCA /* RCRegiseterAccountModel.m in Sources */,
 				30D1F4021B33EB7900286840 /* RCPhotoView.m in Sources */,

@@ -8,25 +8,62 @@
 
 #import "RCHomePageCell.h"
 
-//主页显示文本字体
-#define kHomePageTitleFont kRCSystemFont(17)
+@interface RCHomePageCell ()
+{
+    UIImageView *_bgImageView;
+    UILabel *_introduceLabel;
+    UIImageView *_introduceImageView;
+}
+
+@end
 
 @implementation RCHomePageCell
 
-- (void)drawTitle:(NSString *)title image:(UIImage *)image {
-    _drawTitle = title;
-    _drawImage = image;
-    //重绘内容
-    [self setNeedsDisplay];
+#pragma mark - Setter
+- (void)setBgImage:(UIImage *)bgImage {
+    _bgImage = bgImage;
+    _bgImageView.image = bgImage;
 }
 
-- (void)drawRect:(CGRect)rect {
-    //重绘背景
-    [_drawImage drawInRect:rect];
-    //重绘文字
-    NSDictionary *attributes = @{NSFontAttributeName: kHomePageTitleFont, NSForegroundColorAttributeName: [UIColor blackColor]};
-    CGSize titleSize = [_drawTitle boundingRectWithSize:CGSizeMake(kRCScreenWidth, MAXFLOAT) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:NULL].size;
-    [_drawTitle drawInRect:CGRectMake((kRCScreenWidth - titleSize.width) * 0.5, (kRCScreenHeight - titleSize.height) * 0.25, titleSize.width, titleSize.height) withAttributes:attributes];
+- (void)setIntroduceTitle:(NSString *)introduceTitle {
+    _introduceTitle = introduceTitle;
+    _introduceLabel.text = introduceTitle;
 }
+
+- (void)setIntroduceImage:(UIImage *)introduceImage {
+    _introduceImage = introduceImage;
+    _introduceImageView.image = introduceImage;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+#warning 约束
+    if (self = [super initWithFrame:frame]) {
+        UIImageView *bgImageView = [[UIImageView alloc] init];
+        bgImageView.userInteractionEnabled = YES;
+        [self.contentView addSubview:bgImageView];
+        _bgImageView = bgImageView;
+ 
+        UILabel *introduceLabel = [[UILabel alloc] init];
+        introduceLabel.font = kRCSystemFont(kRCIOSBd(25));
+        introduceLabel.numberOfLines = 0;
+        introduceLabel.textColor = colorWithHexString(@"9b55a0");
+        introduceLabel.textAlignment = NSTextAlignmentCenter;
+        [self.contentView addSubview:introduceLabel];
+        _introduceLabel = introduceLabel;
+        
+        UIImageView *introduceImageView = [[UIImageView alloc] init];
+        [self.contentView addSubview:introduceImageView];
+        _introduceImageView = introduceImageView;
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    _bgImageView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    _introduceLabel.frame = CGRectMake(20, 0, self.frame.size.width - 40, 60);
+    _introduceImageView.frame = CGRectMake((self.frame.size.width - kRCIOSPt(614)) / 2, 60, kRCIOSPt(614), kRCIOSPt(1208));
+}
+
 
 @end

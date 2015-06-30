@@ -15,8 +15,9 @@
 //设置是否显示忘记密码(默认为NO)
 @property (nonatomic, assign, getter=isShowForgetPassword) BOOL showForgetPassword;
 //获取自定义TextFiled内容
-@property (nonatomic, strong) UITextField *emailField;
-@property (nonatomic, strong) UITextField *passwordField;
+@property (nonatomic, weak) UITextField *emailField;
+@property (nonatomic, weak) UITextField *passwordField;
+@property (nonatomic, weak) UIButton *nextButton;
 //Next按钮响应事件(重写)
 - (void)nextButtonDidClicked;
 //忘记密码按钮响应事件(重写)

@@ -10,7 +10,8 @@
 
 @interface RCLocalTool : NSObject
 
-//获取本地地址(获取完成之前需要保证此对象不销毁)
++ (instancetype)shareManager;
+
 - (void)acquireLocation;
 
 @end

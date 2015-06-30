@@ -11,23 +11,31 @@
 
 @interface RCLocalTool () <CLLocationManagerDelegate>
 {
-    CLLocationManager *_locationManager;
+    CLGeocoder *_revGeocoder;
 }
 
 @end
 
 @implementation RCLocalTool
 
+static id _manager;
+static CLLocationManager *_instance;
+
++ (instancetype)shareManager {
+    CLLocationManager *instance = [[CLLocationManager alloc] init];
+    instance.desiredAccuracy = kCLLocationAccuracyBest;
+    instance.distanceFilter = kCLDistanceFilterNone;
+    if (IOS8) [instance requestAlwaysAuthorization];
+    _instance = instance;
+    _manager = [[self alloc] init];
+    return _manager;
+}
+
 //获取本地地址
 - (void)acquireLocation {
     if ([CLLocationManager locationServicesEnabled]) {
-        CLLocationManager *manager = [[CLLocationManager alloc] init];
-        manager.desiredAccuracy = kCLLocationAccuracyBest;
-        manager.distanceFilter = kCLDistanceFilterNone;
-        manager.delegate = self;
-        if ([[UIDevice currentDevice].systemVersion doubleValue] >= 8.0) [manager requestAlwaysAuthorization];
-        [manager startUpdatingLocation];
-        _locationManager = manager;
+        _instance.delegate = self;
+        [_instance startUpdatingLocation];
     } else {
         NSLog(@"无法获取当前地址");
     }
@@ -35,8 +43,7 @@
 
 #pragma mark - <CLLocationManagerDelegate>
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    [_locationManager stopUpdatingLocation];
-    
+    [_instance stopUpdatingLocation];
     //保存定位信息
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     //经度
@@ -58,9 +65,10 @@
             NSString *cityID = [dict objectForKey:@"City"];
             [userDefault setObject:cityID forKey:kRCUserDefaultCityIDKey];
         } else {
-            NSLog(@"地理编码失败");
+            NSLog(@"地理编码失败, %@", error);
         }
     }];
+    _revGeocoder = revGeocoder;
 }
 
 @end

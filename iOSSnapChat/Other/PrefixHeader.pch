@@ -43,6 +43,14 @@ NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
 
 #define IOS8 [[UIDevice currentDevice].systemVersion floatValue] >= 8.0
 
+#define kRCDefaultNacgationBarItemFrame CGRectMake(0, 0, 44, 44)
+#define kRCDefaultNacgationBarTitleFrame CGRectMake(0, 0, 200, 44)
+#define kRCDefaultNacgationBarTitleFont kRCBoldSystemFont(17)
+
+#warning test
+#define kRCAdaptationHeight(height) height * kRCScreenHeight / 1136
+#define kRCAdaptationWidth(width) width * kRCScreenWidth / 640
+
 #import "Const.h"
 #import "CMethods.h"
 #import "Common.h"

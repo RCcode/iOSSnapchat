@@ -22,21 +22,18 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    if([[[UIDevice currentDevice]systemVersion] floatValue] >= 8.0){
+    if(IOS8){
         [[UIApplication sharedApplication] registerForRemoteNotifications];
         [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
     }else{
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     }
-
-    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:kRCUserDefaultUserTokenKey] == nil) {
         [[NSUserDefaults standardUserDefaults] setObject:@"defaultUsertoken" forKey:kRCUserDefaultUserTokenKey];
     }
-
+    
     if (![[NSUserDefaults standardUserDefaults] boolForKey:kRCApplicationFirstStartKey]) {
         //设置第一次启动默认值
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];

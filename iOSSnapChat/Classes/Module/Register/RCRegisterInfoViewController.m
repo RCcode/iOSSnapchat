@@ -15,11 +15,20 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
     kRCRegisterInfoSexTypeFemale
 };
 
-@interface RCRegisterInfoViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
+#define kRCRegisterInfoViewAgeComponentNumber 1
+#define kRCRegisterInfoViewAgeNumber 100
+
+@interface RCRegisterInfoViewController () <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 {
-    RCLocalTool *_localTool;
+    //Control
     UITextField *_snapChatField;
+    UIView *_snapChatSeparatorLine;
     RCPikerViewTextFiled *_ageField;
+    UIView *_ageSeparatorLine;
+    UILabel *_genderLabel;
+    UIButton *_femaleButton;
+    UIButton *_maleButton;
+    
     NSInteger _pickerViewSelectedAge;
     kRCRegisterInfoSexType _selectedSexType;
 }
@@ -32,8 +41,9 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self inheritSetting];
     [self setUpUI];
-    [self modifyNavgationBar];
+    [self addConstraint];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,79 +52,132 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (_localTool == nil) _localTool = [[RCLocalTool alloc] init];
-    [_localTool acquireLocation];
+    [[RCLocalTool shareManager] acquireLocation];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
 }
 
 #pragma mark - Utility
+- (void)inheritSetting {
+    [self modifyNavgationBar];
+}
+
 - (void)setUpUI {
-#warning Modify Frame/Number
-    self.arrowTitle = kRCLocalizedString(@"RegisterInfoNULL");
-    
-    //SnapChat账号
-    UITextField *snapChatField = [[RCPlaceHolderAlwaysTextField alloc] initWithFrame:CGRectMake(40, 84, kRCScreenWidth - 80, 44)];
-    snapChatField.placeholder = kRCLocalizedString(@"RegisterInfoYourSnapchatID");
+    UITextField *snapChatField = [[RCPlaceHolderAlwaysTextField alloc] init];
+    snapChatField.delegate = self;
+    snapChatField.placeholder = kRCLocalizedString(@"RegisterInfoYourSnapchatIDPlaceholder");
     [self.view addSubview:snapChatField];
+
     _snapChatField = snapChatField;
     
-    //SnapChat账号分割线
-    UIView *snapChatSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(snapChatField.frame), kRCScreenWidth - 80, 1)];
-    snapChatSeparatorLine.backgroundColor = [UIColor lightGrayColor];
+    UIView *snapChatSeparatorLine = [[UIView alloc] init];
+    snapChatSeparatorLine.backgroundColor = kRCDefaultLightgray;
     [self.view addSubview:snapChatSeparatorLine];
+    _snapChatSeparatorLine = snapChatSeparatorLine;
     
-    //年龄InputView
+#warning modify
     UIButton *completeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [completeButton addTarget:self action:@selector(completeButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
     completeButton.frame = CGRectMake(kRCScreenWidth - 100, 0, 100, 20);
-    [completeButton setTitle:kRCLocalizedString(@"RegisterInfoComplete") forState:UIControlStateNormal];
+    [completeButton setTitle:kRCLocalizedString(@"RegisterInfoCompleteButtonTitle") forState:UIControlStateNormal];
     UIPickerView *agePickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 20, kRCScreenWidth, 216)];
     agePickerView.dataSource = self;
     agePickerView.delegate = self;
     UIView *ageInputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth, 216 + 20)];
     [ageInputView addSubview:completeButton];
     [ageInputView addSubview:agePickerView];
-    
-    //年龄
-    RCPikerViewTextFiled *ageField = [[RCPikerViewTextFiled alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(snapChatField.frame) + 20, kRCScreenWidth - 80, 44)];
-    ageField.userPlaceHolder = kRCLocalizedString(@"RegisterInfoAge");
+    RCPikerViewTextFiled *ageField = [[RCPikerViewTextFiled alloc] init];
+    ageField.delegate = self;
+    ageField.userPlaceHolder = kRCLocalizedString(@"RegisterInfoAgePlaceholder");
     ageField.inputView = ageInputView;
     [self.view addSubview:ageField];
     _ageField = ageField;
     
-    //年龄分割线
-    UIView *ageSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(ageField.frame), kRCScreenWidth - 80, 1)];
-    ageSeparatorLine.backgroundColor = [UIColor lightGrayColor];
+    UIView *ageSeparatorLine = [[UIView alloc] init];
+    ageSeparatorLine.backgroundColor = kRCDefaultLightgray;
     [self.view addSubview:ageSeparatorLine];
-    //性别
-    UILabel *genderLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.5, 44)];
-    genderLabel.text = kRCLocalizedString(@"RegisterInfoGender");
-    genderLabel.textColor = [UIColor lightGrayColor];
-    [self.view addSubview:genderLabel];
+    _ageSeparatorLine = ageSeparatorLine;
     
-    //女性图片
-    UIButton *femaleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    femaleButton.frame = CGRectMake(CGRectGetMaxX(genderLabel.frame) - 20, CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.25, 44);
-    [femaleButton setBackgroundImage:kRCImage(@"") forState:UIControlStateNormal];
-    [femaleButton setBackgroundColor:[UIColor magentaColor]];
-    [femaleButton addTarget:self action:@selector(femaleButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:femaleButton];
+    UILabel *genderLabel = [[UILabel alloc] init];
+    genderLabel.text = kRCLocalizedString(@"RegisterInfoGenderLabelTitle");
+    genderLabel.textColor = kRCDefaultLightgray;
+    [self.view addSubview:genderLabel];
+    _genderLabel = genderLabel;
 
-    //男性图片
+    UIButton *femaleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [femaleButton setAdjustsImageWhenHighlighted:NO];
+    [femaleButton setBackgroundImage:kRCImage(@"icon_girl_unchoose") forState:UIControlStateNormal];
+    [femaleButton setBackgroundImage:kRCImage(@"icon_girl_choose") forState:UIControlStateSelected];
+    femaleButton.selected = YES;
+    [femaleButton addTarget:self action:@selector(femaleButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:femaleButton];
+    _femaleButton = femaleButton;
+    
     UIButton *maleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    maleButton.frame = CGRectMake(CGRectGetMaxX(femaleButton.frame) + 20, CGRectGetMaxY(ageField.frame) + 20, (kRCScreenWidth - 80) * 0.25, 44);
-    [maleButton setBackgroundImage:kRCImage(@"") forState:UIControlStateNormal];
-    [maleButton setBackgroundColor:[UIColor blueColor]];
-    [maleButton addTarget:self action:@selector(maleButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [maleButton setAdjustsImageWhenHighlighted:NO];
+    [maleButton setBackgroundImage:kRCImage(@"icon_boy_unchoose") forState:UIControlStateNormal];
+    [maleButton setBackgroundImage:kRCImage(@"icon_boy_choose") forState:UIControlStateSelected];
+    [maleButton addTarget:self action:@selector(maleButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:maleButton];
+    _maleButton = maleButton;
+}
+
+- (void)addConstraint {
+    [_snapChatField setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:64 + 10]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20 - 10]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    
+    [_snapChatSeparatorLine setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_snapChatField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:1]];
+    
+    [_ageField setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_snapChatSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    
+    [_ageSeparatorLine setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:1]];
+    
+    [_genderLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:100]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    
+    
+    [_maleButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    
+    [_femaleButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_maleButton attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
 }
 
 - (void)modifyNavgationBar {
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    doneButton.frame = CGRectMake(0, 0, 44, 44);
-    [doneButton setTitle:kRCLocalizedString(@"RegisterInfoDone") forState:UIControlStateNormal];
+    doneButton.frame = kRCDefaultNacgationBarItemFrame;
+    [doneButton setTitle:kRCLocalizedString(@"RegisterInfoDoneItemTitle") forState:UIControlStateNormal];
+    [doneButton setTitleColor:kRCDefaultAlphaWhite forState:UIControlStateDisabled];
     doneButton.titleLabel.font = kRCBoldSystemFont(17);
     [doneButton addTarget:self action:@selector(doneButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
+    [doneButtonItem setEnabled:NO];
     self.navigationItem.rightBarButtonItem = doneButtonItem;
 }
 
@@ -127,11 +190,15 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
     [self.view endEditing:YES];
 }
 
-- (void)femaleButtonDidClicked {
+- (void)femaleButtonDidClicked:(UIButton *)femaleButton {
+    _femaleButton.selected = YES;
+    _maleButton.selected = NO;
     _selectedSexType = kRCRegisterInfoSexTypeFemale;
 }
 
-- (void)maleButtonDidClicked {
+- (void)maleButtonDidClicked:(UIButton *)maleButton {
+    _femaleButton.selected = NO;
+    _maleButton.selected = YES;
     _selectedSexType = kRCRegisterInfoSexTypeMale;
 }
 
@@ -141,19 +208,8 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 }
 
 - (void)doneButtonDidClicked {
-
-    //判断snaochatid年龄是否为空
-    if ([_snapChatField.text isEqualToString:@""]) {
-        [RCMBHUDTool showText:@"SnapChatID不能为空" hideDelay:1.0f];
-        return;
-    } else if (_ageField.userText == nil) {
-        [RCMBHUDTool showText:@"年龄不能为空" hideDelay:1.0f];
-        return;
-    }
-    
     //获取用户存储的物理地址信息,usertoken
     kAcquireUserDefaultAll
-    
     //请求设置
     RCRegiseterInfoModel *registerInfoModel = [[RCRegiseterInfoModel alloc] init];
     registerInfoModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
@@ -196,11 +252,11 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 
 #pragma mark - <UIPickerViewDataSource, UIPickerViewDelegate>
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
+    return kRCRegisterInfoViewAgeComponentNumber;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return 100;
+    return kRCRegisterInfoViewAgeNumber;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
@@ -209,6 +265,11 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     _pickerViewSelectedAge = row;
+}
+
+#pragma mark - <UITextFieldDelegate>
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    self.navigationItem.rightBarButtonItem.enabled = (![_snapChatField.text isEqualToString:@""] && _ageField.userText != nil) ? YES : NO;
 }
 
 @end

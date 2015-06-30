@@ -10,10 +10,12 @@
 #define kRCLocalizedString(string) NSLocalizedString((string), nil)
 #define kRCImage(string) [UIImage imageNamed:(string)]
 #define kRCRGBAColor(r, g, b, a) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:(a)]
-#define RandomColor [UIColor colorWithRed:arc4random_uniform(255) / 255.0 green:arc4random_uniform(255) / 255.0 blue:arc4random_uniform(255) / 255.0 alpha:1]
+#define kRCDefaultBlue colorWithHexString(@"2dcfe3")
+#define kRCDefaultLightgray kRCRGBAColor(209, 209, 209, 1)
+#define kRCDefaultAlphaWhite kRCRGBAColor(255, 255, 255, 0.2)
 
-//常量宏
-#define kRCSystemDefaultBlue kRCRGBAColor(30, 190, 205, 1)
+#define kRCIOSPt(px) px / (1920 / kRCScreenHeight)
+#define kRCIOSBd(px) px * 72 / 96 
 
 //key
 extern NSString *const kRCUserDefaultCountryIDKey;

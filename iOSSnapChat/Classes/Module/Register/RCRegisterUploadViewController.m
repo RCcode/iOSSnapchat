@@ -10,6 +10,13 @@
 #import "RCRegisterUploadPhotoViewController.h"
 
 @interface RCRegisterUploadViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+{
+    //Control
+    UIImageView *_backGroundImageView;
+    UIView *_separatorLine;
+    UILabel *_msgLabel;
+    RCCameraButton *_cameraButton;
+}
 
 @end
 
@@ -18,7 +25,10 @@
 #pragma mark - LifeCircle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self inheritSetting];
     [self setUpUI];
+    [self addConstraint];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,30 +40,62 @@
 }
 
 #pragma mark - Utility
+- (void)inheritSetting {
+    self.title = kRCLocalizedString(@"RegisterUploadNavigationUploadTitle");
+}
+
 - (void)setUpUI {
-    self.arrowTitle = @"Upload photo";
-    
-    //背景
-    UIImageView *backGroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, kRCScreenWidth, (kRCScreenHeight - 64) * 0.6)];
-    backGroundImageView.backgroundColor = [UIColor lightGrayColor];
+    UIImageView *backGroundImageView = [[UIImageView alloc] init];
+    backGroundImageView.image = kRCImage(@"shili");
     [self.view addSubview:backGroundImageView];
+    _backGroundImageView = backGroundImageView;
     
-    //描述文本
-    NSString *descriptionText = @"In order to more easy to find a friend, and ensure the authenticity of the photo, we need you to upload the photos";
-    CGSize size = [descriptionText sizeForLineWithSize:CGSizeMake(kRCScreenWidth - 40, MAXFLOAT) Attributes:@{NSFontAttributeName: kRCSystemFont(14)}];
-    UILabel *msgLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(backGroundImageView.frame) + 20, size.width, size.height)];
+    UIView *separatorLine = [[UIView alloc] init];
+    separatorLine.backgroundColor = kRCDefaultLightgray;
+    [self.view addSubview:separatorLine];
+    _separatorLine = separatorLine;
+
+    NSString *descriptionText = kRCLocalizedString(@"RegisterUploadDescriptionTitle");
+    UILabel *msgLabel = [[UILabel alloc] init];
     msgLabel.font = kRCSystemFont(14);
     msgLabel.numberOfLines = 0;
     msgLabel.textAlignment = NSTextAlignmentCenter;
     msgLabel.text = descriptionText;
     [self.view addSubview:msgLabel];
+    _msgLabel = msgLabel;
     
-    //相机按钮
-    UIButton *cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cameraButton.frame = CGRectMake(20, CGRectGetMaxY(msgLabel.frame) +20, kRCScreenWidth - 40, 44);
-    [cameraButton setBackgroundColor:kRCSystemDefaultBlue];
+    RCCameraButton *cameraButton = [[RCCameraButton alloc] init];
+    cameraButton.adjustsImageWhenHighlighted = NO;
+    [cameraButton setImage:kRCImage(@"camera") forState:UIControlStateNormal];
+    [cameraButton setBackgroundColor:kRCDefaultBlue];
     [cameraButton addTarget:self action:@selector(cameraDidClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cameraButton];
+    _cameraButton = cameraButton;
+}
+
+- (void)addConstraint {
+    [_backGroundImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backGroundImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:64 + 10]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backGroundImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCIOSPt(614)]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backGroundImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCIOSPt(1028)]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backGroundImageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    
+    [_separatorLine setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_backGroundImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:1]];
+    
+    [_msgLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_msgLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_separatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_msgLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_msgLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    
+    [_cameraButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_cameraButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_msgLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_cameraButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_cameraButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_cameraButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
 }
 
 #pragma mark - Action
@@ -63,21 +105,15 @@
 
 - (void)cameraDidClick {
     UIAlertController *uploadAlertVc = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    //获取相机图片
-    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"Camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"RegisterUploadCameraActionTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(acquireCamaraGalleryPhoto:) name:kRCCameraGalleryNotification object:nil];
         [[RCCamerGalleryManager shareManager] openCameraAcquirePhotoWithCurrentViewController:self];
     }];
-    
-    //获取相册图片
-    UIAlertAction *galleryAction = [UIAlertAction actionWithTitle:@"Gallery" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *galleryAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"RegisterUploadGalleryActionTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(acquireCamaraGalleryPhoto:) name:kRCCameraGalleryNotification object:nil];
         [[RCCamerGalleryManager shareManager] openGalleryAcquirePhotoWithCurrentViewController:self];
     }];
-    
-    //取消
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"RegisterUploadCancelActionTitle") style:UIAlertActionStyleCancel handler:nil];
     
     [uploadAlertVc addAction:cameraAction];
     [uploadAlertVc addAction:galleryAction];

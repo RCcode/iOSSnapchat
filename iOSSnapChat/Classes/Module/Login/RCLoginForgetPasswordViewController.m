@@ -10,7 +10,11 @@
 
 @interface RCLoginForgetPasswordViewController ()
 {
+    //Controller
     UITextField *_emailField;
+    UIView *_emailSeparatorLine;
+    UIButton *_retrieveButton;
+    UILabel *_msgLabel;
 }
 
 @end
@@ -21,8 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self inheritSetting];
     [self setUpUI];
+    [self addConstraint];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,44 +34,57 @@
 }
 
 #pragma mark - Utility
-- (void)inheritSetting {
-    self.arrowTitle = @"";
-}
-
 - (void)setUpUI {
-#warning frame
-    
-    //邮箱
-    UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectMake(20, 84, kRCScreenWidth - 40, 44)];
-    emailField.placeholder =  @"Your Email Address";
-    emailField.textAlignment = NSTextAlignmentCenter;
+    UITextField *emailField = [[UITextField alloc] init];
+    emailField.placeholder = kRCLocalizedString(@"LoginForgetPasswordEmailPlaceholder");
     [self.view addSubview:emailField];
     _emailField = emailField;
     
-    //邮箱分割线
-    UIView *emailSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(emailField.frame), kRCScreenWidth, 1)];
-    emailSeparatorLine.backgroundColor = [UIColor lightGrayColor];
+    UIView *emailSeparatorLine = [[UIView alloc] init];
+    emailSeparatorLine.backgroundColor = kRCDefaultLightgray;
     [self.view addSubview:emailSeparatorLine];
+    _emailSeparatorLine = emailSeparatorLine;
     
-    //Retrieve按钮
+    UILabel *msgLabel = [[UILabel alloc] init];
+    msgLabel.font = kRCSystemFont(14);
+    msgLabel.textColor = kRCDefaultBlue;
+    msgLabel.numberOfLines = 0;
+    msgLabel.textAlignment = NSTextAlignmentCenter;
+    msgLabel.text = kRCLocalizedString(@"LoginForgetPasswordDescriptionTitle");
+    [self.view addSubview:msgLabel];
+    _msgLabel = msgLabel;
+
     UIButton *retrieveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    retrieveButton.frame = CGRectMake(20, kRCScreenHeight - 216 - 40 - 30 - 20, kRCScreenWidth - 40, 40);
-    [retrieveButton setBackgroundColor:kRCSystemDefaultBlue];
-    [retrieveButton setTitle:@"Retrieve Password" forState:UIControlStateNormal];
+    [retrieveButton setBackgroundColor:kRCDefaultBlue];
+    [retrieveButton setTitle:kRCLocalizedString(@"LoginForgetPasswordRetrieveButtonTitle") forState:UIControlStateNormal];
     [retrieveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [retrieveButton addTarget:self action:@selector(retrieveButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:retrieveButton];
+    _retrieveButton = retrieveButton;
+}
+
+- (void)addConstraint {
+    [_emailField setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:64 + 10]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
     
-    //描述文本
-    NSString *descriptionText = @"Log in your Email and reset the password.";
-    CGSize size = [descriptionText sizeForLineWithSize:CGSizeMake(kRCScreenWidth - 40, MAXFLOAT) Attributes:@{NSFontAttributeName: kRCSystemFont(14)}];
-    UILabel *msgLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMinY(retrieveButton.frame) - 20 - size.height, size.width, size.height)];
-    msgLabel.font = kRCSystemFont(14);
-    msgLabel.textColor = kRCSystemDefaultBlue;
-    msgLabel.numberOfLines = 0;
-    msgLabel.textAlignment = NSTextAlignmentCenter;
-    msgLabel.text = descriptionText;
-    [self.view addSubview:msgLabel];
+    [_emailSeparatorLine setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_emailField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:1]];
+    
+    [_msgLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_msgLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_emailSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:100]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_msgLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
+    
+    [_retrieveButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_msgLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:8]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
 }
 
 #pragma mark - Action
@@ -76,7 +93,7 @@
 }
 
 - (void)retrieveButtonDidClicked {
-    NSLog(@"retrieveButtonDidClicked");
+#warning not finish
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

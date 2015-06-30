@@ -6,22 +6,44 @@
   Copyright (c) 2015年 gongtao. All rights reserved.
 */
 
-//Home
-"HomeMsgOne" = "真实snapchat找朋友";
-"HomeMsgTwo" = "互赞之后才可以看到对方的snapchat Id";
-"HomeMsgThree" = "可以根据位置查找附近的人";
-"HomeRegister" = "Register";
-"HomeLogin" = "Login";
+"NULL" = "";
 
-//RegisterAccount
-"RegisterAccountSignUp" = "Sign Up";
-"RegisterAccountEmailAddress" = "Email Address";
-"RegisterAccountPassword" = "Password";
-"RegisterAccountConfirm" = "Confirm";
-//RegisterInfo
-"RegisterInfoNULL" = "";
-"RegisterInfoYourSnapchatID" = "Your Snapchat ID";
-"RegisterInfoComplete" = "Complete";
-"RegisterInfoAge" = "Age";
-"RegisterInfoGender" = "Gender";
-"RegisterInfoDone" = "Done";
+"HomeRegisterButtonTitle" = "Sign Up";
+"HomeLoginButtonTitle" = "Log in now";
+"HomePrivacyButtonTitle" = "Privacy Policy";
+"HomeIntroducePageOne" = "真实snapchat找朋友";
+"HomeIntroducePageTwo" = "互赞之后才可以看到对方的Snapchat ID";
+"HomeIntroducePageThree" = "可以根据位置查找附近的人";
+
+"RegisterAccountNavigationRegisterTitle" = "Sign Up";
+"RegisterAccountNavigationLoginTitle" = "Log In";
+"RegisterAccountEmailErrorMessage" = "邮箱不能为空";
+"RegisterAccountPasswordErrorMessage" = "密码不能为空";
+"RegisterAccountEmailPlaceholder" = "Email Address";
+"RegisterAccountPasswordEmailPlaceholder" = "Password";
+"RegisterAccountForgetButtonTitle" = "Forgot Your Password";
+
+"LoginRegisterButtonTitle" = "Confirm";
+"LoginLoginButtonTitle" = "Log in";
+
+"LoginForgetPasswordEmailPlaceholder" = "Your Email Address";
+"LoginForgetPasswordDescriptionTitle" = "Log in your Email and reset the password.";
+"LoginForgetPasswordRetrieveButtonTitle" = "Retrieve Password";
+
+"RegisterInfoYourSnapchatIDPlaceholder" = "Your Snapchat ID";
+"RegisterInfoAgePlaceholder" = "Age";
+"RegisterInfoCompleteButtonTitle" = "Complete";
+"RegisterInfoGenderLabelTitle" = "Gender";
+"RegisterInfoDoneItemTitle" = "Done";
+
+"RegisterUploadNavigationUploadTitle" = "Upload photo";
+"RegisterUploadDescriptionTitle" = "In order to more easy to find a friend, and ensure the authenticity of the photo, we need you to upload the photos";
+"RegisterUploadCameraActionTitle" = "Camera";
+"RegisterUploadGalleryActionTitle" = "Gallery";
+"RegisterUploadCancelActionTitle" = "Cancel";
+
+"RegisterUploadPhotoNavigationUploadTitle" = "Upload photo";
+"RegisterUploadPhotoDescriptionTitle" = "OK! cool! Upload more photos will increase your chances of find friends!";
+"RegisterUploadPhotoCameraActionTitle" = "Camera";
+"RegisterUploadPhotoGalleryActionTitle" = "Gallery";
+
