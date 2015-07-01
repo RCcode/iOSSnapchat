@@ -74,13 +74,11 @@
 }
 
 - (void)setUpUI {
-    //CountControl
     UIPageControl *pageControl = [[UIPageControl alloc] init];
     pageControl.numberOfPages = kRCHomePageNumber;
     [self.view addSubview:pageControl];
     _pageControl = pageControl;
     
-    //注册按钮
     UIButton *registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     registerButton.titleLabel.font = kRCHomeRegisterButtonFont;
     [registerButton setTitle:kRCLocalizedString(@"HomeRegisterButtonTitle") forState:UIControlStateNormal];
@@ -89,7 +87,6 @@
     [self.view addSubview:registerButton];
     _registerButton = registerButton;
     
-    //登陆按钮
     UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [loginButton setTitleColor:colorWithHexString(@"76f0ff") forState:UIControlStateNormal];
     loginButton.titleLabel.font = kRCHomeLoginButtonFont;
@@ -98,7 +95,6 @@
     [self.view addSubview:loginButton];
     _loginButton = loginButton;
 
-    //Privacy Policy
     RCUnderLineButton *privacyButton = [[RCUnderLineButton alloc] init];
     privacyButton.titleLabel.font = kRCHomePrivacyButtonFont;
     [privacyButton setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
@@ -140,6 +136,7 @@
 
 - (void)loginButtonDidClicked {
     RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
+    loginVc.isAutoLogin = YES;
     RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
     [self presentViewController:navVc animated:YES completion:nil];
 }

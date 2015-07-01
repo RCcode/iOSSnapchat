@@ -35,7 +35,7 @@
 
 - (void)drawRect:(CGRect)rect {
     //重绘占位文本
-    NSDictionary *placeHolderAttributes = @{NSFontAttributeName: kRCPikerViewTextFiledFont, NSForegroundColorAttributeName: kRCDefaultLightgray};
+    NSDictionary *placeHolderAttributes = @{NSFontAttributeName: kRCPikerViewTextFiledFont, NSForegroundColorAttributeName: kRCSystemLightgray};
     CGSize placeHolderSize = [_userPlaceHolder sizeForLineWithSize:CGSizeMake(rect.size.width, MAXFLOAT) Attributes:placeHolderAttributes];
     [_userPlaceHolder drawInRect:CGRectMake(0, (rect.size.height - placeHolderSize.height) * 0.5, placeHolderSize.width, placeHolderSize.height) withAttributes:placeHolderAttributes];
     //重绘输入文本

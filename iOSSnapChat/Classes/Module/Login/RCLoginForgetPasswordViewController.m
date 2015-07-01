@@ -8,13 +8,32 @@
 
 #import "RCLoginForgetPasswordViewController.h"
 
+//AutoLayout
+#define kRCLoginForgetPasswordEmailFieldTopConstant kRCAdaptationHeight(128)
+#define kRCLoginForgetPasswordEmailFieldLeftConstant kRCAdaptationWidth(34)
+#define kRCLoginForgetPasswordEmailFieldRightConstant kRCAdaptationWidth(34)
+#define kRCLoginForgetPasswordEmailFieldHeightConstant kRCAdaptationHeight(100)
+
+#define kRCLoginForgetPasswordSeparatorLineTopConstant 0
+#define kRCLoginForgetPasswordSeparatorLineLeftConstant 0
+#define kRCLoginForgetPasswordSeparatorLineRightConstant 0
+#define kRCLoginForgetPasswordSeparatorLineHeightConstant 1
+
+#define kRCLoginForgetPasswordMsgLabelBottomConstant kRCAdaptationHeight(16)
+#define kRCLoginForgetPasswordMsgLabelLeftConstant kRCAdaptationWidth(34)
+
+#define kRCLoginForgetPasswordRetrieveButtonBottomConstant (252 + kRCAdaptationHeight(72))
+#define kRCLoginForgetPasswordRetrieveButtonLeftConstant kRCAdaptationWidth(34)
+#define kRCLoginForgetPasswordRetrieveButtonRightConstant kRCAdaptationWidth(34)
+#define kRCLoginForgetPasswordRetrieveButtonHeightConstant kRCAdaptationHeight(78)
+
 @interface RCLoginForgetPasswordViewController ()
 {
     //Controller
     UITextField *_emailField;
     UIView *_emailSeparatorLine;
-    UIButton *_retrieveButton;
     UILabel *_msgLabel;
+    UIButton *_retrieveButton;
 }
 
 @end
@@ -41,7 +60,7 @@
     _emailField = emailField;
     
     UIView *emailSeparatorLine = [[UIView alloc] init];
-    emailSeparatorLine.backgroundColor = kRCDefaultLightgray;
+    emailSeparatorLine.backgroundColor = kRCSystemLightgray;
     [self.view addSubview:emailSeparatorLine];
     _emailSeparatorLine = emailSeparatorLine;
     
@@ -65,26 +84,26 @@
 
 - (void)addConstraint {
     [_emailField setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:64 + 10]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCLoginForgetPasswordEmailFieldTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCLoginForgetPasswordEmailFieldLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCLoginForgetPasswordEmailFieldRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCLoginForgetPasswordEmailFieldHeightConstant]];
     
     [_emailSeparatorLine setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_emailField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:1]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_emailField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCLoginForgetPasswordSeparatorLineTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCLoginForgetPasswordSeparatorLineLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:kRCLoginForgetPasswordSeparatorLineRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_emailSeparatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:kRCLoginForgetPasswordSeparatorLineHeightConstant]];
     
     [_msgLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_msgLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_emailSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:100]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_msgLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_msgLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_retrieveButton attribute:NSLayoutAttributeTop multiplier:1.0 constant:-kRCLoginForgetPasswordMsgLabelBottomConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_msgLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCLoginForgetPasswordMsgLabelLeftConstant]];
     
     [_retrieveButton setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_msgLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:8]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCLoginForgetPasswordRetrieveButtonBottomConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCLoginForgetPasswordRetrieveButtonLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCLoginForgetPasswordRetrieveButtonRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_retrieveButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCLoginForgetPasswordRetrieveButtonHeightConstant]];
 }
 
 #pragma mark - Action

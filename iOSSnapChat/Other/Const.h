@@ -10,8 +10,11 @@
 #define kRCLocalizedString(string) NSLocalizedString((string), nil)
 #define kRCImage(string) [UIImage imageNamed:(string)]
 #define kRCRGBAColor(r, g, b, a) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:(a)]
+#define kRCSystemLightgray kRCRGBAColor(209, 209, 209, 1)
 #define kRCDefaultBlue colorWithHexString(@"2dcfe3")
-#define kRCDefaultLightgray kRCRGBAColor(209, 209, 209, 1)
+#define kRCDefaultWhite colorWithHexString(@"ffffff")
+#define kRCDefaultPurple colorWithHexString(@"9b55a0")
+#define kRCDefaultLightgray colorWithHexString(@"bcbcbc")
 #define kRCDefaultAlphaWhite kRCRGBAColor(255, 255, 255, 0.2)
 
 #define kRCIOSPt(px) px / (1920 / kRCScreenHeight)
@@ -30,5 +33,9 @@ extern NSString *const kRCUserDefaultResgisterStepKey;
 extern NSString *const kRCUserDefaultGenderKey;
 extern NSString *const kRCUserDefaultCategoryKey;
 
+extern NSString *const kRCSwitchRootVcNotificationStepKey;
+extern NSString *const kRCSwitchRootVcNotificationVcKey;
+
 //notification
 extern NSString *const kRCCameraGalleryNotification;
+extern NSString *const kRCSwitchRootVcNotification;

@@ -34,6 +34,7 @@
 		307F537C1B318C3D00554C92 /* RCMainLikeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 307F537B1B318C3D00554C92 /* RCMainLikeViewController.m */; };
 		30A33A1E1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */; };
 		30C5CB3E1B40F9DA00DA2F82 /* RCUnderLineButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C5CB3D1B40F9DA00DA2F82 /* RCUnderLineButton.m */; };
+		30CBBF451B43934B000468B0 /* UIButton+backgroundColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CBBF441B43934B000468B0 /* UIButton+backgroundColor.m */; };
 		30CE928B1B27DDB400826FCA /* RCBaseNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */; };
 		30CE928F1B27E21A00826FCA /* RCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE928E1B27E21A00826FCA /* RCNetworkManager.m */; };
 		30CE92931B27E88500826FCA /* RCModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CE92921B27E88500826FCA /* RCModelBase.m */; };
@@ -167,6 +168,8 @@
 		30A33A1D1B29A2FC0093C49B /* RCRegisterUploadPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadPhotoViewController.m; sourceTree = "<group>"; };
 		30C5CB3C1B40F9DA00DA2F82 /* RCUnderLineButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCUnderLineButton.h; sourceTree = "<group>"; };
 		30C5CB3D1B40F9DA00DA2F82 /* RCUnderLineButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCUnderLineButton.m; sourceTree = "<group>"; };
+		30CBBF431B43934B000468B0 /* UIButton+backgroundColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+backgroundColor.h"; path = "../UserControl/UIButton+backgroundColor.h"; sourceTree = "<group>"; };
+		30CBBF441B43934B000468B0 /* UIButton+backgroundColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+backgroundColor.m"; path = "../UserControl/UIButton+backgroundColor.m"; sourceTree = "<group>"; };
 		30CE92891B27DDB400826FCA /* RCBaseNavgationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseNavgationController.h; sourceTree = "<group>"; };
 		30CE928A1B27DDB400826FCA /* RCBaseNavgationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseNavgationController.m; sourceTree = "<group>"; };
 		30CE928D1B27E21A00826FCA /* RCNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCNetworkManager.h; sourceTree = "<group>"; };
@@ -545,6 +548,8 @@
 			children = (
 				30D02E261B295D75004E5F9A /* NSString+RCStringSize.h */,
 				30D02E271B295D75004E5F9A /* NSString+RCStringSize.m */,
+				30CBBF431B43934B000468B0 /* UIButton+backgroundColor.h */,
+				30CBBF441B43934B000468B0 /* UIButton+backgroundColor.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -828,6 +833,7 @@
 				3032267C1B42865800BBB571 /* RCCameraButton.m in Sources */,
 				3039E16B1B268A0600C1861F /* AFHTTPRequestOperation.m in Sources */,
 				30D10A831B3A909B00C13332 /* RCMainLikeMessageViewController.m in Sources */,
+				30CBBF451B43934B000468B0 /* UIButton+backgroundColor.m in Sources */,
 				306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */,
 				306DD8251B2AE550008C29E0 /* RCLoginViewController.m in Sources */,
 				30D64B771B329DA000061AB0 /* SDWebImageDecoder.m in Sources */,

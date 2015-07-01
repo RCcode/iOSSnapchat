@@ -14,7 +14,7 @@
 #import "RCLoginNormalModel.h"
 #import "RCMainLikeViewController.h"
 
-@interface RCLoginViewController ()
+@interface RCLoginViewController () <UITextFieldDelegate>
 
 @end
 
@@ -34,9 +34,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if (self.isLogout) {
-        return;
-    }
+    if (!self.isAutoLogin) return;
+    
     [RCMBHUDTool showIndicator];
     kAcquireUserDefaultAll
     
@@ -79,6 +78,9 @@
     self.nextButtonText = kRCLocalizedString(@"LoginLoginButtonTitle");
     self.title = kRCLocalizedString(@"RegisterAccountNavigationLoginTitle");
     self.showForgetPassword = YES;
+    self.nextButton.enabled = NO;
+    self.emailField.delegate = self;
+    self.passwordField.delegate = self;
 }
 
 #pragma mark - Action
@@ -126,6 +128,16 @@
     mainLikeVc.loginUserInfo = userInfo;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mainLikeVc];
     [self presentViewController:nav animated:YES completion:nil];
+}
+
+#pragma mark - <UITextFieldDelegate>
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField == self.emailField) {
+        self.nextButton.enabled = ((string.length == 0 && textField.text.length > 1 && self.passwordField.text.length > 0) || (string.length > 0 && self.passwordField.text.length > 0))  ? YES : NO;
+    } else if (textField == self.passwordField) {
+        self.nextButton.enabled = ((string.length == 0 && textField.text.length > 1 && self.emailField.text.length > 0) || (string.length > 0 && self.emailField.text.length > 0))  ? YES : NO;
+    }
+    return YES;
 }
 
 @end

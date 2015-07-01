@@ -28,7 +28,12 @@
     }else{
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     }
+    
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    
+    [self addNotification];
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:kRCUserDefaultUserTokenKey] == nil) {
         [[NSUserDefaults standardUserDefaults] setObject:@"defaultUsertoken" forKey:kRCUserDefaultUserTokenKey];
@@ -56,42 +61,51 @@
         [self.window makeKeyAndVisible];
     } else {
         NSInteger step = [[NSUserDefaults standardUserDefaults] integerForKey:kRCUserDefaultResgisterStepKey];
-        
-        RCBaseNavgationController *navVc = nil;
-        switch (step) {
-            case -1:
-            {
-                RCRegisterAccountViewController *registerAccountVc = [[RCRegisterAccountViewController alloc] init];
-                navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerAccountVc];
-                break;
-            }
-            case 1:
-            {
-                RCRegisterInfoViewController *registerInfoVc = [[RCRegisterInfoViewController alloc] init];
-                navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerInfoVc];
-                
-                break;
-            }
-            case 2:
-            {
-                RCRegisterUploadViewController *registerUploadVc = [[RCRegisterUploadViewController alloc] init];
-                navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerUploadVc];
-                break;
-            }
-            case 0:
-            {
-                RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
-                navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
-                break;
-            }
-            default:
-                break;
-        }
-        self.window.rootViewController = navVc;
-        [self.window makeKeyAndVisible];
-        NSLog(@"Root Step = %d", step);
+        [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(step)}];
     }
     return YES;
+}
+
+- (void)addNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchToRootVc:) name:@"111" object:nil];
+}
+
+- (void)switchToRootVc:(NSNotification *)notice {
+    NSInteger step = [notice.userInfo[kRCSwitchRootVcNotificationStepKey] integerValue];
+    RCBaseNavgationController *navVc = nil;
+    switch (step) {
+        case -1:
+        {
+            RCRegisterAccountViewController *registerAccountVc = [[RCRegisterAccountViewController alloc] init];
+            navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerAccountVc];
+            break;
+        }
+        case 1:
+        {
+            RCRegisterInfoViewController *registerInfoVc = [[RCRegisterInfoViewController alloc] init];
+            navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerInfoVc];
+            
+            break;
+        }
+        case 2:
+        {
+            RCRegisterUploadViewController *registerUploadVc = [[RCRegisterUploadViewController alloc] init];
+            navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerUploadVc];
+            break;
+        }
+        case 0:
+        {
+            RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
+            loginVc.isAutoLogin = YES;
+            navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
+            break;
+        }
+        default:
+            break;
+    }
+    self.window.rootViewController = navVc;
+    [self.window makeKeyAndVisible];
+    NSLog(@"Root Step = %d", step);
 }
 
 //只支持竖屏

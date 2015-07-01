@@ -73,7 +73,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
     _snapChatField = snapChatField;
     
     UIView *snapChatSeparatorLine = [[UIView alloc] init];
-    snapChatSeparatorLine.backgroundColor = kRCDefaultLightgray;
+    snapChatSeparatorLine.backgroundColor = kRCSystemLightgray;
     [self.view addSubview:snapChatSeparatorLine];
     _snapChatSeparatorLine = snapChatSeparatorLine;
     
@@ -96,13 +96,13 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
     _ageField = ageField;
     
     UIView *ageSeparatorLine = [[UIView alloc] init];
-    ageSeparatorLine.backgroundColor = kRCDefaultLightgray;
+    ageSeparatorLine.backgroundColor = kRCSystemLightgray;
     [self.view addSubview:ageSeparatorLine];
     _ageSeparatorLine = ageSeparatorLine;
     
     UILabel *genderLabel = [[UILabel alloc] init];
     genderLabel.text = kRCLocalizedString(@"RegisterInfoGenderLabelTitle");
-    genderLabel.textColor = kRCDefaultLightgray;
+    genderLabel.textColor = kRCSystemLightgray;
     [self.view addSubview:genderLabel];
     _genderLabel = genderLabel;
 
@@ -204,6 +204,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 
 - (void)completeButtonDidClick {
     _ageField.userText = [NSString stringWithFormat:@"%zd", _pickerViewSelectedAge];
+    self.navigationItem.rightBarButtonItem.enabled = (_snapChatField.text.length > 0) ? YES : NO;
     [self.view endEditing:YES];
 }
 
@@ -268,8 +269,13 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 }
 
 #pragma mark - <UITextFieldDelegate>
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    self.navigationItem.rightBarButtonItem.enabled = (![_snapChatField.text isEqualToString:@""] && _ageField.userText != nil) ? YES : NO;
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField == _snapChatField) {
+        self.navigationItem.rightBarButtonItem.enabled = ((string.length == 0 && textField.text.length > 1 && _ageField.userText.length > 0) || (string.length > 0 && _ageField.userText.length > 0))  ? YES : NO;
+    } else if (textField == _ageField) {
+        self.navigationItem.rightBarButtonItem.enabled = ((string.length == 0 && textField.text.length > 1 && _snapChatField.text.length > 0) || (string.length > 0 && _snapChatField.text.length > 0))  ? YES : NO;
+    }
+    return YES;
 }
 
 @end

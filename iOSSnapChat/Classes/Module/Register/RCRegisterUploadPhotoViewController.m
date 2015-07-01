@@ -110,7 +110,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     for (int i = 0; i < kRRegisterUploadButtonTotalCount; ++ i) {
         UIImageView *addPhotoImageView = [[UIImageView alloc] initWithImage:kRCImage(@"kongbai")];
         addPhotoImageView.layer.borderWidth = kRRegisterUploadAddButtonBorderWidth;
-        addPhotoImageView.layer.borderColor = kRCDefaultLightgray.CGColor;
+        addPhotoImageView.layer.borderColor = kRCSystemLightgray.CGColor;
         addPhotoImageView.userInteractionEnabled = YES;
         addPhotoImageView.tag = i;
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addPhotoImageDidTap:)];

@@ -664,9 +664,10 @@
         [self presentViewController:activityVC animated:TRUE completion:nil];
     } else if (indexPath.row == 3) {
         RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
-        loginVc.isLogout = YES;
         RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
         [UIApplication sharedApplication].keyWindow.rootViewController = navVc;
+        
+        
     }
 }
 

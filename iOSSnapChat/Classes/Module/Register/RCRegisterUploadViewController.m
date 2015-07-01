@@ -51,7 +51,7 @@
     _backGroundImageView = backGroundImageView;
     
     UIView *separatorLine = [[UIView alloc] init];
-    separatorLine.backgroundColor = kRCDefaultLightgray;
+    separatorLine.backgroundColor = kRCSystemLightgray;
     [self.view addSubview:separatorLine];
     _separatorLine = separatorLine;
 

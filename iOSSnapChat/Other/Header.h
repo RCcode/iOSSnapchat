@@ -10,6 +10,7 @@
 #define iOSSnapChat_Header_h
 
 #import "NSString+RCStringSize.h"
+#import "UIButton+backgroundColor.h"
 
 #import "RCPlaceHolderAlwaysTextField.h"
 #import "RCPikerViewTextFiled.h"

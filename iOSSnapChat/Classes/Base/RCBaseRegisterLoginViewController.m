@@ -10,33 +10,33 @@
 #import "RCHomeViewController.h"
 
 //AutoLayout
-#define kRRegisterLoginEmailFieldTopConstant 84
-#define kRRegisterLoginEmailFieldLeftConstant 20
-#define kRRegisterLoginEmailFieldRightConstant 20
-#define kRRegisterLoginEmailFieldHeightConstant 40
+#define kRRegisterLoginEmailFieldTopConstant kRCAdaptationHeight(128)
+#define kRRegisterLoginEmailFieldLeftConstant kRCAdaptationWidth(34)
+#define kRRegisterLoginEmailFieldRightConstant kRCAdaptationWidth(34)
+#define kRRegisterLoginEmailFieldHeightConstant kRCAdaptationHeight(100)
 
 #define kRRegisterLoginEmailSeparatorLineTopConstant 0
 #define kRRegisterLoginEmailSeparatorLineLeftConstant 0
 #define kRRegisterLoginEmailSeparatorLineRightConstant 0
 #define kRRegisterLoginEmailSeparatorLineHeightConstant 1
 
-#define kRRegisterLoginPasswordFieldTopConstant 20
-#define kRRegisterLoginPasswordFieldLeftConstant 20
-#define kRRegisterLoginPasswordFieldRightConstant 20
-#define kRRegisterLoginPasswordFieldHeightConstant 40
+#define kRRegisterLoginPasswordFieldTopConstant 0
+#define kRRegisterLoginPasswordFieldLeftConstant kRCAdaptationWidth(34)
+#define kRRegisterLoginPasswordFieldRightConstant kRCAdaptationWidth(34)
+#define kRRegisterLoginPasswordFieldHeightConstant kRCAdaptationHeight(100)
 
 #define kRRegisterLoginPasswordSeparatorLineTopConstant 0
 #define kRRegisterLoginPasswordSeparatorLineLeftConstant 0
 #define kRRegisterLoginPasswordSeparatorLineRightConstant 0
 #define kRRegisterLoginPasswordSeparatorLineHeightConstant 1
 
-#define kRRegisterLoginForgetPasswordButtonTopConstant 20
+#define kRRegisterLoginForgetPasswordButtonTopConstant kRCAdaptationHeight(40)
 #define kRRegisterLoginForgetPasswordButtonHeightConstant 20
 
-#define kRRegisterLoginNextButtonTopConstant 20
-#define kRRegisterLoginNextButtonLeftConstant 20
-#define kRRegisterLoginNextButtonRightConstant 20
-#define kRRegisterLoginNextButtonHeightConstant 40
+#define kRRegisterLoginNextButtonBottomConstant (252 + kRCAdaptationHeight(72))
+#define kRRegisterLoginNextButtonLeftConstant kRCAdaptationWidth(34)
+#define kRRegisterLoginNextButtonRightConstant kRCAdaptationWidth(34)
+#define kRRegisterLoginNextButtonHeightConstant kRCAdaptationHeight(78)
 
 @interface RCBaseRegisterLoginViewController ()
 {
@@ -84,7 +84,7 @@
     _emailField = emailField;
     
     UIView *emailSeparatorLine = [[UIView alloc] init];
-    emailSeparatorLine.backgroundColor = kRCDefaultLightgray;
+    emailSeparatorLine.backgroundColor = kRCSystemLightgray;
     [self.view addSubview:emailSeparatorLine];
     _emailSeparatorLine = emailSeparatorLine;
     
@@ -95,7 +95,7 @@
     _passwordField = passwordField;
     
     UIView *passwordSeparatorLine = [[UIView alloc] init];
-    passwordSeparatorLine.backgroundColor = kRCDefaultLightgray;
+    passwordSeparatorLine.backgroundColor = kRCSystemLightgray;
     [self.view addSubview:passwordSeparatorLine];
     _passwordSeparatorLine = passwordSeparatorLine;
     
@@ -108,8 +108,9 @@
     _forgetPasswordButton = forgetPasswordButton;
     
     UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [nextButton setBackgroundColor:kRCDefaultBlue];
-    [nextButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [nextButton setBackgroundColor:kRCDefaultBlue forState:UIControlStateNormal];
+    [nextButton setBackgroundColor:kRCDefaultLightgray forState:UIControlStateDisabled];
+    [nextButton setTitleColor:kRCDefaultWhite forState:UIControlStateNormal];
     [nextButton addTarget:self action:@selector(nextButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nextButton];
     _nextButton = nextButton;
@@ -146,7 +147,7 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_forgetPasswordButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
     
     [_nextButton setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_nextButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_forgetPasswordButton attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRRegisterLoginNextButtonTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_nextButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRRegisterLoginNextButtonBottomConstant]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_nextButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRRegisterLoginNextButtonLeftConstant]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_nextButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRRegisterLoginNextButtonRightConstant]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_nextButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRRegisterLoginNextButtonHeightConstant]];
