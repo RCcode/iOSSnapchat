@@ -165,13 +165,7 @@
 }
 
 - (void)keyBoardDidHide {
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.itemSize = kRCScreenBounds.size;
-    layout.minimumLineSpacing = 0;
-    layout.minimumInteritemSpacing = 0;
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    RCHomeViewController *homeVc = [[RCHomeViewController alloc] initWithCollectionViewLayout:layout];
-    [UIApplication sharedApplication].keyWindow.rootViewController = homeVc;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(-2), kRCSwitchRootVcNotificationVcKey: self.navigationController}];
 }
 
 - (void)keyBoardDidShow {

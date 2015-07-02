@@ -32,7 +32,7 @@
 
 "RegisterInfoYourSnapchatIDPlaceholder" = "Your Snapchat ID";
 "RegisterInfoAgePlaceholder" = "Age";
-"RegisterInfoCompleteButtonTitle" = "Complete";
+"RegisterInfoCompleteButtonTitle" = "Done";
 "RegisterInfoGenderLabelTitle" = "Gender";
 "RegisterInfoDoneItemTitle" = "Done";
 
@@ -47,3 +47,4 @@
 "RegisterUploadPhotoCameraActionTitle" = "Camera";
 "RegisterUploadPhotoGalleryActionTitle" = "Gallery";
 
+"RegisterUploadCutPhotoNavigatiTitle" = "Done";

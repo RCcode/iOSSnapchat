@@ -10,7 +10,6 @@
 
 @interface RCHomePageCell : UICollectionViewCell
 
-@property (nonatomic, strong) UIImage *bgImage;
 @property (nonatomic, strong) UIImage *introduceImage;
 @property (nonatomic, copy) NSString *introduceTitle;
 

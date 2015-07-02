@@ -47,9 +47,8 @@ NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
 #define kRCDefaultNacgationBarTitleFrame CGRectMake(0, 0, 200, 44)
 #define kRCDefaultNacgationBarTitleFont kRCBoldSystemFont(17)
 
-#warning test
-#define kRCAdaptationHeight(height) height * kRCScreenHeight / 1136
-#define kRCAdaptationWidth(width) width * kRCScreenWidth / 640
+#define kRCAdaptationHeight(height) ((height) * kRCScreenHeight / 1136)
+#define kRCAdaptationWidth(width) ((width) * kRCScreenWidth / 640)
 
 #import "Const.h"
 #import "CMethods.h"

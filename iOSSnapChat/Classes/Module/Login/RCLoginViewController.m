@@ -72,7 +72,6 @@
 }
 
 #pragma mark - Utility
-//设置继承属性
 - (void)inheritSetting {
     self.arrowTitle = kRCLocalizedString(@"NULL");
     self.nextButtonText = kRCLocalizedString(@"LoginLoginButtonTitle");
@@ -85,7 +84,6 @@
 
 #pragma mark - Action
 - (void)nextButtonDidClicked {
-
     kAcquireUserDefaultLocalInfo
     RCLoginNormalModel *loginNormalModel = [[RCLoginNormalModel alloc] init];
     loginNormalModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Login.do";
@@ -120,6 +118,7 @@
 
 - (void)forgetPasswordButtonDidClicked {
     RCLoginForgetPasswordViewController *loginForgetPasswordVc = [[RCLoginForgetPasswordViewController alloc] init];
+    loginForgetPasswordVc.popVc = self;
     [self.navigationController pushViewController:loginForgetPasswordVc animated:YES];
 }
 

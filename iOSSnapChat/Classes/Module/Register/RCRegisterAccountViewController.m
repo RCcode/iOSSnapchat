@@ -73,7 +73,7 @@
                                         @"lat": @(latitude),
                                         @"pushtoken": pushtoken
                                         };
-    
+    NSLog(@"%@", registerAccountModel.parameters);
     //判断邮箱是否正确
     if ([self validateEmail:self.emailField.text]) {
         //发送请求

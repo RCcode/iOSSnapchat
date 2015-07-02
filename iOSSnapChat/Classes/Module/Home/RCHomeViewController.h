@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 gongtao. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "RCBaseViewController.h"
 
-@interface RCHomeViewController : UICollectionViewController
+@interface RCHomeViewController : RCBaseViewController
 
 @end

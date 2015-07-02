@@ -7,7 +7,10 @@
 //
 
 #import "RCBaseArrowViewController.h"
+#import "RCLoginViewController.h"
 
 @interface RCLoginForgetPasswordViewController : RCBaseArrowViewController
+
+@property (nonatomic, strong) RCLoginViewController *popVc;
 
 @end

@@ -26,6 +26,8 @@
 		3039E1731B268A0600C1861F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E16A1B268A0600C1861F /* AFURLSessionManager.m */; };
 		3039E1851B269CD100C1861F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3039E1871B269CD100C1861F /* Localizable.strings */; };
 		30555CB11B3D57DF003CFA5F /* RCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30555CB01B3D57DF003CFA5F /* RCBaseViewController.m */; };
+		305B3E691B44F49D00C1D3DE /* RCNavgationItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 305B3E681B44F49D00C1D3DE /* RCNavgationItemButton.m */; };
+		305B3E6C1B45145100C1D3DE /* RCHitTestEventThroughImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 305B3E6B1B45145100C1D3DE /* RCHitTestEventThroughImageView.m */; };
 		306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8201B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m */; };
 		306DD8251B2AE550008C29E0 /* RCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8241B2AE550008C29E0 /* RCLoginViewController.m */; };
 		306DD8281B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DD8271B2AED27008C29E0 /* RCBaseRegisterLoginViewController.m */; };
@@ -152,6 +154,10 @@
 		3039E1891B269D0900C1861F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		30555CAF1B3D57DF003CFA5F /* RCBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBaseViewController.h; sourceTree = "<group>"; };
 		30555CB01B3D57DF003CFA5F /* RCBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBaseViewController.m; sourceTree = "<group>"; };
+		305B3E671B44F49D00C1D3DE /* RCNavgationItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCNavgationItemButton.h; sourceTree = "<group>"; };
+		305B3E681B44F49D00C1D3DE /* RCNavgationItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCNavgationItemButton.m; sourceTree = "<group>"; };
+		305B3E6A1B45145100C1D3DE /* RCHitTestEventThroughImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCHitTestEventThroughImageView.h; sourceTree = "<group>"; };
+		305B3E6B1B45145100C1D3DE /* RCHitTestEventThroughImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCHitTestEventThroughImageView.m; sourceTree = "<group>"; };
 		306DD81F1B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRegisterUploadPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		306DD8201B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegisterUploadPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		306DD8231B2AE550008C29E0 /* RCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLoginViewController.h; sourceTree = "<group>"; };
@@ -500,6 +506,10 @@
 				30C5CB3D1B40F9DA00DA2F82 /* RCUnderLineButton.m */,
 				3032267A1B42865800BBB571 /* RCCameraButton.h */,
 				3032267B1B42865800BBB571 /* RCCameraButton.m */,
+				305B3E671B44F49D00C1D3DE /* RCNavgationItemButton.h */,
+				305B3E681B44F49D00C1D3DE /* RCNavgationItemButton.m */,
+				305B3E6A1B45145100C1D3DE /* RCHitTestEventThroughImageView.h */,
+				305B3E6B1B45145100C1D3DE /* RCHitTestEventThroughImageView.m */,
 			);
 			path = UserControl;
 			sourceTree = "<group>";
@@ -812,6 +822,7 @@
 				307F537C1B318C3D00554C92 /* RCMainLikeViewController.m in Sources */,
 				3039E1551B26881F00C1861F /* Const.m in Sources */,
 				30D64B731B329DA000061AB0 /* MKAnnotationView+WebCache.m in Sources */,
+				305B3E691B44F49D00C1D3DE /* RCNavgationItemButton.m in Sources */,
 				30E40C9D1B2BD0B000EBA6BF /* RCLoginForgetPasswordViewController.m in Sources */,
 				30D10A801B3A603300C13332 /* RCMainLikePhotoDetailViewController.m in Sources */,
 				30D02E221B294830004E5F9A /* RCHomeViewController.m in Sources */,
@@ -822,6 +833,7 @@
 				30D64B8B1B32B25600061AB0 /* RCMainLikeModel.m in Sources */,
 				30DA9A581B3152BF00BACBF7 /* UIImage+SubImage.m in Sources */,
 				30DA9A4F1B3152BF00BACBF7 /* ImageScaleUtil.m in Sources */,
+				305B3E6C1B45145100C1D3DE /* RCHitTestEventThroughImageView.m in Sources */,
 				30D1EF681B3BFB7900AE7BBE /* RCMainLikeModifyPhotoViewController.m in Sources */,
 				30D64B7E1B329DA000061AB0 /* UIImage+MultiFormat.m in Sources */,
 				30D1EF621B3BB3BE00AE7BBE /* RCBaseNormalViewController.m in Sources */,

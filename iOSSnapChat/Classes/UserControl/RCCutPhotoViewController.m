@@ -31,8 +31,6 @@
 
 #pragma mark - Utility
 - (void)setUpUI {
-    self.arrowTitle = @"";
-    
     //剪切控件
     _screentshotView = [[ScreenshotBorderView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth, kRCScreenHeight + 64)];
     _screentshotView.srcImage = _cutImage;
@@ -42,7 +40,7 @@
 - (void)modifyNavgationBar {
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     doneButton.frame = CGRectMake(0, 0, 44, 44);
-    [doneButton setTitle:kRCLocalizedString(@"RegisterInfoDone") forState:UIControlStateNormal];
+    [doneButton setTitle:kRCLocalizedString(@"RegisterUploadCutPhotoNavigatiTitle") forState:UIControlStateNormal];
     doneButton.titleLabel.font = kRCBoldSystemFont(17);
     [doneButton addTarget:self action:@selector(doneButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithCustomView:doneButton];

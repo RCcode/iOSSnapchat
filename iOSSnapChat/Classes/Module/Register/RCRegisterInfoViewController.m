@@ -18,6 +18,50 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 #define kRCRegisterInfoViewAgeComponentNumber 1
 #define kRCRegisterInfoViewAgeNumber 100
 
+//AutoLayout
+#define kRCRegisterInfoSnapChatFieldTopConstant (64 + 20)
+#define kRCRegisterInfoSnapChatFieldLeftConstant (kRCAdaptationWidth(82) - 10)
+#define kRCRegisterInfoSnapChatFieldRightConstant kRCAdaptationWidth(82)
+#define kRCRegisterInfoSnapChatFieldHeightConstant (kRCAdaptationHeight(142) - 20)
+
+#define kRCRegisterInfoSnapChatSeparatorLineTopConstant 0
+#define kRCRegisterInfoSnapChatSeparatorLineLeftConstant kRCAdaptationWidth(82)
+#define kRCRegisterInfoSnapChatSeparatorLineRightConstant kRCAdaptationWidth(82)
+#define kRCRegisterInfoSnapChatSeparatorLineHeightConstant 1
+
+
+#define kRCRegisterInfoAgeFieldTopConstant (0 + 20)
+#define kRCRegisterInfoAgeFieldLeftConstant kRCAdaptationWidth(82)
+#define kRCRegisterInfoAgeFieldRightConstant kRCAdaptationWidth(82)
+#define kRCRegisterInfoAgeFieldHeightConstant (kRCAdaptationHeight(128) - 20)
+
+#define kRCRegisterInfoAgeSeparatorLineTopConstant 0
+#define kRCRegisterInfoAgeSeparatorLineLeftConstant kRCAdaptationWidth(82)
+#define kRCRegisterInfoAgeSeparatorLineRightConstant kRCAdaptationWidth(82)
+#define kRCRegisterInfoAgeSeparatorLineHeightConstant 1
+
+#define kRCRegisterInfoGenderLabelTopConstant kRCAdaptationHeight(92)
+#define kRCRegisterInfoGenderLabelLeftConstant kRCAdaptationWidth(82)
+#define kRCRegisterInfoGenderLabelWidthConstant kRCAdaptationWidth(200)
+#define kRCRegisterInfoGenderLabelHeightConstant kRCAdaptationHeight(40)
+
+#define kRCRegisterInfoFemaleButtonTopConstant kRCAdaptationHeight(74)
+#define kRCRegisterInfoFemaleButtonRightConstant kRCAdaptationWidth(48)
+#define kRCRegisterInfoFemaleButtonWidthConstant kRCAdaptationHeight(72)
+#define kRCRegisterInfoFemaleButtonHeightConstant kRCAdaptationHeight(72)
+
+#define kRCRegisterInfoMaleButtonTopConstant kRCAdaptationHeight(74)
+#define kRCRegisterInfoMaleButtonRightConstant kRCAdaptationWidth(108)
+#define kRCRegisterInfoMaleButtonWidthConstant kRCAdaptationHeight(72)
+#define kRCRegisterInfoMaleButtonHeightConstant kRCAdaptationHeight(72)
+
+//Frame
+#define kRCRegisterInfoSeparatorLineHeight 1
+#define kRCRegisterInfoKeyboardNormailHeight 216
+#define kRCRegisterInfoCompleteButtonHeight kRCAdaptationHeight(70)
+#define kRCRegisterInfoCompleteButtonWidth 100
+#define kRCRegisterInfoInputViewHeight (kRCRegisterInfoKeyboardNormailHeight + kRCRegisterInfoCompleteButtonHeight)
+
 @interface RCRegisterInfoViewController () <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 {
     //Control
@@ -69,7 +113,6 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
     snapChatField.delegate = self;
     snapChatField.placeholder = kRCLocalizedString(@"RegisterInfoYourSnapchatIDPlaceholder");
     [self.view addSubview:snapChatField];
-
     _snapChatField = snapChatField;
     
     UIView *snapChatSeparatorLine = [[UIView alloc] init];
@@ -77,15 +120,20 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
     [self.view addSubview:snapChatSeparatorLine];
     _snapChatSeparatorLine = snapChatSeparatorLine;
     
-#warning modify
+    UIView *separatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth, kRCRegisterInfoSeparatorLineHeight)];
+    separatorLine.backgroundColor = kRCSystemLightgray;
     UIButton *completeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [completeButton addTarget:self action:@selector(completeButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
-    completeButton.frame = CGRectMake(kRCScreenWidth - 100, 0, 100, 20);
+    [completeButton setTitleColor:kRCSystemLightgray forState:UIControlStateNormal];
+    completeButton.frame = CGRectMake(kRCScreenWidth - kRCRegisterInfoCompleteButtonWidth, kRCRegisterInfoSeparatorLineHeight, kRCRegisterInfoCompleteButtonWidth, kRCRegisterInfoCompleteButtonHeight);
     [completeButton setTitle:kRCLocalizedString(@"RegisterInfoCompleteButtonTitle") forState:UIControlStateNormal];
-    UIPickerView *agePickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 20, kRCScreenWidth, 216)];
+    UIPickerView *agePickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, kRCRegisterInfoCompleteButtonHeight, kRCScreenWidth, kRCRegisterInfoKeyboardNormailHeight)];
+    agePickerView.backgroundColor = colorWithHexString(@"ededed");
     agePickerView.dataSource = self;
     agePickerView.delegate = self;
-    UIView *ageInputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth, 216 + 20)];
+    UIView *ageInputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth, kRCRegisterInfoInputViewHeight)];
+    ageInputView.backgroundColor = kRCDefaultWhite;
+    [ageInputView addSubview:separatorLine];
     [ageInputView addSubview:completeButton];
     [ageInputView addSubview:agePickerView];
     RCPikerViewTextFiled *ageField = [[RCPikerViewTextFiled alloc] init];
@@ -105,7 +153,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
     genderLabel.textColor = kRCSystemLightgray;
     [self.view addSubview:genderLabel];
     _genderLabel = genderLabel;
-
+    
     UIButton *femaleButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [femaleButton setAdjustsImageWhenHighlighted:NO];
     [femaleButton setBackgroundImage:kRCImage(@"icon_girl_unchoose") forState:UIControlStateNormal];
@@ -126,47 +174,46 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 
 - (void)addConstraint {
     [_snapChatField setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:64 + 10]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20 - 10]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCRegisterInfoSnapChatFieldTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCRegisterInfoSnapChatFieldLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCRegisterInfoSnapChatFieldRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoSnapChatFieldHeightConstant]];
     
     [_snapChatSeparatorLine setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_snapChatField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:1]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_snapChatField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCRegisterInfoSnapChatSeparatorLineTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCRegisterInfoSnapChatSeparatorLineLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCRegisterInfoSnapChatSeparatorLineRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_snapChatSeparatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoSnapChatSeparatorLineHeightConstant]];
     
     [_ageField setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_snapChatSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_snapChatSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCRegisterInfoAgeFieldTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCRegisterInfoAgeFieldLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCRegisterInfoAgeFieldRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoAgeFieldHeightConstant]];
     
     [_ageSeparatorLine setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:1]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCRegisterInfoAgeSeparatorLineTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCRegisterInfoAgeSeparatorLineLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCRegisterInfoAgeSeparatorLineRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageSeparatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoAgeSeparatorLineHeightConstant]];
     
     [_genderLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:100]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
-    
-    
-    [_maleButton setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCRegisterInfoGenderLabelTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCRegisterInfoGenderLabelLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoGenderLabelWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_genderLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoGenderLabelHeightConstant]];
     
     [_femaleButton setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_maleButton attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:40]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCRegisterInfoFemaleButtonTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_maleButton attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-kRCRegisterInfoFemaleButtonRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoFemaleButtonWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_femaleButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoFemaleButtonHeightConstant]];
+    
+    [_maleButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_ageSeparatorLine attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCRegisterInfoMaleButtonTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCRegisterInfoMaleButtonRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoMaleButtonWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_maleButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoMaleButtonHeightConstant]];
 }
 
 - (void)modifyNavgationBar {

@@ -13,7 +13,6 @@
 //自定义不隐藏占位文本PickerViewTextField间距
 #define kRCPikerViewTextFiledMargin 10
 //自定义不隐藏占位文本PickerViewTextField文本字体
-#warning modify
 #define kRCPikerViewTextFiledFont kRCSystemFont(17)
 
 @implementation RCPikerViewTextFiled
@@ -35,7 +34,7 @@
 
 - (void)drawRect:(CGRect)rect {
     //重绘占位文本
-    NSDictionary *placeHolderAttributes = @{NSFontAttributeName: kRCPikerViewTextFiledFont, NSForegroundColorAttributeName: kRCSystemLightgray};
+    NSDictionary *placeHolderAttributes = @{NSFontAttributeName: kRCPikerViewTextFiledFont, NSForegroundColorAttributeName: kRCRGBAColor(0, 0, 0, 0.87)};
     CGSize placeHolderSize = [_userPlaceHolder sizeForLineWithSize:CGSizeMake(rect.size.width, MAXFLOAT) Attributes:placeHolderAttributes];
     [_userPlaceHolder drawInRect:CGRectMake(0, (rect.size.height - placeHolderSize.height) * 0.5, placeHolderSize.width, placeHolderSize.height) withAttributes:placeHolderAttributes];
     //重绘输入文本

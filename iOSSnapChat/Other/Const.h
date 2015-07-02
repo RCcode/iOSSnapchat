@@ -16,9 +16,9 @@
 #define kRCDefaultPurple colorWithHexString(@"9b55a0")
 #define kRCDefaultLightgray colorWithHexString(@"bcbcbc")
 #define kRCDefaultAlphaWhite kRCRGBAColor(255, 255, 255, 0.2)
+#define kRCDefaultAlphaBlack kRCRGBAColor(0, 0, 0, 0.54)
 
-#define kRCIOSPt(px) px / (1920 / kRCScreenHeight)
-#define kRCIOSBd(px) px * 72 / 96 
+#define kRCIOSBd(px) px * 72 / 96
 
 //key
 extern NSString *const kRCUserDefaultCountryIDKey;

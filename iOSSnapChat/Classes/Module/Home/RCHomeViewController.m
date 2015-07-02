@@ -12,11 +12,20 @@
 #import "RCRegisterAccountViewController.h"
 #import "RCLoginViewController.h"
 
-
 #define kRCHomePageNumber 3
 #define kRCHomePageCellIdentifer @"kRCHomePageCellIdentifer"
 
 //AutoLayout
+#define kRCHomeBackgroundImageViewTopConstant 0
+#define kRCHomeBackgroundImageViewBottomConstant 0
+#define kRCHomeBackgroundImageViewLeftConstant 0
+#define kRCHomeBackgroundImageViewRightConstant 0
+
+#define kRCHomeBackgroundHomePageCollectionViewTopConstant 0
+#define kRCHomeBackgroundHomePageCollectionViewBottomConstant 0
+#define kRCHomeBackgroundHomePageCollectionViewLeftConstant 0
+#define kRCHomeBackgroundHomePageCollectionViewRightConstant 0
+
 #define kRCHomePageControlTopConstant kRCAdaptationHeight(840)
 
 #define kRCHomeRegisterButtonTopConstant 0
@@ -35,9 +44,11 @@
 #define kRCHomePrivacyButtonHeightConstant kRCAdaptationHeight(40)
 #define kRCHomePrivacyButtonFont kRCSystemFont(kRCIOSBd(20))
 
-@interface RCHomeViewController ()
+@interface RCHomeViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
     //Control
+    UIImageView *_backgroundImageView;
+    UICollectionView *_homePageCollectionView;
     UIPageControl *_pageControl;
     UIButton *_registerButton;
     UIButton *_loginButton;
@@ -52,7 +63,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self initLayout];
     [self setUpUI];
     [self addConstraint];
 }
@@ -66,14 +76,29 @@
 }
 
 #pragma mark - Utility
-- (void)initLayout {
-    self.collectionView.bounces = NO;
-    [self.collectionView registerClass:[RCHomePageCell class] forCellWithReuseIdentifier:kRCHomePageCellIdentifer];
-    self.collectionView.showsHorizontalScrollIndicator = NO;
-    self.collectionView.pagingEnabled = YES;
-}
-
 - (void)setUpUI {
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:kRCImage(@"bg")];
+    backgroundImageView.frame = self.view.bounds;
+    backgroundImageView.userInteractionEnabled = YES;
+    [self.view addSubview:backgroundImageView];
+    _backgroundImageView = backgroundImageView;
+    
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake(kRCScreenWidth, kRCScreenHeight);
+    layout.minimumLineSpacing = 0;
+    layout.minimumInteritemSpacing = 0;
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    UICollectionView *homePageCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    homePageCollectionView.backgroundColor = [UIColor clearColor];
+    homePageCollectionView.dataSource = self;
+    homePageCollectionView.delegate = self;
+    homePageCollectionView.bounces = NO;
+    [homePageCollectionView registerClass:[RCHomePageCell class] forCellWithReuseIdentifier:kRCHomePageCellIdentifer];
+    homePageCollectionView.showsHorizontalScrollIndicator = NO;
+    homePageCollectionView.pagingEnabled = YES;
+    [self.view addSubview:homePageCollectionView];
+    _homePageCollectionView = homePageCollectionView;
+    
     UIPageControl *pageControl = [[UIPageControl alloc] init];
     pageControl.numberOfPages = kRCHomePageNumber;
     [self.view addSubview:pageControl];
@@ -105,6 +130,19 @@
 }
 
 - (void)addConstraint {
+    
+    [_backgroundImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCHomeBackgroundImageViewTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCHomeBackgroundImageViewBottomConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCHomeBackgroundImageViewLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundImageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCHomeBackgroundImageViewRightConstant]];
+    
+    [_homePageCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_homePageCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCHomeBackgroundHomePageCollectionViewTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_homePageCollectionView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCHomeBackgroundHomePageCollectionViewBottomConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_homePageCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCHomeBackgroundHomePageCollectionViewLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_homePageCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCHomeBackgroundHomePageCollectionViewRightConstant]];
+    
     [_pageControl setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_pageControl attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCHomePageControlTopConstant]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_pageControl attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
@@ -136,7 +174,6 @@
 
 - (void)loginButtonDidClicked {
     RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
-    loginVc.isAutoLogin = YES;
     RCBaseNavgationController *navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
     [self presentViewController:navVc animated:YES completion:nil];
 }
@@ -152,9 +189,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    RCHomePageCell *homePageCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kRCHomePageCellIdentifer forIndexPath:indexPath];
-    homePageCell.bgImage = [UIImage imageNamed:@"bg"];
-    
+    RCHomePageCell *homePageCell = [collectionView dequeueReusableCellWithReuseIdentifier:kRCHomePageCellIdentifer forIndexPath:indexPath];
     if (indexPath.item == 0) {
         homePageCell.introduceTitle = kRCLocalizedString(@"HomeIntroducePageOne");
         homePageCell.introduceImage = kRCImage(@"yd1");
@@ -165,7 +200,6 @@
         homePageCell.introduceTitle = kRCLocalizedString(@"HomeIntroducePageThree");
         homePageCell.introduceImage = kRCImage(@"yd3");
     }
-    
     return homePageCell;
 }
 

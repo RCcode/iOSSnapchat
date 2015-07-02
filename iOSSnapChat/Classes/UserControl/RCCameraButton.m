@@ -8,9 +8,8 @@
 
 #import "RCCameraButton.h"
 
-#warning modify
-#define kRCCameraButtonImageWidth 91 / 3
-#define kRCCameraButtonImageHeight 70 / 3
+#define kRCCameraButtonImageWidth kRCAdaptationWidth(55)
+#define kRCCameraButtonImageHeight kRCAdaptationHeight(42)
 
 @implementation RCCameraButton
 

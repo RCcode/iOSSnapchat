@@ -17,6 +17,8 @@
 #import "RCPhotoView.h"
 #import "RCUnderLineButton.h"
 #import "RCCameraButton.h"
+#import "RCNavgationItemButton.h"
+#import "RCHitTestEventThroughImageView.h"
 
 #import "RCNetworkManager.h"
 #import "RCCamerGalleryManager.h"

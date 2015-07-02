@@ -27,7 +27,7 @@
 #define kRCLoginForgetPasswordRetrieveButtonRightConstant kRCAdaptationWidth(34)
 #define kRCLoginForgetPasswordRetrieveButtonHeightConstant kRCAdaptationHeight(78)
 
-@interface RCLoginForgetPasswordViewController ()
+@interface RCLoginForgetPasswordViewController () <UINavigationControllerDelegate>
 {
     //Controller
     UITextField *_emailField;
@@ -43,7 +43,7 @@
 #pragma mark - LifeCircle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self setUpUI];
     [self addConstraint];
 }
@@ -108,6 +108,7 @@
 
 #pragma mark - Action
 - (void)arrowBackDidClicked {
+    self.popVc.isAutoLogin = NO;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -8,17 +8,42 @@
 
 #import "RCRegisterUploadPhotoCollectionViewCell.h"
 
+#define kRCRegisterUploadPhotoCellImageViewTopConstant 0
+#define kRCRegisterUploadPhotoCellImageViewBottomConstant 0
+#define kRCRegisterUploadPhotoCellImageViewLeftConstant 0
+#define kRCRegisterUploadPhotoCellImageViewRightConstant 0
+
+@interface RCRegisterUploadPhotoCollectionViewCell ()
+{
+    UIImageView *_imageView;
+}
+
+@end
+
 @implementation RCRegisterUploadPhotoCollectionViewCell
 
 - (void)setDrawImage:(UIImage *)drawImage {
     _drawImage = drawImage;
-    [self setNeedsDisplay];
+    _imageView.image = drawImage;
 }
 
-- (void)drawRect:(CGRect)rect {
-#warning 需要根据图片长宽比计算图片缩放
-    //绘制背景
-    [_drawImage drawInRect:rect];
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        UIImageView *imageView = [[UIImageView alloc] init];
+        [self.contentView addSubview:imageView];
+        _imageView = imageView;
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [_imageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCRegisterUploadPhotoCellImageViewTopConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCRegisterUploadPhotoCellImageViewBottomConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCRegisterUploadPhotoCellImageViewLeftConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCRegisterUploadPhotoCellImageViewRightConstant]];
 }
 
 @end

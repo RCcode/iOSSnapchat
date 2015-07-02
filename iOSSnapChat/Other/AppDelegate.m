@@ -40,7 +40,6 @@
     }
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:kRCApplicationFirstStartKey]) {
-        //设置第一次启动默认值
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:YES forKey:kRCApplicationFirstStartKey];
         [userDefault setObject:@"123456" forKey:kRCRemoteNotificationsKey];
@@ -50,15 +49,7 @@
         [userDefault setDouble:0 forKey:kRCUserDefaultLongitudeKey];
         [userDefault setDouble:0 forKey:kRCUserDefaultLatitudeKey];
         [userDefault setInteger:-1 forKey:kRCUserDefaultGenderKey];
-        
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.itemSize = kRCScreenBounds.size;
-        layout.minimumLineSpacing = 0;
-        layout.minimumInteritemSpacing = 0;
-        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        RCHomeViewController *homeVc = [[RCHomeViewController alloc] initWithCollectionViewLayout:layout];
-        self.window.rootViewController = homeVc;
-        [self.window makeKeyAndVisible];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(-2)}];
     } else {
         NSInteger step = [[NSUserDefaults standardUserDefaults] integerForKey:kRCUserDefaultResgisterStepKey];
         [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(step)}];
@@ -67,13 +58,41 @@
 }
 
 - (void)addNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchToRootVc:) name:@"111" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchToRootVc:) name:kRCSwitchRootVcNotification object:nil];
 }
 
+//kRCSwitchRootVcNotificationVcKey 传入Animation = YES,不传入Animation = NO
 - (void)switchToRootVc:(NSNotification *)notice {
     NSInteger step = [notice.userInfo[kRCSwitchRootVcNotificationStepKey] integerValue];
     RCBaseNavgationController *navVc = nil;
     switch (step) {
+        case -2:
+        {
+            if (!notice.userInfo[kRCSwitchRootVcNotificationVcKey]) {
+                UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+                layout.itemSize = kRCScreenBounds.size;
+                layout.minimumLineSpacing = 0;
+                layout.minimumInteritemSpacing = 0;
+                layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+                RCHomeViewController *homeVc = [[RCHomeViewController alloc] init];
+                self.window.rootViewController = homeVc;
+                [self.window makeKeyAndVisible];
+            } else {
+                //登出，返回首页arrow自定义动画
+                UIViewController *sendVcNav = notice.userInfo[kRCSwitchRootVcNotificationVcKey];
+                RCHomeViewController *homeVc = [[RCHomeViewController alloc] init];
+                homeVc.view.frame = CGRectMake(0, 0, kRCScreenWidth, kRCScreenHeight);
+                [[UIApplication sharedApplication].keyWindow addSubview:homeVc.view];
+                [[UIApplication sharedApplication].keyWindow sendSubviewToBack:homeVc.view];
+                [UIView animateWithDuration:0.2f animations:^{
+                    sendVcNav.view.frame = CGRectMake(0, kRCScreenHeight, kRCScreenWidth, kRCScreenHeight);
+                } completion:^(BOOL finished) {
+                    self.window.rootViewController = homeVc;
+                    [self.window makeKeyAndVisible];
+                }];
+            }
+            return;
+        }
         case -1:
         {
             RCRegisterAccountViewController *registerAccountVc = [[RCRegisterAccountViewController alloc] init];
@@ -95,10 +114,30 @@
         }
         case 0:
         {
-            RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
-            loginVc.isAutoLogin = YES;
-            navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
-            break;
+            if (!notice.userInfo[kRCSwitchRootVcNotificationVcKey]) {
+                RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
+                loginVc.isAutoLogin = YES;
+                navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
+                self.window.rootViewController = navVc;
+                [self.window makeKeyAndVisible];
+            } else {
+                //登录按钮点击自定义动画
+                UIViewController *sendVcNav = notice.userInfo[kRCSwitchRootVcNotificationVcKey];
+                RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
+                loginVc.view.frame = CGRectMake(kRCScreenWidth, 64, kRCScreenWidth, kRCScreenHeight - 64);
+                navVc = [[RCBaseNavgationController alloc] initWithRootViewController:loginVc];
+                [[UIApplication sharedApplication].keyWindow addSubview:loginVc.view];
+                [[UIApplication sharedApplication].keyWindow bringSubviewToFront:loginVc.view];
+                sendVcNav.title = kRCLocalizedString(@"RegisterAccountNavigationLoginTitle");
+                [UIView animateWithDuration:0.2f animations:^{
+                    loginVc.view.frame = CGRectMake(0, 64, kRCScreenWidth, kRCScreenHeight - 64);
+                } completion:^(BOOL finished) {
+                    [sendVcNav.view removeFromSuperview];
+                    self.window.rootViewController = navVc;
+                    [self.window makeKeyAndVisible];
+                }];
+            }
+            return;
         }
         default:
             break;
