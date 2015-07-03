@@ -24,7 +24,12 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 #define kRRegisterUploadAddButtonBorderWidth 1
 #define kRRegisterUploadPageLabelCornerRadius 5
 
-//AutoLayout
+//主界面约束
+#define kRCRegisterInfoPhotoCollectionViewTopConstant (kRCAdaptationHeight(44) + 64)
+#define kRCRegisterInfoPhotoCollectionViewLeftConstant kRCAdaptationWidth(110)
+#define kRCRegisterInfoPhotoCollectionViewWidthConstant (kRCScreenWidth - kRCAdaptationWidth(110) * 2)
+#define kRCRegisterInfoPhotoCollectionViewHeightConstant (kRCScreenWidth - kRCAdaptationWidth(110) * 2)
+
 #define kRCRegisterInfoPageLabelBottomConstant 5
 #define kRCRegisterInfoPageLabelRightConstant 5
 #define kRCRegisterInfoPageLabelWidthConstant 40
@@ -50,10 +55,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 #define kRCRegisterInfoGoButtonLeftConstant kRCAdaptationWidth(22)
 #define kRCRegisterInfoGoButtonRightConstant kRCAdaptationWidth(22)
 #define kRCRegisterInfoGoButtonHeightConstant kRCAdaptationHeight(78)
-
-//Frame
-#define kRCRegisterUploadPhotoPhotoCollectionViewTop (kRCAdaptationHeight(46) + 64)
-#define kRCRegisterUploadPhotoPhotoCollectionViewLeft kRCAdaptationWidth(110)
 
 @interface RCRegisterUploadPhotoViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
@@ -103,7 +104,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     _judgeImageFillArray = [NSMutableArray arrayWithArray:@[@YES, @NO, @NO]];
     _photoCount = 1;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.view.backgroundColor = colorWithHexString(@"fdfdfd");
+    self.view.backgroundColor = kRCDefaultBackWhiteColor;
 }
 
 - (void)inheritSetting {
@@ -112,11 +113,11 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 
 - (void)setUpUI {
     UICollectionViewFlowLayout *photoCollectLayout = [[UICollectionViewFlowLayout alloc] init];
-    UICollectionView *photoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(kRCRegisterUploadPhotoPhotoCollectionViewLeft, kRCRegisterUploadPhotoPhotoCollectionViewTop, kRCScreenWidth - kRCRegisterUploadPhotoPhotoCollectionViewLeft * 2, kRCScreenWidth - kRCRegisterUploadPhotoPhotoCollectionViewLeft * 2) collectionViewLayout:photoCollectLayout];
+    UICollectionView *photoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:photoCollectLayout];
     photoCollectionView.backgroundColor = [UIColor redColor];
     photoCollectionView.layer.cornerRadius = kRRegisterUploadCollectionViewCornerRadius;
     photoCollectionView.layer.masksToBounds = YES;
-    photoCollectLayout.itemSize = CGSizeMake(kRCScreenWidth - kRCRegisterUploadPhotoPhotoCollectionViewLeft * 2, kRCScreenWidth - kRCRegisterUploadPhotoPhotoCollectionViewLeft  * 2);
+    photoCollectLayout.itemSize = CGSizeMake(kRCRegisterInfoPhotoCollectionViewWidthConstant, kRCRegisterInfoPhotoCollectionViewHeightConstant);
     photoCollectLayout.minimumLineSpacing = 0;
     photoCollectLayout.minimumInteritemSpacing = 0;
     photoCollectionView.bounces = NO;
@@ -189,6 +190,12 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 }
 
 - (void)addConstraint {
+    [_photoCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_photoCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCRegisterInfoPhotoCollectionViewTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_photoCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCRegisterInfoPhotoCollectionViewLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_photoCollectionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoPhotoCollectionViewWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_photoCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoPhotoCollectionViewHeightConstant]];
+    
     [_pageLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_pageLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_photoCollectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCRegisterInfoPageLabelBottomConstant]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_pageLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_photoCollectionView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCRegisterInfoPageLabelRightConstant]];

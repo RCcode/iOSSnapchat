@@ -22,8 +22,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     NSInteger _tapIndex;
     NSInteger _uploadIndex;
     UICollectionView *_photoCollectionView;
-    
-    UIImage *_showImage;
 }
 
 @property (nonatomic, strong) NSMutableArray *choiceImageViewArray;

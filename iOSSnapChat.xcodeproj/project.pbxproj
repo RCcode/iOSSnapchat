@@ -11,6 +11,7 @@
 		30165C791B2E836E000C0549 /* RCLocalTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 30165C781B2E836E000C0549 /* RCLocalTool.m */; };
 		30165C7F1B2E8D8C000C0549 /* RCRegiseterInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30165C7E1B2E8D8C000C0549 /* RCRegiseterInfoModel.m */; };
 		30165C831B2EE73E000C0549 /* RCLoginNormalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 30165C821B2EE73E000C0549 /* RCLoginNormalModel.m */; };
+		3026EE231B4687DA006EB46F /* RCMoreCameraButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3026EE221B4687DA006EB46F /* RCMoreCameraButton.m */; };
 		3032267C1B42865800BBB571 /* RCCameraButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3032267B1B42865800BBB571 /* RCCameraButton.m */; };
 		3039E1501B2686F000C1861F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E14E1B2686F000C1861F /* AppDelegate.m */; };
 		3039E1511B2686F000C1861F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3039E14F1B2686F000C1861F /* main.m */; };
@@ -121,6 +122,8 @@
 		30165C7E1B2E8D8C000C0549 /* RCRegiseterInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRegiseterInfoModel.m; sourceTree = "<group>"; };
 		30165C811B2EE73E000C0549 /* RCLoginNormalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCLoginNormalModel.h; sourceTree = "<group>"; };
 		30165C821B2EE73E000C0549 /* RCLoginNormalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCLoginNormalModel.m; sourceTree = "<group>"; };
+		3026EE211B4687DA006EB46F /* RCMoreCameraButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMoreCameraButton.h; sourceTree = "<group>"; };
+		3026EE221B4687DA006EB46F /* RCMoreCameraButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMoreCameraButton.m; sourceTree = "<group>"; };
 		3032267A1B42865800BBB571 /* RCCameraButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCameraButton.h; sourceTree = "<group>"; };
 		3032267B1B42865800BBB571 /* RCCameraButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCameraButton.m; sourceTree = "<group>"; };
 		3039E14D1B2686F000C1861F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -506,6 +509,8 @@
 				30C5CB3D1B40F9DA00DA2F82 /* RCUnderLineButton.m */,
 				3032267A1B42865800BBB571 /* RCCameraButton.h */,
 				3032267B1B42865800BBB571 /* RCCameraButton.m */,
+				3026EE211B4687DA006EB46F /* RCMoreCameraButton.h */,
+				3026EE221B4687DA006EB46F /* RCMoreCameraButton.m */,
 				305B3E671B44F49D00C1D3DE /* RCNavgationItemButton.h */,
 				305B3E681B44F49D00C1D3DE /* RCNavgationItemButton.m */,
 				305B3E6A1B45145100C1D3DE /* RCHitTestEventThroughImageView.h */,
@@ -847,6 +852,7 @@
 				30D10A831B3A909B00C13332 /* RCMainLikeMessageViewController.m in Sources */,
 				30CBBF451B43934B000468B0 /* UIButton+backgroundColor.m in Sources */,
 				306DD8211B2AD29C008C29E0 /* RCRegisterUploadPhotoCollectionViewCell.m in Sources */,
+				3026EE231B4687DA006EB46F /* RCMoreCameraButton.m in Sources */,
 				306DD8251B2AE550008C29E0 /* RCLoginViewController.m in Sources */,
 				30D64B771B329DA000061AB0 /* SDWebImageDecoder.m in Sources */,
 				30555CB11B3D57DF003CFA5F /* RCBaseViewController.m in Sources */,

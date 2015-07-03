@@ -15,8 +15,10 @@
 #define kRCDefaultWhite colorWithHexString(@"ffffff")
 #define kRCDefaultPurple colorWithHexString(@"9b55a0")
 #define kRCDefaultLightgray colorWithHexString(@"bcbcbc")
+#define kRCDefaultBackWhiteColor colorWithHexString(@"fdfdfd")
 #define kRCDefaultAlphaWhite kRCRGBAColor(255, 255, 255, 0.2)
 #define kRCDefaultAlphaBlack kRCRGBAColor(0, 0, 0, 0.54)
+#define kRCDefaultDarkAlphaBlack kRCRGBAColor(0, 0, 0, 0.87)
 
 #define kRCIOSBd(px) px * 72 / 96
 

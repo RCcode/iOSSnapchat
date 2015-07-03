@@ -13,6 +13,7 @@
     UIImageView *_showImageView;
     UILabel *_showLabel;
     UILabel *_moreLabel;
+    UIView *_separatorLine;
 }
 
 @end
@@ -26,26 +27,62 @@
         _showImageView = showImageView;
         
         UILabel *showLabel = [[UILabel alloc] init];
+        showLabel.textColor = kRCDefaultDarkAlphaBlack;
         [self.contentView addSubview:showLabel];
         _showLabel = showLabel;
         
         UILabel *moreLabel = [[UILabel alloc] init];
         [self.contentView addSubview:moreLabel];
         _moreLabel = moreLabel;
+        
+        UIView *separatorLine = [[UIView alloc] init];
+        separatorLine.backgroundColor = kRCDefaultLightgray;
+        [self.contentView addSubview:separatorLine];
+        _separatorLine = separatorLine;
     }
     return self;
 }
 
+#define RCMainLikeTableViewCellShowImageViewLeftConstant kRCAdaptationWidth(43)
+#define RCMainLikeTableViewCellShowImageViewWidthConstant kRCAdaptationWidth(30)
+#define RCMainLikeTableViewCellShowImageViewHeightConstant kRCAdaptationWidth(30)
+
+#define RCMainLikeTableViewCellShowLabelLeftConstant kRCAdaptationWidth(22)
+
+#define RCMainLikeTableViewCellMoreLabelRightConstant 0
+
+#define RCMainLikeTableViewCellSeparatorLineRightConstant 0
+#define RCMainLikeTableViewCellSeparatorLineLeftConstant 0
+#define RCMainLikeTableViewCellSeparatorLineRightConstant 0
+#define RCMainLikeTableViewCellSeparatorLineHeightConstant 1
+
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _showImageView.frame = CGRectMake(5, 5, self.frame.size.height - 10, self.frame.size.height - 10);
-    _showLabel.frame = CGRectMake(CGRectGetMaxX(_showImageView.frame) + 5, 5, 200, self.frame.size.height - 10);
-    _moreLabel.frame = CGRectMake(self.frame.size.width - 5 - 100, 5, 100, self.frame.size.height - 10);
+    
+    [_showImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:RCMainLikeTableViewCellShowImageViewLeftConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:RCMainLikeTableViewCellShowImageViewWidthConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:RCMainLikeTableViewCellShowImageViewHeightConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    
+    [_showLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_showImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:RCMainLikeTableViewCellShowLabelLeftConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    
+    [_moreLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_moreLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-RCMainLikeTableViewCellMoreLabelRightConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_moreLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    
+    [_separatorLine setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-RCMainLikeTableViewCellSeparatorLineRightConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:RCMainLikeTableViewCellSeparatorLineLeftConstant]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:-RCMainLikeTableViewCellSeparatorLineRightConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:RCMainLikeTableViewCellSeparatorLineHeightConstant]];
 }
 
 - (void)setShowIcon:(UIImage *)showIcon {
     _showIcon = showIcon;
-    _showImageView.image = [UIImage imageNamed:@""];
+    _showImageView.image = showIcon;
 }
 
 - (void)setShowTitle:(NSString *)showTitle {

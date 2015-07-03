@@ -8,7 +8,7 @@
 
 #import "RCHomePageCell.h"
 
-//AutoLayout
+//Cell约束
 #define kRCHomePageCellIntroduceLabelTopConstant kRCAdaptationHeight(20)
 #define kRCHomePageCellIntroduceLabelBottomConstant kRCAdaptationHeight(10)
 #define kRCHomePageCellIntroduceLabelLeftConstant kRCAdaptationWidth(40)

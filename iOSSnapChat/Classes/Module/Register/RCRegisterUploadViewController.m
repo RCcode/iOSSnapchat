@@ -9,7 +9,7 @@
 #import "RCRegisterUploadViewController.h"
 #import "RCRegisterUploadPhotoViewController.h"
 
-//AutoLayout
+//主界面约束
 #define kRCRegisterInfoTopBackgroudViewTopConstant 0
 #define kRCRegisterInfoTopBackgroudViewLeftConstant 0
 #define kRCRegisterInfoTopBackgroudViewRightConstant 0
@@ -77,12 +77,12 @@
 
 - (void)setUpUI {
     UIView *topBackgroudView = [[UIView alloc] init];
-    topBackgroudView.backgroundColor = colorWithHexString(@"fdfdfd");
+    topBackgroudView.backgroundColor = kRCDefaultBackWhiteColor;
     [self.view addSubview:topBackgroudView];
     _topBackgroudView = topBackgroudView;
 
     UIView *bottomBackgroudView = [[UIView alloc] init];
-    bottomBackgroudView.backgroundColor = colorWithHexString(@"ffffff");
+    bottomBackgroudView.backgroundColor = kRCDefaultWhite;
     [self.view addSubview:bottomBackgroudView];
     _bottomBackgroudView = bottomBackgroudView;
     

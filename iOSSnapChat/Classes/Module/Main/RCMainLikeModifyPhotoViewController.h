@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong) RCUserInfoModel *userInfo;
 @property (nonatomic, copy) void (^complete)(UIImage *showImage);
+@property (nonatomic, strong) UIImage *showImage;
 
 @end

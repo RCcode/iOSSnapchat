@@ -8,7 +8,7 @@
 
 #import "RCLoginForgetPasswordViewController.h"
 
-//AutoLayout
+//主界面约束
 #define kRCLoginForgetPasswordEmailFieldTopConstant kRCAdaptationHeight(128)
 #define kRCLoginForgetPasswordEmailFieldLeftConstant kRCAdaptationWidth(34)
 #define kRCLoginForgetPasswordEmailFieldRightConstant kRCAdaptationWidth(34)

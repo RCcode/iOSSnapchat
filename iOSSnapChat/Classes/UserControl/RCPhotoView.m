@@ -28,10 +28,10 @@
         [self addSubview:photoImageView];
         _photoImageView = photoImageView;
         
-        UIButton *camaraButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        RCMoreCameraButton *camaraButton = [[RCMoreCameraButton alloc] init];
+        [camaraButton setImage:kRCImage(@"more_camera_icon") forState:UIControlStateNormal];
         [self addSubview:camaraButton];
-        camaraButton.backgroundColor = [UIColor blackColor];
-        camaraButton.alpha = 0.7;
+        camaraButton.backgroundColor = kRCDefaultAlphaBlack;
         _camaraButton = camaraButton;
     }
     return self;
@@ -48,7 +48,7 @@
     }
     
     _photoImageView.frame = CGRectMake(0, 0, side, side);
-    _camaraButton.frame = CGRectMake(0, side * 0.7, side, side * 0.3);
+    _camaraButton.frame = CGRectMake(0, side - kRCAdaptationHeight(40), side, kRCAdaptationHeight(40));
     
     self.layer.cornerRadius = side / 2;
     self.layer.masksToBounds = YES;

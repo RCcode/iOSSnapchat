@@ -15,7 +15,7 @@
 #define kRCHomePageNumber 3
 #define kRCHomePageCellIdentifer @"kRCHomePageCellIdentifer"
 
-//AutoLayout
+//主界面约束
 #define kRCHomeBackgroundImageViewTopConstant 0
 #define kRCHomeBackgroundImageViewBottomConstant 0
 #define kRCHomeBackgroundImageViewLeftConstant 0
@@ -122,7 +122,7 @@
 
     RCUnderLineButton *privacyButton = [[RCUnderLineButton alloc] init];
     privacyButton.titleLabel.font = kRCHomePrivacyButtonFont;
-    [privacyButton setTitleColor:colorWithHexString(@"ffffff") forState:UIControlStateNormal];
+    [privacyButton setTitleColor:kRCDefaultWhite forState:UIControlStateNormal];
     [privacyButton setTitle:kRCLocalizedString(@"HomePrivacyButtonTitle") forState:UIControlStateNormal];
     [privacyButton addTarget:self action:@selector(privacyButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:privacyButton];

@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 #define kRCRegisterInfoViewAgeComponentNumber 1
 #define kRCRegisterInfoViewAgeNumber 100
 
-//AutoLayout
+//主界面约束
 #define kRCRegisterInfoSnapChatFieldTopConstant (64 + 20)
 #define kRCRegisterInfoSnapChatFieldLeftConstant (kRCAdaptationWidth(82) - 10)
 #define kRCRegisterInfoSnapChatFieldRightConstant kRCAdaptationWidth(82)
@@ -28,7 +28,6 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 #define kRCRegisterInfoSnapChatSeparatorLineLeftConstant kRCAdaptationWidth(82)
 #define kRCRegisterInfoSnapChatSeparatorLineRightConstant kRCAdaptationWidth(82)
 #define kRCRegisterInfoSnapChatSeparatorLineHeightConstant 1
-
 
 #define kRCRegisterInfoAgeFieldTopConstant (0 + 20)
 #define kRCRegisterInfoAgeFieldLeftConstant kRCAdaptationWidth(82)
@@ -55,12 +54,23 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 #define kRCRegisterInfoMaleButtonWidthConstant kRCAdaptationHeight(72)
 #define kRCRegisterInfoMaleButtonHeightConstant kRCAdaptationHeight(72)
 
-//Frame
-#define kRCRegisterInfoSeparatorLineHeight 1
-#define kRCRegisterInfoKeyboardNormailHeight 216
-#define kRCRegisterInfoCompleteButtonHeight kRCAdaptationHeight(70)
-#define kRCRegisterInfoCompleteButtonWidth 100
-#define kRCRegisterInfoInputViewHeight (kRCRegisterInfoKeyboardNormailHeight + kRCRegisterInfoCompleteButtonHeight)
+//年龄视图约束
+#define kRCRegisterInfoAgeInputViewRect CGRectMake(0, 0, kRCScreenWidth, kRCAdaptationHeight(70) + 216)
+
+#define kRCRegisterInfoAgeInputViewSeparatorLineTopConstant 0
+#define kRCRegisterInfoAgeInputViewSeparatorLineLeftConstant 0
+#define kRCRegisterInfoAgeInputViewSeparatorLineRightConstant 0
+#define kRCRegisterInfoAgeInputViewSeparatorLineHeightConstant 1
+
+#define kRCRegisterInfoAgeInputViewCompleteButtonTopConstant 0
+#define kRCRegisterInfoAgeInputViewCompleteButtonRightConstant 0
+#define kRCRegisterInfoAgeInputViewCompleteButtonWidthConstant 100
+#define kRCRegisterInfoAgeInputViewCompleteButtonHeightConstant kRCAdaptationHeight(70)
+
+#define kRCRegisterInfoAgeInputViewAgePickerViewTopConstant kRCAdaptationHeight(70)
+#define kRCRegisterInfoAgeInputViewAgePickerViewBottomConstant 0
+#define kRCRegisterInfoAgeInputViewAgePickerViewLeftConstant 0
+#define kRCRegisterInfoAgeInputViewAgePickerViewRightConstant 0
 
 @interface RCRegisterInfoViewController () <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 {
@@ -119,23 +129,41 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
     snapChatSeparatorLine.backgroundColor = kRCSystemLightgray;
     [self.view addSubview:snapChatSeparatorLine];
     _snapChatSeparatorLine = snapChatSeparatorLine;
-    
-    UIView *separatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth, kRCRegisterInfoSeparatorLineHeight)];
+
+    UIView *separatorLine = [[UIView alloc] init];
     separatorLine.backgroundColor = kRCSystemLightgray;
     UIButton *completeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [completeButton addTarget:self action:@selector(completeButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
     [completeButton setTitleColor:kRCSystemLightgray forState:UIControlStateNormal];
-    completeButton.frame = CGRectMake(kRCScreenWidth - kRCRegisterInfoCompleteButtonWidth, kRCRegisterInfoSeparatorLineHeight, kRCRegisterInfoCompleteButtonWidth, kRCRegisterInfoCompleteButtonHeight);
     [completeButton setTitle:kRCLocalizedString(@"RegisterInfoCompleteButtonTitle") forState:UIControlStateNormal];
-    UIPickerView *agePickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, kRCRegisterInfoCompleteButtonHeight, kRCScreenWidth, kRCRegisterInfoKeyboardNormailHeight)];
+    UIPickerView *agePickerView = [[UIPickerView alloc] init];
     agePickerView.backgroundColor = colorWithHexString(@"ededed");
     agePickerView.dataSource = self;
     agePickerView.delegate = self;
-    UIView *ageInputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth, kRCRegisterInfoInputViewHeight)];
+
+    UIView *ageInputView = [[UIView alloc] initWithFrame:kRCRegisterInfoAgeInputViewRect];
     ageInputView.backgroundColor = kRCDefaultWhite;
     [ageInputView addSubview:separatorLine];
     [ageInputView addSubview:completeButton];
     [ageInputView addSubview:agePickerView];
+    
+    //约束
+    [separatorLine setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:separatorLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:ageInputView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCRegisterInfoAgeInputViewSeparatorLineTopConstant]];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:separatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:ageInputView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCRegisterInfoAgeInputViewSeparatorLineLeftConstant]];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:separatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:ageInputView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCRegisterInfoAgeInputViewSeparatorLineRightConstant]];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:separatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoAgeInputViewSeparatorLineHeightConstant]];
+    [completeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:completeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:ageInputView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCRegisterInfoAgeInputViewCompleteButtonTopConstant]];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:completeButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:ageInputView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCRegisterInfoAgeInputViewCompleteButtonRightConstant]];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:completeButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoAgeInputViewCompleteButtonWidthConstant]];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:completeButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCRegisterInfoAgeInputViewCompleteButtonHeightConstant]];
+    [agePickerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:agePickerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:ageInputView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCRegisterInfoAgeInputViewAgePickerViewTopConstant]];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:agePickerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:ageInputView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCRegisterInfoAgeInputViewAgePickerViewBottomConstant]];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:agePickerView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:ageInputView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCRegisterInfoAgeInputViewAgePickerViewLeftConstant]];
+    [ageInputView addConstraint:[NSLayoutConstraint constraintWithItem:agePickerView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:ageInputView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCRegisterInfoAgeInputViewAgePickerViewRightConstant]];
+    
     RCPikerViewTextFiled *ageField = [[RCPikerViewTextFiled alloc] init];
     ageField.delegate = self;
     ageField.userPlaceHolder = kRCLocalizedString(@"RegisterInfoAgePlaceholder");

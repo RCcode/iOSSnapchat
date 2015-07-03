@@ -24,21 +24,28 @@
 #define kRMainLikeCollectionViewCellReuseIdentifier @"kRMainLikeCollectionViewCellReuseIdentifier"
 #define kRCMainLikeMenuTableViewCellIdentifer @"kRCMainLikeMenuTableViewCellIdentifer"
 
-//AutoLayout
+#warning modify this
+//修改成导航栏约束
+#define kRCMainLikeRedTipImageViewOriginX ((kRCDefaultNacgationBarItemFrame.size.width - kRCAdaptationWidth(11)) / 2 + 5)
+#define kRCMainLikeRedTipImageViewOriginY ((kRCDefaultNacgationBarItemFrame.size.height - kRCAdaptationHeight(11)) / 2 - 5)
+#define kRCMainLikeRedTipImageViewWidth kRCAdaptationWidth(11)
+#define kRCMainLikeRedTipImageViewHeight kRCAdaptationHeight(11)
+
+//主界面约束
 #define kRCMainLikeBackImageViewTopConstant (kRCAdaptationHeight(22) + 64)
 #define kRCMainLikeBackImageViewLeftConstant kRCAdaptationWidth(32)
 #define kRCMainLikeBackImageViewRightConstant kRCMainLikeBackImageViewLeftConstant
-#define kRCMainLikeBackImageViewHeightConstant (kRCMainLikeLikePhotoLayoutItemHeight + kRCAdaptationHeight(99) + kRCAdaptationHeight(27))
+#define kRCMainLikeBackImageViewHeightConstant ((kRCScreenWidth - kRCAdaptationWidth(32) * 2) + kRCAdaptationHeight(99) + kRCAdaptationHeight(27))
 
 #define kRCMainLikeLikePhotoCollectionViewTopConstant 0
 #define kRCMainLikeLikePhotoCollectionViewLeftConstant 0
-#define kRCMainLikeLikePhotoCollectionViewRightConstant 0
-#define kRCMainLikeLikePhotoCollectionViewHeightConstant kRCMainLikeLikePhotoLayoutItemWidth
+#define kRCMainLikeLikePhotoCollectionViewWidthConstant (kRCScreenWidth - kRCAdaptationWidth(32) * 2)
+#define kRCMainLikeLikePhotoCollectionViewHeightConstant (kRCScreenWidth - kRCAdaptationWidth(32) * 2)
 
 #define kRCMainLikeBackTopShowImageViewTopConstant 0
 #define kRCMainLikeBackTopShowImageViewLeftConstant 0
 #define kRCMainLikeBackTopShowImageViewRightConstant 0
-#define kRCMainLikeBackTopShowImageViewHeightConstant (kRCMainLikeLikePhotoLayoutItemWidth + kRCAdaptationHeight(99))
+#define kRCMainLikeBackTopShowImageViewHeightConstant ((kRCScreenWidth - kRCAdaptationWidth(32) * 2) + kRCAdaptationHeight(99))
 
 #define kRCMainLikeIndexLabelBottomConstant (kRCAdaptationHeight(99) + 25)
 #define kRCMainLikeIndexLabelRightConstant 10
@@ -70,12 +77,12 @@
 #define kRCMainLikeBackBottomImageViewRightConstant 0
 
 #define kRCMainLikeUnLikeButtonBottomConstant kRCAdaptationHeight(106)
-#define kRCMainLikeUnLikeButtonLeftConstant kRCAdaptationWidth(132)
+#define kRCMainLikeUnLikeButtonLeftConstant kRCAdaptationWidth(93)
 #define kRCMainLikeUnLikeButtonWidthConstant kRCAdaptationWidth(169)
 #define kRCMainLikeUnLikeButtonHeightConstant kRCAdaptationWidth(169)
 
 #define kRCMainLikeLikeButtonBottomConstant kRCAdaptationHeight(106)
-#define kRCMainLikeLikeButtonRightConstant kRCAdaptationWidth(132)
+#define kRCMainLikeLikeButtonRightConstant kRCAdaptationWidth(93)
 #define kRCMainLikeLikeButtonWidthConstant kRCAdaptationWidth(169)
 #define kRCMainLikeLikeButtonHeightConstant kRCAdaptationWidth(169)
 
@@ -84,18 +91,41 @@
 #define kRCMainLikeShareButtonWidthConstant kRCAdaptationWidth(35)
 #define kRCMainLikeShareButtonHeightConstant kRCAdaptationHeight(44)
 
-//Frame
-#define kRCMainLikeRedTipImageViewOriginX ((kRCDefaultNacgationBarItemFrame.size.width - kRCAdaptationWidth(11)) / 2 + 5)
-#define kRCMainLikeRedTipImageViewOriginY ((kRCDefaultNacgationBarItemFrame.size.height - kRCAdaptationHeight(11)) / 2 - 5)
-#define kRCMainLikeRedTipImageViewWidth kRCAdaptationWidth(11)
-#define kRCMainLikeRedTipImageViewHeight kRCAdaptationHeight(11)
+#define kRCMainLikeInformButtonWidthConstant kRCAdaptationWidth(102)
+#define kRCMainLikeInformButtonHeightConstant kRCAdaptationWidth(102)
 
-#define kRCMainLikeLikePhotoLayoutItemWidth (kRCScreenWidth - kRCAdaptationWidth(32) * 2)
-#define kRCMainLikeLikePhotoLayoutItemHeight kRCMainLikeLikePhotoLayoutItemWidth
+//菜单约束
+#define kRCMainLikeMenuViewToRightDistance 40
+
+#define kRCMainLikeMenuViewUserInfoViewTopConstant 0
+#define kRCMainLikeMenuViewUserInfoViewLeftConstant 0
+#define kRCMainLikeMenuViewUserInfoViewRightConstant 0
+#define kRCMainLikeMenuViewUserInfoViewHeightConstant kRCScreenHeight * 0.4
+
+#define kRCMainLikeMenuViewPhotoViewTopConstant kRCAdaptationHeight(104)
+#define kRCMainLikeMenuViewPhotoViewLeftConstant kRCAdaptationWidth(190)
+#define kRCMainLikeMenuViewPhotoViewWidthConstant (kRCScreenWidth - kRCMainLikeMenuViewToRightDistance - kRCAdaptationWidth(190) * 2)
+#define kRCMainLikeMenuViewPhotoViewHeightConstant (kRCScreenWidth - kRCMainLikeMenuViewToRightDistance - kRCAdaptationWidth(190) * 2)
+
+#define kRCMainLikeMenuViewIdLabelBottomConstant 0
+#define kRCMainLikeMenuViewIdLabelLeftConstant 0
+
+#define kRCMainLikeMenuViewEditButtonLeftConstant kRCAdaptationWidth(18)
+#define kRCMainLikeMenuViewEditButtonWidthConstant kRCAdaptationWidth(23)
+#define kRCMainLikeMenuViewEditButtonHeightConstant kRCAdaptationWidth(23)
+
+#define kRCMainLikeMenuViewContentViewBottomConstant kRCAdaptationHeight(28)
+#define kRCMainLikeMenuViewContentViewLeftConstant 0
+#define kRCMainLikeMenuViewContentViewRightConstant 0
+
+#define kRCMainLikeMenuViewMenuViewTopConstant 0
+#define kRCMainLikeMenuViewMenuViewBottomConstant 0
+#define kRCMainLikeMenuViewMenuViewLeftConstant 0
+#define kRCMainLikeMenuViewMenuViewRightConstant 0
 
 @interface RCMainLikeViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
 {
-    //Controllers
+    //MainUI
     UIImageView *_redTipImageView;
     UIImageView *_backImageView;
     UICollectionView *_likePhotoCollectionView;
@@ -109,13 +139,18 @@
     UIButton *_unLikeButton;
     UIButton *_likeButton;
     UIButton *_shareButton;
+    UIButton *_informButton;
+    
+    //MenuUI
+    UIView *_userInfoView;
+    RCPhotoView *_photoView;
+    UILabel *_idLabel;
+    UIView *_contentView;
+    UITableView *_menuView;
     
     //
-    UILabel *_idLabel;
-    RCPhotoView *_photoView;
     UITextView *_idTextView;
     UIButton *_editButton;
-    
     NSMutableArray *_userList;
     NSInteger _currentIndex;
     
@@ -148,45 +183,87 @@
 - (UIView *)mainLikeMenuView {
     if (_mainLikeMenuView == nil) {
         UIView *mainLikeMenuView = [[UIView alloc] init];
-        //用户信息
-        UIView *userInfoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth - 40, 200)];
-        userInfoView.backgroundColor = [UIColor purpleColor];
+
+        UIView *userInfoView = [[UIView alloc] init];
+        userInfoView.backgroundColor = kRCDefaultPurple;
         [mainLikeMenuView addSubview:userInfoView];
+        _userInfoView = userInfoView;
         
         RCPhotoView *photoView = [[RCPhotoView alloc] init];
-        photoView.frame = CGRectMake((kRCScreenWidth - 40) / 3, (200 - (kRCScreenWidth - 40) / 3) / 2 , (kRCScreenWidth - 40) / 3, (kRCScreenWidth - 40) / 3);
         photoView.photoURL = [NSURL URLWithString:self.loginUserInfo.url1];
         [photoView.camaraButton addTarget:self action:@selector(camaraButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
         [userInfoView addSubview:photoView];
         _photoView = photoView;
-        
-        UILabel *idLabel = [[UILabel alloc] initWithFrame:CGRectMake(- (200 - (CGRectGetMaxY(photoView.frame) + 10) - 10 + 10) / 2, CGRectGetMaxY(photoView.frame) + 10, kRCScreenWidth - 40, 200 - (CGRectGetMaxY(photoView.frame) + 10) - 10)];
+
+        UILabel *idLabel = [[UILabel alloc] init];
         idLabel.text = [NSString stringWithFormat:@"ID: %@", self.loginUserInfo.snapchatid];
         idLabel.textColor = [UIColor whiteColor];
         idLabel.textAlignment = NSTextAlignmentCenter;
         [userInfoView addSubview:idLabel];
         _idLabel = idLabel;
         
-        CGSize size = [idLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: idLabel.font} context:nil].size;
         UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [editButton addTarget:self action:@selector(editButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
-        editButton.frame = CGRectMake((kRCScreenWidth - 40) / 2 + size.width / 2 + 10 - (200 - (CGRectGetMaxY(photoView.frame) + 10) - 10 + 10) / 2, CGRectGetMaxY(photoView.frame) + 10, 200 - (CGRectGetMaxY(photoView.frame) + 10) - 10, 200 - (CGRectGetMaxY(photoView.frame) + 10) - 10);
-        [editButton setBackgroundColor:[UIColor magentaColor]];
+        [editButton setImage:kRCImage(@"edit_icon") forState:UIControlStateNormal];
         [userInfoView addSubview:editButton];
         _editButton = editButton;
         
-        //菜单信息
-        UITableView *menuView = [[UITableView alloc] initWithFrame:CGRectMake(0, 200, kRCScreenWidth - 40, kRCScreenHeight - 200)];
+        UIView *contentView = [[UIView alloc] init];
+        [contentView addSubview:idLabel];
+        [contentView addSubview:editButton];
+        [userInfoView addSubview:contentView];
+        _contentView = contentView;
+
+        UITableView *menuView = [[UITableView alloc] init];
+        menuView.bounces = NO;
+        menuView.backgroundColor = kRCDefaultBackWhiteColor;
         [menuView registerClass:[RCMainLikeTableViewCell class] forCellReuseIdentifier:kRCMainLikeMenuTableViewCellIdentifer];
         menuView.separatorStyle = UITableViewCellSeparatorStyleNone;
         menuView.dataSource = self;
         menuView.delegate = self;
         [mainLikeMenuView addSubview:menuView];
-
+        _menuView = menuView;
+        
         [[UIApplication sharedApplication].keyWindow addSubview:mainLikeMenuView];
         UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizerDidSwipe:)];
         swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
         [mainLikeMenuView addGestureRecognizer:swipeRecognizer];
+        
+        //约束
+        [userInfoView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [mainLikeMenuView addConstraint:[NSLayoutConstraint constraintWithItem:userInfoView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:mainLikeMenuView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCMainLikeMenuViewUserInfoViewTopConstant]];
+        [mainLikeMenuView addConstraint:[NSLayoutConstraint constraintWithItem:userInfoView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:mainLikeMenuView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeMenuViewUserInfoViewLeftConstant]];
+        [mainLikeMenuView addConstraint:[NSLayoutConstraint constraintWithItem:userInfoView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:mainLikeMenuView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCMainLikeMenuViewUserInfoViewRightConstant]];
+        [mainLikeMenuView addConstraint:[NSLayoutConstraint constraintWithItem:userInfoView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMenuViewUserInfoViewHeightConstant]];
+        
+        [photoView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:photoView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:userInfoView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCMainLikeMenuViewPhotoViewTopConstant]];
+        [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:photoView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:userInfoView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeMenuViewPhotoViewLeftConstant]];
+        [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:photoView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMenuViewPhotoViewWidthConstant]];
+        [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:photoView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMenuViewPhotoViewHeightConstant]];
+        
+        [idLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [contentView addConstraint:[NSLayoutConstraint constraintWithItem:idLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeMenuViewIdLabelBottomConstant]];
+        [contentView addConstraint:[NSLayoutConstraint constraintWithItem:idLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeMenuViewIdLabelLeftConstant]];
+        
+        [editButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [contentView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:idLabel attribute:NSLayoutAttributeRight multiplier:1.0 constant:kRCMainLikeMenuViewEditButtonLeftConstant]];
+        [contentView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMenuViewEditButtonWidthConstant]];
+        [contentView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMenuViewEditButtonHeightConstant]];
+        [contentView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+        
+        [contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:userInfoView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeMenuViewContentViewBottomConstant]];
+        [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:idLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeMenuViewContentViewLeftConstant]];
+        [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:editButton attribute:NSLayoutAttributeRight multiplier:1.0 constant:kRCMainLikeMenuViewContentViewRightConstant]];
+        [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:idLabel attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
+        [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:userInfoView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+
+        [menuView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [mainLikeMenuView addConstraint:[NSLayoutConstraint constraintWithItem:menuView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:userInfoView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCMainLikeMenuViewMenuViewTopConstant]];
+        [mainLikeMenuView addConstraint:[NSLayoutConstraint constraintWithItem:menuView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:mainLikeMenuView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeMenuViewMenuViewBottomConstant]];
+        [mainLikeMenuView addConstraint:[NSLayoutConstraint constraintWithItem:menuView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:mainLikeMenuView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeMenuViewMenuViewLeftConstant]];
+        [mainLikeMenuView addConstraint:[NSLayoutConstraint constraintWithItem:menuView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:mainLikeMenuView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCMainLikeMenuViewMenuViewRightConstant]];
         
         _mainLikeMenuView = mainLikeMenuView;
     }
@@ -257,6 +334,7 @@
     if (_mainLikeModifyPhotoVc == nil) {
         RCMainLikeModifyPhotoViewController *mainLikeModifyPhotoVc = [[RCMainLikeModifyPhotoViewController alloc] init];
         mainLikeModifyPhotoVc.userInfo = self.loginUserInfo;
+        mainLikeModifyPhotoVc.showImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.loginUserInfo.url1]]];
         mainLikeModifyPhotoVc.complete = ^(UIImage *image) {
             _photoView.photoImageView.image = image;
         };
@@ -295,7 +373,7 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"Snaper";
-    self.view.backgroundColor = colorWithHexString(@"fdfdfd");
+    self.view.backgroundColor = kRCDefaultBackWhiteColor;
 
     RCNavgationItemButton *menuButton = [[RCNavgationItemButton alloc] init];
     menuButton.frame = kRCDefaultNacgationBarItemFrame;
@@ -357,7 +435,7 @@
 
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     UICollectionView *likePhotoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    layout.itemSize = CGSizeMake(kRCMainLikeLikePhotoLayoutItemWidth, kRCMainLikeLikePhotoLayoutItemHeight);
+    layout.itemSize = CGSizeMake(kRCMainLikeLikePhotoCollectionViewWidthConstant, kRCMainLikeLikePhotoCollectionViewHeightConstant);
     layout.minimumLineSpacing = 0;
     layout.minimumInteritemSpacing = 0;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -427,9 +505,15 @@
 
     UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [shareButton setImage:kRCImage(@"share_icon") forState:UIControlStateNormal];
-    [shareButton addTarget:self action:@selector(shareButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
+    [shareButton addTarget:self action:@selector(shareButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shareButton];
     _shareButton = shareButton;
+    
+    UIButton *informButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [informButton setImage:kRCImage(@"jubao_icon") forState:UIControlStateNormal];
+    [informButton addTarget:self action:@selector(informButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:informButton];
+    _informButton = informButton;
 }
 
 - (void)addConstraint {
@@ -442,7 +526,7 @@
     [_likePhotoCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_backImageView addConstraint:[NSLayoutConstraint constraintWithItem:_likePhotoCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_backImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCMainLikeLikePhotoCollectionViewTopConstant]];
     [_backImageView addConstraint:[NSLayoutConstraint constraintWithItem:_likePhotoCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_backImageView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCMainLikeLikePhotoCollectionViewLeftConstant]];
-    [_backImageView addConstraint:[NSLayoutConstraint constraintWithItem:_likePhotoCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_backImageView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCMainLikeLikePhotoCollectionViewRightConstant]];
+    [_backImageView addConstraint:[NSLayoutConstraint constraintWithItem:_likePhotoCollectionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikePhotoCollectionViewWidthConstant]];
     [_backImageView addConstraint:[NSLayoutConstraint constraintWithItem:_likePhotoCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikePhotoCollectionViewHeightConstant]];
     
     [_backTopShowImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -502,6 +586,12 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_shareButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCMainLikeShareButtonRightConstant]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_shareButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeShareButtonWidthConstant]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_shareButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeShareButtonHeightConstant]];
+
+    [_informButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_informButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeInformButtonWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_informButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeInformButtonHeightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_informButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_informButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_unLikeButton attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
 }
 
 - (void)addNotification {
@@ -510,14 +600,18 @@
 }
 
 - (void)keyboardDidShow:(NSNotification *)notice {
+    
     CGRect keyboardRect = [notice.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     [UIView animateWithDuration:0.25f animations:^{
         _mainLikeEditView.frame = CGRectMake(20, keyboardRect.origin.y - kRCScreenHeight / 3 - 20, kRCScreenWidth - 40, kRCScreenHeight / 3);
     }];
+//    _mainLikeEditView.frame = CGRectMake(20, 20, kRCScreenWidth - 40, kRCScreenHeight / 3);
+//    _mainLikeEditView.hidden = NO;
 }
 
 - (void)keyboardDidHid:(NSNotification *)notice {
     _mainLikeEditView.frame = CGRectMake(20, kRCScreenHeight / 3, kRCScreenWidth - 40, kRCScreenHeight / 3);
+//    _mainLikeEditView.hidden = YES;
 }
 
 - (void)reloadInfo {
@@ -709,7 +803,7 @@
     }];
 }
 
-- (void)shareButtonDidClick {
+- (void)shareButtonDidClicked {
     NSString *textToShare = @"shareContent";
     UIImage *imageToShare = [UIImage imageNamed:@"default.jpg"];
     NSURL *urlToShare = [NSURL URLWithString:@"http://www.baidu.com"];
@@ -723,6 +817,10 @@
 }
 
 
+- (void)informButtonDidClicked {
+    
+}
+
 #pragma mark - <UITableViewDataSource, UITableViewDelegate>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 4;
@@ -731,6 +829,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RCMainLikeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRCMainLikeMenuTableViewCellIdentifer];
     if (indexPath.row == 0) {
+        cell.showIcon = kRCImage(@"more_1_icon");
         cell.showTitle = @"Show";
         cell.isMore = YES;
         NSString *moreTitle = nil;
@@ -753,14 +852,17 @@
         cell.moreTitle = moreTitle;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     } else if (indexPath.row == 1) {
+        cell.showIcon = kRCImage(@"more_2_icon");
         cell.showTitle = @"Feedback";
         cell.isMore = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (indexPath.row == 2) {
+        cell.showIcon = kRCImage(@"more_3_icon");
         cell.showTitle = @"Share";
         cell.isMore = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (indexPath.row == 3) {
+        cell.showIcon = kRCImage(@"more_4_icon");
         cell.showTitle = @"Log out";
         cell.isMore = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -831,6 +933,10 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(-2), kRCSwitchRootVcNotificationVcKey: self.navigationController}];
         }];
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return kRCAdaptationHeight(100);
 }
 
 #pragma mark - <UICollectionViewDataSource, UICollectionViewDelegate>
