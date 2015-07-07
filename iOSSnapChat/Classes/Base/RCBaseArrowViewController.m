@@ -31,9 +31,8 @@
 //导航栏
 - (void)setUpArrowBackButton:(NSString *)title {
     //ButtonItem
-    UIButton *arrowBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
-#warning modify
-    arrowBackButton.frame = CGRectMake(0, 0, 20, 20);
+    RCNavgationItemButton *arrowBackButton = [[RCNavgationItemButton alloc] init];
+    arrowBackButton.frame = kRCDefaultNacgationBarItemFrame;
     [arrowBackButton setImage:[UIImage imageNamed:@"icon_back"] forState:UIControlStateNormal];
     [arrowBackButton addTarget:self action:@selector(arrowBackDidClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *arrowBackButtonItem = [[UIBarButtonItem alloc] initWithCustomView:arrowBackButton];

@@ -8,12 +8,26 @@
 
 #import "RCMainLikeMessageTableViewCell.h"
 
+#define kRCMainLikeMessageTableViewCellShowImageViewLeftConstant kRCAdaptationWidth(34)
+#define kRCMainLikeMessageTableViewCellShowImageViewWidthConstant kRCAdaptationHeight(86)
+#define kRCMainLikeMessageTableViewCellShowImageViewHeightConstant kRCAdaptationHeight(86)
+
+#define kRCMainLikeMessageTableViewCelShowLabelLeftConstant kRCAdaptationWidth(28)
+
+#define kRCMainLikeMessageTableViewCellMoreImageViewLeftConstant kRCAdaptationWidth(6)
+#define kRCMainLikeMessageTableViewCellMoreImageViewWidthConstant kRCAdaptationWidth(31)
+#define kRCMainLikeMessageTableViewCellMoreImageViewHeightConstant kRCAdaptationHeight(22)
+
+#define kRCMainLikeMessageTableViewCelSeparatorLineBottomConstant 0
+#define kRCMainLikeMessageTableViewCelSeparatorLineLeftConstant 0
+#define kRCMainLikeMessageTableViewCelSeparatorLineRightConstant 0
+#define kRCMainLikeMessageTableViewCelSeparatorLineHeightConstant 1
+
 @interface RCMainLikeMessageTableViewCell ()
 {
     UIImageView *_showImageView;
-    UILabel *_showLabel;
     UIImageView *_moreImageView;
-    UIView *_separatorLineView;
+    UIView *_separatorLine;
 }
 
 @end
@@ -21,7 +35,7 @@
 @implementation RCMainLikeMessageTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         UIImageView *showImageView = [[UIImageView alloc] init];
         [self.contentView addSubview:showImageView];
         _showImageView = showImageView;
@@ -30,25 +44,44 @@
         [self.contentView addSubview:showLabel];
         _showLabel = showLabel;
         
-        UIImageView *moreImageView = [[UIImageView alloc] init];
-        moreImageView.backgroundColor = [UIColor redColor];
+        UIImageView *moreImageView = [[UIImageView alloc] initWithImage:kRCImage(@"match_icon")];
         [self.contentView addSubview:moreImageView];
         _moreImageView = moreImageView;
         
-        UIView *separatorLineView = [[UIView alloc] init];
-        separatorLineView.backgroundColor = [UIColor lightGrayColor];
-        [self.contentView addSubview:separatorLineView];
-        _separatorLineView = separatorLineView;
+        UIView *separatorLine = [[UIView alloc] init];
+        separatorLine.backgroundColor = kRCDefaultLightgray;
+        [self.contentView addSubview:separatorLine];
+        _separatorLine = separatorLine;
     }
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _showImageView.frame = CGRectMake(5, 5, self.frame.size.height - 10, self.frame.size.height - 10);
-    _showLabel.frame = CGRectMake(CGRectGetMaxX(_showImageView.frame) + 5, 5, 200, self.frame.size.height - 10);
-    _moreImageView.frame = CGRectMake(CGRectGetMaxX(_showLabel.frame) + 5, 5, self.frame.size.height - 10, self.frame.size.height - 10);
-    _separatorLineView.frame = CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1);
+    
+    [_showImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeMessageTableViewCellShowImageViewLeftConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMessageTableViewCellShowImageViewWidthConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMessageTableViewCellShowImageViewHeightConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    _showImageView.layer.cornerRadius = kRCMainLikeMessageTableViewCellShowImageViewWidthConstant / 2;
+    _showImageView.layer.masksToBounds = YES;
+    
+    [_showLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_showImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:kRCMainLikeMessageTableViewCelShowLabelLeftConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    
+    [_moreImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_moreImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_showLabel attribute:NSLayoutAttributeRight multiplier:1.0 constant:kRCMainLikeMessageTableViewCellMoreImageViewLeftConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_moreImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMessageTableViewCellMoreImageViewWidthConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_moreImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMessageTableViewCellMoreImageViewHeightConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_moreImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    
+    [_separatorLine setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeMessageTableViewCelSeparatorLineBottomConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeMessageTableViewCelSeparatorLineLeftConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCMainLikeMessageTableViewCelSeparatorLineRightConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMessageTableViewCelSeparatorLineHeightConstant]];
 }
 
 - (void)setShowIconURL:(NSURL *)showIconURL {

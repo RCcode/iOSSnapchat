@@ -7,16 +7,71 @@
 //
 
 #import "RCMainLikePhotoDetailViewController.h"
-#import "RCMainLikeInfoModel.h"
 #import "RCMainLikeCollectionViewCell.h"
+#import "RCMainLikeInfoModel.h"
+
+#define kRCMainLikePhotoDetailTableViewCellIdentifer @"kRCMainLikePhotoDetailTableViewCellIdentifer"
+
+//主界面约束
+#define kRCMainLikeLikePhotoDetailBackgroundTopConstant 64
+#define kRCMainLikeLikePhotoDetailBackgroundLeftConstant 0
+#define kRCMainLikeLikePhotoDetailBackgroundRigthConstant 0
+#define kRCMainLikeLikePhotoDetailBackgroundHeightConstant (kRCScreenWidth - kRCAdaptationWidth(30) * 2)
+
+#define kRCMainLikeLikePhotoDetailCollectionViewTopConstant 0
+#define kRCMainLikeLikePhotoDetailCollectionViewLeftConstant kRCAdaptationWidth(30)
+#define kRCMainLikeLikePhotoDetailCollectionViewRightConstant kRCAdaptationWidth(30)
+#define kRCMainLikeLikePhotoDetailCollectionViewWidthConstant (kRCScreenWidth - kRCAdaptationWidth(30) * 2)
+#define kRCMainLikeLikePhotoDetailCollectionViewHeightConstant (kRCScreenWidth - kRCAdaptationWidth(30) * 2)
+
+#define kRCMainLikeLikeIndexLabelBottomConstant 15
+#define kRCMainLikeLikeIndexLabelRightConstant (10 + kRCAdaptationWidth(30))
+#define kRCMainLikeLikeIndexLabelWidthConstant 40
+#define kRCMainLikeLikeIndexLabelHeightConstant 15
+
+#define kRCMainLikeLikeSexImageViewTopConstant kRCAdaptationHeight(50)
+#define kRCMainLikeLikeSexImageViewLeftConstant kRCAdaptationWidth(84)
+#define kRCMainLikeLikeSexImageViewWidthConstant kRCAdaptationWidth(31)
+#define kRCMainLikeLikeSexImageViewHeightConstant kRCAdaptationWidth(31)
+
+#define kRCMainLikeLikeAgeLabelTopConstant kRCAdaptationHeight(50)
+#define kRCMainLikeLikeAgeLabelLeftConstant kRCAdaptationWidth(20)
+#define kRCMainLikeLikeAgeLabelHeightConstant kRCAdaptationWidth(31)
+
+#define kRCMainLikeLikeDistanceImageViewTopConstant (kRCAdaptationHeight(62) + kRCAdaptationHeight(15))
+#define kRCMainLikeLikeDistanceImageViewRightConstant kRCAdaptationWidth(20)
+#define kRCMainLikeLikeDistanceImageViewWidthConstant kRCAdaptationWidth(11)
+#define kRCMainLikeLikeDistanceImageViewHeightConstant kRCAdaptationHeight(16)
+
+#define kRCMainLikeLikeDistanceLabelTopConstant kRCAdaptationHeight(62)
+#define kRCMainLikeLikeDistanceLabelRightConstant kRCAdaptationWidth(76)
+#define kRCMainLikeLikeDistanceLabelHeightConstant kRCAdaptationWidth(31)
+
+#define kRCMainLikeLikeUnLikeButtonBottomConstant kRCAdaptationHeight(106)
+#define kRCMainLikeLikeUnLikeButtonLeftConstant kRCAdaptationWidth(93)
+#define kRCMainLikeLikeUnLikeButtonWidthConstant kRCAdaptationWidth(169)
+#define kRCMainLikeLikeUnLikeButtonHeightConstant kRCAdaptationWidth(169)
+
+#define kRCMainLikeLikeLikeButtonBottomConstant kRCAdaptationHeight(106)
+#define kRCMainLikeLikeLikeButtonRightConstant kRCAdaptationWidth(93)
+#define kRCMainLikeLikeLikeButtonWidthConstant kRCAdaptationWidth(169)
+#define kRCMainLikeLikeLikeButtonHeightConstant kRCAdaptationWidth(169)
+
+#define kRCMainLikeLikeInformButtonWidthConstant kRCAdaptationWidth(102)
+#define kRCMainLikeLikeInformButtonHeightConstant kRCAdaptationWidth(102)
 
 @interface RCMainLikePhotoDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
+    UIView *_backgroundView;
     UICollectionView *_likePhotoCollectionView;
+    UILabel *_indexLabel;
     UIImageView *_sexImageView;
     UILabel *_ageLabel;
+    UIImageView *_distanceImageView;
     UILabel *_distanceLabel;
-    UILabel *_indexLabel;
+    UIButton *_unLikeButton;
+    UIButton *_likeButton;
+    UIButton *_informButton;
 }
 
 @end
@@ -27,9 +82,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self inheritSetting];
-    [self navgationSettings];
     [self setUpUI];
+    [self addConstraint];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,94 +96,154 @@
 }
 
 #pragma mark - Utility
-- (void)inheritSetting {
-    self.arrowTitle = @"";
-
-}
-
-- (void)navgationSettings {
-    //Report
-    UIButton *informButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    informButton.frame = CGRectMake(0, 0, 44, 44);
-    [informButton setTitle:@"rpt" forState:UIControlStateNormal];
-    [informButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [informButton addTarget:self action:@selector(informButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *informButtonItem = [[UIBarButtonItem alloc] initWithCustomView:informButton];
-    self.navigationItem.rightBarButtonItem = informButtonItem;
-}
-
 - (void)setUpUI {
-    //好友展示
+    UIView *backgroundView = [[UIView alloc] init];
+    backgroundView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:backgroundView];
+    _backgroundView = backgroundView;
+
     self.automaticallyAdjustsScrollViewInsets = NO;
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    UICollectionView *likePhotoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(20, 64, kRCScreenWidth - 40, kRCScreenWidth - 40) collectionViewLayout:layout];
-    layout.itemSize = CGSizeMake(likePhotoCollectionView.frame.size.width, likePhotoCollectionView.frame.size.height);
+    UICollectionView *likePhotoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    layout.itemSize = CGSizeMake(kRCMainLikeLikePhotoDetailCollectionViewWidthConstant, kRCMainLikeLikePhotoDetailCollectionViewHeightConstant);
     layout.minimumLineSpacing = 0;
     layout.minimumInteritemSpacing = 0;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     likePhotoCollectionView.pagingEnabled = YES;
     likePhotoCollectionView.showsHorizontalScrollIndicator = NO;
-    [likePhotoCollectionView registerClass:[RCMainLikeCollectionViewCell class] forCellWithReuseIdentifier:@"test"];
+    [likePhotoCollectionView registerClass:[RCMainLikeCollectionViewCell class] forCellWithReuseIdentifier:kRCMainLikePhotoDetailTableViewCellIdentifer];
     likePhotoCollectionView.dataSource = self;
     likePhotoCollectionView.delegate = self;
     [self.view addSubview:likePhotoCollectionView];
     _likePhotoCollectionView = likePhotoCollectionView;
     
-    //indexLabel
-    UILabel *indexLabel = [[UILabel alloc] initWithFrame:CGRectMake(kRCScreenWidth - 20 - 40, kRCScreenWidth - 40 - 20 + 64, 40, 20)];
+    UILabel *indexLabel = [[UILabel alloc] init];
+    indexLabel.layer.cornerRadius = 5;
+    indexLabel.layer.masksToBounds = YES;
+    indexLabel.font = kRCSystemFont(14);
+    indexLabel.textAlignment = NSTextAlignmentCenter;
+    indexLabel.backgroundColor = kRCDefaultAlphaBlack;
+    indexLabel.textColor = kRCDefaultWhite;
     indexLabel.text = [NSString stringWithFormat:@"%d/%d", self.selectedItem + 1, [self acquirePhotoCount:self.selectedUserInfo]];
     [self.view addSubview:indexLabel];
     _indexLabel = indexLabel;
-    
-    //Sex
-    UIImageView *sexImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20 + 20, CGRectGetMaxY(likePhotoCollectionView.frame) + 20, 20, 20)];
+
+    UIImageView *sexImageView = [[UIImageView alloc] init];
+    if ([self.selectedUserInfo.gender intValue] == 0) {
+        sexImageView.image = kRCImage(@"boy_xianshi_icon");
+    } else if ([self.selectedUserInfo.gender intValue]== 1) {
+        sexImageView.image = kRCImage(@"girl_xianshi_icon");
+    }
     [self.view addSubview:sexImageView];
     _sexImageView = sexImageView;
-    
-    //Age
-    UILabel *ageLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(sexImageView.frame) + 10, CGRectGetMaxY(likePhotoCollectionView.frame) + 20, 20, 20)];
+
+    UILabel *ageLabel = [[UILabel alloc] init];
     ageLabel.text = [NSString stringWithFormat:@"%@", self.selectedUserInfo.age];
     [self.view addSubview:ageLabel];
     _ageLabel = ageLabel;
     
-    //Distance
-    UILabel *distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(kRCScreenWidth - 20 - 80 - 20, CGRectGetMaxY(likePhotoCollectionView.frame) + 20, 80, 20)];
-    //获取距离
+    UIImageView *distanceImageView = [[UIImageView alloc] init];
+    distanceImageView.image = kRCImage(@"location_icon");
+    [self.view addSubview:distanceImageView];
+    _distanceImageView = distanceImageView;
+    
+    UILabel *distanceLabel = [[UILabel alloc] init];
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     double userLongitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];
     double userLatitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
     double choiceLongtitude = [self.selectedUserInfo.lon floatValue];
     double choiceLatitude = [self.selectedUserInfo.lat floatValue];
-    NSString *distance = nil;
     if (userLongitude == 0 || userLatitude == 0 || choiceLongtitude == 100000 || choiceLatitude == 100000) {
-        distance = @"NULL";
+        distanceLabel.text = @"";
     } else {
         RCLocation fromLocation = {userLongitude, userLatitude};
         RCLocation toLocation = {choiceLongtitude, choiceLatitude};
-        distance = [NSString stringWithFormat:@"%f m", [self distanceFromLocation:fromLocation toLocation:toLocation]];
+        distanceLabel.text = [NSString stringWithFormat:@"%@", [NSString stringWithFormat:@"%.1f m", [self distanceFromLocation:fromLocation toLocation:toLocation]]];
     }
-    
-    distanceLabel.text = [NSString stringWithFormat:@"%@", distance];
     [self.view addSubview:distanceLabel];
     _distanceLabel = distanceLabel;
-    
-    //UnLike
+
     UIButton *unLikeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     unLikeButton.tag = kRCMainLikeTypeUnlike;
-    unLikeButton.frame = CGRectMake((kRCScreenWidth - 120 - 20) / 2, CGRectGetMaxY(distanceLabel.frame) + 20, 60, 60);
-    [unLikeButton setTitle:@"UnLike" forState:UIControlStateNormal];
-    [unLikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [unLikeButton setImage:kRCImage(@"pass_icon") forState:UIControlStateNormal];
+    [unLikeButton setImage:kRCImage(@"pass_pass_icon") forState:UIControlStateHighlighted];
     [unLikeButton addTarget:self action:@selector(choiceButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:unLikeButton];
-    
-    //Like
+    _unLikeButton = unLikeButton;
+
     UIButton *likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     likeButton.tag = kRCMainLikeTypeLike;
-    likeButton.frame = CGRectMake(CGRectGetMaxX(unLikeButton.frame) + 20, CGRectGetMaxY(distanceLabel.frame) + 20, 60, 60);
-    [likeButton setTitle:@"Like" forState:UIControlStateNormal];
-    [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [likeButton setImage:kRCImage(@"like_icon") forState:UIControlStateNormal];
+    [likeButton setImage:kRCImage(@"like_press_icon") forState:UIControlStateHighlighted];
     [likeButton addTarget:self action:@selector(choiceButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:likeButton];
+    _likeButton = likeButton;
+    
+    UIButton *informButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [informButton setImage:kRCImage(@"jubao_icon") forState:UIControlStateNormal];
+    [informButton addTarget:self action:@selector(informButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:informButton];
+    _informButton = informButton;
+}
+
+- (void)addConstraint {
+    [_backgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCMainLikeLikePhotoDetailBackgroundTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCMainLikeLikePhotoDetailBackgroundLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCMainLikeLikePhotoDetailBackgroundRigthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikePhotoDetailBackgroundHeightConstant]];
+    
+    [_likePhotoCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likePhotoCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_backgroundView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCMainLikeLikePhotoDetailCollectionViewTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likePhotoCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_backgroundView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeLikePhotoDetailCollectionViewLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likePhotoCollectionView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_backgroundView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCMainLikeLikePhotoDetailCollectionViewRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likePhotoCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikePhotoDetailCollectionViewHeightConstant]];
+    
+    [_indexLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_indexLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_backgroundView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeLikeIndexLabelBottomConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_indexLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_backgroundView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCMainLikeLikeIndexLabelRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_indexLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeIndexLabelWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_indexLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeIndexLabelHeightConstant]];
+
+    [_sexImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_sexImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_backgroundView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCMainLikeLikeSexImageViewTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_sexImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCMainLikeLikeSexImageViewLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_sexImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeSexImageViewWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_sexImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeSexImageViewHeightConstant]];
+    
+    [_ageLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_backgroundView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCMainLikeLikeAgeLabelTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_sexImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:kRCMainLikeLikeAgeLabelLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_ageLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeAgeLabelHeightConstant]];
+
+    [_distanceImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_distanceImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_backgroundView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCMainLikeLikeDistanceImageViewTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_distanceImageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_distanceLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-kRCMainLikeLikeDistanceImageViewRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_distanceImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeDistanceImageViewWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_distanceImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeDistanceImageViewHeightConstant]];
+
+    [_distanceLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_distanceLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_backgroundView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCMainLikeLikeDistanceLabelTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_distanceLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCMainLikeLikeDistanceLabelRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_distanceLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeDistanceLabelHeightConstant]];
+    
+    [_unLikeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_unLikeButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeLikeUnLikeButtonBottomConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_unLikeButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCMainLikeLikeUnLikeButtonLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_unLikeButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeUnLikeButtonWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_unLikeButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeUnLikeButtonHeightConstant]];
+    
+    [_likeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likeButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeLikeUnLikeButtonBottomConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likeButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCMainLikeLikeUnLikeButtonLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likeButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeUnLikeButtonWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likeButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeUnLikeButtonHeightConstant]];
+    
+    [_informButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_informButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeInformButtonWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_informButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeInformButtonHeightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_informButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_informButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_unLikeButton attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
 }
 
 - (NSInteger)acquirePhotoCount:(RCUserInfoModel *)userInfo {
@@ -155,8 +269,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)informButtonDidClick {
-    //举报
+- (void)informButtonDidClicked {
     UIAlertController *informAlertVc = [[UIAlertController alloc] init];
     kAcquireUserDefaultUsertoken
     RCUserInfoModel *userInfo = self.selectedUserInfo;
@@ -192,9 +305,8 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    RCMainLikeCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"test" forIndexPath:indexPath];
+    RCMainLikeCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kRCMainLikePhotoDetailTableViewCellIdentifer forIndexPath:indexPath];
     RCUserInfoModel *userInfo = self.selectedUserInfo;
-    
     if (indexPath.item == 0) {
         cell.showImageURL = [NSURL URLWithString:userInfo.url1];
     } else if (indexPath.item == 1) {

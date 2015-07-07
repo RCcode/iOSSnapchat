@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 gongtao. All rights reserved.
 //
 
-#import "RCBaseNormalViewController.h"
+#import "RCBaseArrowViewController.h"
 
-@interface RCMainLikeMatchYouViewController : RCBaseNormalViewController
+@interface RCMainLikeMatchYouViewController : RCBaseArrowViewController
 
 @property (nonatomic, strong) NSURL *iconURLMe;
 @property (nonatomic, strong) NSURL *iconURLOhter;

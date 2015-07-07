@@ -8,6 +8,19 @@
 
 #import "RCMainLikeTableViewCell.h"
 
+#define kRCMainLikeTableViewCellShowImageViewLeftConstant kRCAdaptationWidth(43)
+#define kRCMainLikeTableViewCellShowImageViewWidthConstant kRCAdaptationWidth(30)
+#define kRCMainLikeTableViewCellShowImageViewHeightConstant kRCAdaptationWidth(30)
+
+#define kRCMainLikeTableViewCellShowLabelLeftConstant kRCAdaptationWidth(22)
+
+#define kRCMainLikeTableViewCellMoreLabelRightConstant 0
+
+#define kRCMainLikeTableViewCellSeparatorLineBottomConstant 0
+#define kRCMainLikeTableViewCellSeparatorLineLeftConstant 0
+#define kRCMainLikeTableViewCellSeparatorLineRightConstant 0
+#define kRCMainLikeTableViewCellSeparatorLineHeightConstant 1
+
 @interface RCMainLikeTableViewCell ()
 {
     UIImageView *_showImageView;
@@ -21,7 +34,7 @@
 @implementation RCMainLikeTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         UIImageView *showImageView = [[UIImageView alloc] init];
         [self.contentView addSubview:showImageView];
         _showImageView = showImageView;
@@ -43,41 +56,28 @@
     return self;
 }
 
-#define RCMainLikeTableViewCellShowImageViewLeftConstant kRCAdaptationWidth(43)
-#define RCMainLikeTableViewCellShowImageViewWidthConstant kRCAdaptationWidth(30)
-#define RCMainLikeTableViewCellShowImageViewHeightConstant kRCAdaptationWidth(30)
-
-#define RCMainLikeTableViewCellShowLabelLeftConstant kRCAdaptationWidth(22)
-
-#define RCMainLikeTableViewCellMoreLabelRightConstant 0
-
-#define RCMainLikeTableViewCellSeparatorLineRightConstant 0
-#define RCMainLikeTableViewCellSeparatorLineLeftConstant 0
-#define RCMainLikeTableViewCellSeparatorLineRightConstant 0
-#define RCMainLikeTableViewCellSeparatorLineHeightConstant 1
-
 - (void)layoutSubviews {
     [super layoutSubviews];
     
     [_showImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:RCMainLikeTableViewCellShowImageViewLeftConstant]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:RCMainLikeTableViewCellShowImageViewWidthConstant]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:RCMainLikeTableViewCellShowImageViewHeightConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeTableViewCellShowImageViewLeftConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeTableViewCellShowImageViewWidthConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeTableViewCellShowImageViewHeightConstant]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
     [_showLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_showImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:RCMainLikeTableViewCellShowLabelLeftConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_showImageView attribute:NSLayoutAttributeRight multiplier:1.0 constant:kRCMainLikeTableViewCellShowLabelLeftConstant]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
     [_moreLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_moreLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-RCMainLikeTableViewCellMoreLabelRightConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_moreLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCMainLikeTableViewCellMoreLabelRightConstant]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_moreLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
     [_separatorLine setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-RCMainLikeTableViewCellSeparatorLineRightConstant]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:RCMainLikeTableViewCellSeparatorLineLeftConstant]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:-RCMainLikeTableViewCellSeparatorLineRightConstant]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:RCMainLikeTableViewCellSeparatorLineHeightConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeTableViewCellSeparatorLineBottomConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeTableViewCellSeparatorLineLeftConstant]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCMainLikeTableViewCellSeparatorLineRightConstant]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separatorLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeTableViewCellSeparatorLineHeightConstant]];
 }
 
 - (void)setShowIcon:(UIImage *)showIcon {

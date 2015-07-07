@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 gongtao. All rights reserved.
 //
 
-#import "RCBaseNormalViewController.h"
+#import "RCBaseArrowViewController.h"
 @class RCUserInfoModel;
 
-@interface RCMainLikeModifyPhotoViewController : RCBaseNormalViewController
+@interface RCMainLikeModifyPhotoViewController : RCBaseArrowViewController
 
 @property (nonatomic, strong) RCUserInfoModel *userInfo;
 @property (nonatomic, copy) void (^complete)(UIImage *showImage);

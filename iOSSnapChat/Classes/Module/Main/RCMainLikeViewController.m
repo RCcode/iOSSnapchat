@@ -10,6 +10,7 @@
 #import "RCMainMatchModel.h"
 #import "RCMainLikeModel.h"
 #import "RCMainModifyIDModel.h"
+#import "RCMainLikeInfoModel.h"
 #import "RCMainLikeCollectionViewCell.h"
 #import "RCMainLikeTableViewCell.h"
 #import "RCMainLikePhotoDetailViewController.h"
@@ -54,13 +55,12 @@
 
 #define kRCMainLikeSexImageViewBottomConstant kRCAdaptationHeight(30)
 #define kRCMainLikeSexImageViewLeftConstant kRCAdaptationWidth(50)
-
 #define kRCMainLikeSexImageViewWidthConstant kRCAdaptationWidth(31)
 #define kRCMainLikeSexImageViewHeightConstant kRCAdaptationWidth(31)
 
 #define kRCMainLikeAgeLabelBottomConstant kRCAdaptationHeight(30)
 #define kRCMainLikeAgeLabelLeftConstant kRCAdaptationWidth(20)
-#define kRCMainLikeAgeLabelHeightConstant 15
+#define kRCMainLikeAgeLabelHeightConstant kRCAdaptationWidth(31)
 
 #define kRCMainLikeDistanceImageViewBottomConstant kRCAdaptationHeight(34)
 #define kRCMainLikeDistanceImageViewRightConstant kRCAdaptationWidth(10)
@@ -95,7 +95,7 @@
 #define kRCMainLikeInformButtonHeightConstant kRCAdaptationWidth(102)
 
 //菜单约束
-#define kRCMainLikeMenuViewToRightDistance 40
+#define kRCMainLikeMenuViewToRightDistance kRCAdaptationWidth(100)
 
 #define kRCMainLikeMenuViewUserInfoViewTopConstant 0
 #define kRCMainLikeMenuViewUserInfoViewLeftConstant 0
@@ -123,6 +123,35 @@
 #define kRCMainLikeMenuViewMenuViewLeftConstant 0
 #define kRCMainLikeMenuViewMenuViewRightConstant 0
 
+//修改id约束
+#define kRCMainLikeMainLikeEditViewBottomConstant (253 + 20)
+#define kRCMainLikeMainLikeEditViewWidthConstant kRCAdaptationWidth(530)
+#define kRCMainLikeMainLikeEditViewHeightConstant kRCAdaptationHeight(352)
+
+#define kRCMainLikeSnapchatIdLabelHeightConstant kRCAdaptationHeight(40)
+
+#define kRCMainLikeMainLikeIdTextViewWidthConstant kRCAdaptationWidth(530)
+#define kRCMainLikeMainLikeIdTextViewHeightConstant kRCAdaptationHeight(70)
+
+#define kRCMainLikeSeparatorHorizontalLineTopConstant 0
+#define kRCMainLikeSeparatorHorizontalLineLeftConstant kRCAdaptationWidth(30)
+#define kRCMainLikeSeparatorHorizontalLineRightConstant kRCAdaptationWidth(30)
+#define kRCMainLikeSeparatorHorizontalLineHeightConstant 1
+
+#define kRCMainLikeCancelButtonBottomConstant 0
+#define kRCMainLikeCancelButtonLeftConstant 0
+#define kRCMainLikeCancelButtonWidthConstant (kRCAdaptationWidth(530) / 2)
+#define kRCMainLikeCancelButtonHeightConstant kRCAdaptationHeight(70)
+
+#define kRCMainLikeDoneButtonBottomConstant 0
+#define kRCMainLikeDoneButtonRightConstant 0
+#define kRCMainLikeDoneButtonWidthConstant (kRCAdaptationWidth(530) / 2)
+#define kRCMainLikeDoneButtonHeightConstant kRCAdaptationHeight(70)
+
+#define kRCMainLikeSeparatorVerticalLineTopConstant 5
+#define kRCMainLikeSeparatorVerticalLineBottomConstant 5
+#define kRCMainLikeSeparatorVerticalLineWidthConstant 1
+
 @interface RCMainLikeViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
 {
     //MainUI
@@ -148,12 +177,10 @@
     UIView *_contentView;
     UITableView *_menuView;
     
-    //
     UITextView *_idTextView;
     UIButton *_editButton;
     NSMutableArray *_userList;
     NSInteger _currentIndex;
-    
     BOOL _isMainLikeMenuViewLazyLoading;
 }
 
@@ -172,7 +199,7 @@
     if (_mainLikeCoverView == nil) {
         UIView *mainLikeCoverView = [[UIView alloc] initWithFrame:kRCScreenBounds];
         mainLikeCoverView.hidden = YES;
-        mainLikeCoverView.backgroundColor = [UIColor blackColor];
+        mainLikeCoverView.backgroundColor = kRCRGBAColor(0, 0, 0, 1);
         mainLikeCoverView.alpha = 0.3;
         [[UIApplication sharedApplication].keyWindow addSubview:mainLikeCoverView];
         _mainLikeCoverView = mainLikeCoverView;
@@ -183,6 +210,10 @@
 - (UIView *)mainLikeMenuView {
     if (_mainLikeMenuView == nil) {
         UIView *mainLikeMenuView = [[UIView alloc] init];
+        [[UIApplication sharedApplication].keyWindow addSubview:mainLikeMenuView];
+        UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizerDidSwipe:)];
+        swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+        [mainLikeMenuView addGestureRecognizer:swipeRecognizer];
 
         UIView *userInfoView = [[UIView alloc] init];
         userInfoView.backgroundColor = kRCDefaultPurple;
@@ -223,11 +254,6 @@
         menuView.delegate = self;
         [mainLikeMenuView addSubview:menuView];
         _menuView = menuView;
-        
-        [[UIApplication sharedApplication].keyWindow addSubview:mainLikeMenuView];
-        UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizerDidSwipe:)];
-        swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-        [mainLikeMenuView addGestureRecognizer:swipeRecognizer];
         
         //约束
         [userInfoView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -284,46 +310,88 @@
 
 - (UIView *)mainLikeEditView {
     if (_mainLikeEditView == nil) {
-        UIView *mainLikeEditView = [[UIView alloc] initWithFrame:CGRectMake(20, kRCScreenHeight / 3, kRCScreenWidth - 40, kRCScreenHeight / 3)];
-        mainLikeEditView.backgroundColor = [UIColor lightGrayColor];
+        
+        UIView *mainLikeEditView = [[UIView alloc] init];
+        mainLikeEditView.backgroundColor = colorWithHexString(@"fafafa");
         mainLikeEditView.layer.cornerRadius = 10;
         mainLikeEditView.layer.masksToBounds = YES;
         [[UIApplication sharedApplication].keyWindow addSubview:mainLikeEditView];
-        
-        //snapchat ID
-        UILabel *snapchatIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, kRCScreenWidth - 40, 20)];
+
+        UILabel *snapchatIdLabel = [[UILabel alloc] init];
         snapchatIdLabel.textAlignment = NSTextAlignmentCenter;
         snapchatIdLabel.text = @"Your snapchat ID";
-        snapchatIdLabel.textColor = [UIColor darkGrayColor];
+        snapchatIdLabel.backgroundColor = colorWithHexString(@"fafafa");
+        snapchatIdLabel.textColor = kRCDefaultLightgray;
         [mainLikeEditView addSubview:snapchatIdLabel];
         
-        //ID textfield
-        UITextView *idTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, kRCScreenHeight / 3 / 2 - 20, kRCScreenWidth - 40, 40)];
-        idTextView.backgroundColor = [UIColor lightGrayColor];
+        UITextView *idTextView = [[UITextView alloc] init];
         idTextView.font = kRCBoldSystemFont(17);
         idTextView.textAlignment = NSTextAlignmentCenter;
         [mainLikeEditView addSubview:idTextView];
         _idTextView = idTextView;
-        
-        UIView *separatorLine = [[UIView alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(idTextView.frame) - 1, kRCScreenWidth - 40 - 40, 1)];
-        separatorLine.backgroundColor = [UIColor darkGrayColor];
-        [mainLikeEditView addSubview:separatorLine];
-        
-        //cancel
+
+        UIView *separatorHorizontalLine = [[UIView alloc] init];
+        separatorHorizontalLine.backgroundColor = kRCDefaultLightgray;
+        [mainLikeEditView addSubview:separatorHorizontalLine];
+
         UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        cancelButton.frame = CGRectMake(0, kRCScreenHeight / 3 - 40, (kRCScreenWidth - 40) / 2, 40);
+        cancelButton.backgroundColor = kRCDefaultWhite;
         [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-        [cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [cancelButton setTitleColor:kRCDefaultLightgray forState:UIControlStateNormal];
         [cancelButton addTarget:self action:@selector(cancelButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
         [mainLikeEditView addSubview:cancelButton];
         
-        //done
         UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        doneButton.frame = CGRectMake((kRCScreenWidth - 40) / 2, kRCScreenHeight / 3 - 40, (kRCScreenWidth - 40) / 2, 40);
+        doneButton.backgroundColor = kRCDefaultWhite;
         [doneButton setTitle:@"Done" forState:UIControlStateNormal];
-        [doneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [doneButton setTitleColor:kRCDefaultLightgray forState:UIControlStateNormal];
         [doneButton addTarget:self action:@selector(doneButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
         [mainLikeEditView addSubview:doneButton];
+
+        UIView *separatorVerticalLine = [[UIView alloc] init];
+        separatorVerticalLine.backgroundColor = kRCDefaultLightgray;
+        [mainLikeEditView addSubview:separatorVerticalLine];
+    
+        //约束
+        [mainLikeEditView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [[UIApplication sharedApplication].keyWindow addConstraint:[NSLayoutConstraint constraintWithItem:mainLikeEditView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:[UIApplication sharedApplication].keyWindow attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeMainLikeEditViewBottomConstant]];
+        [[UIApplication sharedApplication].keyWindow addConstraint:[NSLayoutConstraint constraintWithItem:mainLikeEditView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMainLikeEditViewWidthConstant]];
+        [[UIApplication sharedApplication].keyWindow addConstraint:[NSLayoutConstraint constraintWithItem:mainLikeEditView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMainLikeEditViewHeightConstant]];
+        [[UIApplication sharedApplication].keyWindow addConstraint:[NSLayoutConstraint constraintWithItem:mainLikeEditView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:[UIApplication sharedApplication].keyWindow attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+
+        [snapchatIdLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:snapchatIdLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:mainLikeEditView attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCMainLikeSnapchatIdLabelHeightConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:snapchatIdLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:mainLikeEditView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+        
+        [idTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:idTextView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:mainLikeEditView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:idTextView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:mainLikeEditView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:idTextView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMainLikeIdTextViewWidthConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:idTextView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeMainLikeIdTextViewHeightConstant]];
+        
+        [separatorHorizontalLine setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:separatorHorizontalLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:idTextView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCMainLikeSeparatorHorizontalLineTopConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:separatorHorizontalLine attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:mainLikeEditView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeSeparatorHorizontalLineLeftConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:separatorHorizontalLine attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:mainLikeEditView attribute:NSLayoutAttributeRight multiplier:1.0 constant:kRCMainLikeSeparatorHorizontalLineRightConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:separatorHorizontalLine attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeSeparatorHorizontalLineHeightConstant]];
+        
+        [cancelButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:cancelButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:mainLikeEditView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeCancelButtonLeftConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:cancelButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:mainLikeEditView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeCancelButtonLeftConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:cancelButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeCancelButtonWidthConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:cancelButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeCancelButtonHeightConstant]];
+        
+        [doneButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:doneButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:mainLikeEditView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeDoneButtonBottomConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:doneButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:mainLikeEditView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-kRCMainLikeDoneButtonRightConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:doneButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeDoneButtonWidthConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:doneButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeDoneButtonHeightConstant]];
+
+        [separatorVerticalLine setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:separatorVerticalLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:cancelButton attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCMainLikeSeparatorVerticalLineTopConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:separatorVerticalLine attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:cancelButton attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeSeparatorVerticalLineBottomConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:separatorVerticalLine attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeSeparatorVerticalLineWidthConstant]];
+        [mainLikeEditView addConstraint:[NSLayoutConstraint constraintWithItem:separatorVerticalLine attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:mainLikeEditView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
         
         _mainLikeEditView = mainLikeEditView;
     }
@@ -368,9 +436,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Utility
 - (void)navgationSettings {
-    
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"Snaper";
     self.view.backgroundColor = kRCDefaultBackWhiteColor;
@@ -600,18 +671,11 @@
 }
 
 - (void)keyboardDidShow:(NSNotification *)notice {
-    
-    CGRect keyboardRect = [notice.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    [UIView animateWithDuration:0.25f animations:^{
-        _mainLikeEditView.frame = CGRectMake(20, keyboardRect.origin.y - kRCScreenHeight / 3 - 20, kRCScreenWidth - 40, kRCScreenHeight / 3);
-    }];
-//    _mainLikeEditView.frame = CGRectMake(20, 20, kRCScreenWidth - 40, kRCScreenHeight / 3);
-//    _mainLikeEditView.hidden = NO;
+    self.mainLikeEditView.hidden = NO;
 }
 
 - (void)keyboardDidHid:(NSNotification *)notice {
-    _mainLikeEditView.frame = CGRectMake(20, kRCScreenHeight / 3, kRCScreenWidth - 40, kRCScreenHeight / 3);
-//    _mainLikeEditView.hidden = YES;
+    self.mainLikeEditView.hidden = YES;
 }
 
 - (void)reloadInfo {
@@ -642,7 +706,6 @@
     }
 }
 
-
 - (float)distanceFromLocation:(RCLocation)fromLocation toLocation:(RCLocation)toLocation {
     return sqrt(((fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180 *
                  (fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180) +
@@ -666,19 +729,19 @@
     if (!_isMainLikeMenuViewLazyLoading) {
         //第一次懒加载执行
         self.mainLikeCoverView.hidden = YES;
-        self.mainLikeMenuView.frame = CGRectMake(- (kRCScreenWidth - 40), 0, kRCScreenWidth - 40, kRCScreenHeight);
+        self.mainLikeMenuView.frame = CGRectMake(- (kRCScreenWidth - kRCMainLikeMenuViewToRightDistance), 0, kRCScreenWidth - kRCMainLikeMenuViewToRightDistance, kRCScreenHeight);
         _isMainLikeMenuViewLazyLoading = YES;
     }
     self.mainLikeCoverView.hidden = NO;
-    [UIView animateWithDuration:0.5f delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.3 options:UIViewAnimationOptionLayoutSubviews animations:^{
-        _mainLikeMenuView.frame = CGRectMake(0, 0, kRCScreenWidth - 40, kRCScreenHeight);
+    [UIView animateWithDuration:0.25f delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.3 options:UIViewAnimationOptionLayoutSubviews animations:^{
+        _mainLikeMenuView.frame = CGRectMake(0, 0, kRCScreenWidth - kRCMainLikeMenuViewToRightDistance, kRCScreenHeight);
     } completion:nil];
 }
 
 - (void)gestureRecognizerDidSwipe:(UISwipeGestureRecognizer *)recognizer {
     self.mainLikeCoverView.hidden = YES;
-    [UIView animateWithDuration:0.2f animations:^{
-        self.mainLikeMenuView.frame = CGRectMake(- (kRCScreenWidth - 40), 0, kRCScreenWidth - 40, kRCScreenHeight);
+    [UIView animateWithDuration:0.25f animations:^{
+        self.mainLikeMenuView.frame = CGRectMake(- (kRCScreenWidth - kRCMainLikeMenuViewToRightDistance), 0, kRCScreenWidth - kRCMainLikeMenuViewToRightDistance, kRCScreenHeight);
     }];
 }
 
@@ -751,8 +814,8 @@
 - (void)camaraButtonDidClick {
     kRCWeak(self)
     self.mainLikeCoverView.hidden = YES;
-    [UIView animateWithDuration:0.5f animations:^{
-        weakself.mainLikeMenuView.frame = CGRectMake(- (kRCScreenWidth - 40), 0, kRCScreenWidth - 40, kRCScreenHeight);
+    [UIView animateWithDuration:0.25 animations:^{
+        weakself.mainLikeMenuView.frame = CGRectMake(- (kRCScreenWidth - kRCMainLikeMenuViewToRightDistance), 0, kRCScreenWidth - kRCMainLikeMenuViewToRightDistance, kRCScreenHeight);
     } completion:^(BOOL finished) {
         [weakself.navigationController pushViewController:self.mainLikeModifyPhotoVc animated:YES];
     }];
@@ -762,7 +825,7 @@
     self.mainLikeEditCoverView.hidden = NO;
     self.mainLikeEditView.hidden = NO;
     
-    _idTextView.text = [_idLabel.text substringFromIndex:3];
+    _idTextView.text = [_idLabel.text substringFromIndex:4];
     _idTextView.selectedRange = NSMakeRange(0, _idTextView.text.length);
     [_idTextView becomeFirstResponder];
 }
@@ -780,7 +843,7 @@
     
     [_idTextView resignFirstResponder];
     //发送请求
-    _idLabel.text = [NSString stringWithFormat:@"ID:%@", _idTextView.text];
+    _idLabel.text = [NSString stringWithFormat:@"ID: %@", _idTextView.text];
     CGSize size = [_idLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: _idLabel.font} context:nil].size;
     _editButton.frame = CGRectMake((kRCScreenWidth - 40) / 2 + size.width / 2 + 10 - (200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10 + 10) / 2, CGRectGetMaxY(_photoView.frame) + 10, 200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10, 200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10);
     
@@ -816,9 +879,34 @@
     [self presentViewController:activityVC animated:TRUE completion:nil];
 }
 
-
 - (void)informButtonDidClicked {
+    UIAlertController *informAlertVc = [[UIAlertController alloc] init];
+    kAcquireUserDefaultUsertoken
+    RCUserInfoModel *userInfo = _userList[_currentIndex];
+    UIAlertAction *informAction = [UIAlertAction actionWithTitle:@"Inform" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        RCMainLikeInfoModel *informModel = [[RCMainLikeInfoModel alloc] init];
+        informModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/ReportUsers.do";
+        informModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
+        informModel.parameters = @{@"plat": @1,
+                                   @"usertoken": usertoken,
+                                   @"userid": userInfo.userid
+                                   };
+        [informModel requestServerWithModel:informModel success:^(id resultModel) {
+            RCMainLikeInfoModel *result = (RCMainLikeInfoModel *)resultModel;
+            if ([result.mess isEqualToString:@"succ"]) {
+                [RCMBHUDTool showText:@"举报成功" hideDelay:1];
+            } else {
+                NSLog(@"举报其他处理");
+            }
+        } failure:^(NSError *error) {
+            NSLog(@"网络异常");
+        }];
+    }];
     
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    [informAlertVc addAction:informAction];
+    [informAlertVc addAction:cancelAction];
+    [self presentViewController:informAlertVc animated:YES completion:nil];
 }
 
 #pragma mark - <UITableViewDataSource, UITableViewDelegate>
@@ -828,6 +916,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RCMainLikeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRCMainLikeMenuTableViewCellIdentifer];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.row == 0) {
         cell.showIcon = kRCImage(@"more_1_icon");
         cell.showTitle = @"Show";
@@ -927,7 +1016,7 @@
         activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
         [self presentViewController:activityVC animated:TRUE completion:nil];
     } else if (indexPath.row == 3) {
-        [UIView animateWithDuration:0.2f animations:^{
+        [UIView animateWithDuration:0.25 animations:^{
             [self gestureRecognizerDidSwipe:nil];
         } completion:^(BOOL finished) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(-2), kRCSwitchRootVcNotificationVcKey: self.navigationController}];

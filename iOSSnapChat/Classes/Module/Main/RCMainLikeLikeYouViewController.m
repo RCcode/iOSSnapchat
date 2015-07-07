@@ -9,12 +9,36 @@
 #import "RCMainLikeLikeYouViewController.h"
 #import "RCMainLikeModel.h"
 
+//主界面约束
+#define kRCMainLikeLikeYouIconImageViewTopConstant (kRCAdaptationHeight(78) + 64)
+#define kRCMainLikeLikeYouIconImageViewLeftConstant kRCAdaptationWidth(112)
+#define kRCMainLikeLikeYouIconImageViewRightConstant kRCAdaptationWidth(112)
+#define kRCMainLikeLikeYouIconImageViewHeightConstant (kRCScreenWidth - kRCAdaptationWidth(112) * 2)
+
+#define kRCMainLikeLikeYouTextLabelTopConstant kRCAdaptationHeight(94)
+
+#define kRCMainLikeLikeYouUnLikeButtonBottomConstant kRCAdaptationHeight(106)
+#define kRCMainLikeLikeYouUnLikeButtonLeftConstant kRCAdaptationWidth(134)
+#define kRCMainLikeLikeYouUnLikeButtonWidthConstant kRCAdaptationWidth(169)
+#define kRCMainLikeLikeYouUnLikeButtonHeightConstant kRCAdaptationWidth(169)
+
+#define kRCMainLikeLikeYouLikeButtonBottomConstant kRCAdaptationHeight(106)
+#define kRCMainLikeLikeYouLikeButtonRightConstant kRCAdaptationWidth(134)
+#define kRCMainLikeLikeYouLikeButtonWidthConstant kRCAdaptationWidth(169)
+#define kRCMainLikeLikeYouLikeButtonHeightConstant kRCAdaptationWidth(169)
+
 typedef NS_ENUM(NSInteger, kRCMainLikeType) {
     kRCMainLikeTypeUnlike = 0,
     kRCMainLikeTypeLike
 };
 
 @interface RCMainLikeLikeYouViewController ()
+{
+    UIImageView *_iconImageView;
+    UILabel *_textLabel;
+    UIButton *_unLikeButton;
+    UIButton *_likeButton;
+}
 
 @end
 
@@ -26,6 +50,7 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
     
     [self navgationSettings];
     [self setUpUI];
+    [self addConstraint];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,35 +63,70 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
 }
 
 - (void)setUpUI {
-    UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(40, 64 + 40, kRCScreenWidth - 80, kRCScreenWidth - 80)];
-    iconImageView.layer.cornerRadius = (kRCScreenWidth - 80) / 2;
+    UIImageView *iconImageView = [[UIImageView alloc] init];
     iconImageView.layer.masksToBounds = YES;
-    [iconImageView sd_setImageWithURL:self.iconURL placeholderImage:[UIImage imageNamed:@"default.jpg"]];
+    [iconImageView sd_setImageWithURL:self.iconURL];
     [self.view addSubview:iconImageView];
+    _iconImageView = iconImageView;
     
-    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(iconImageView.frame) + 40, kRCScreenWidth, 40)];
+    UILabel *textLabel = [[UILabel alloc] init];
     textLabel.textAlignment = NSTextAlignmentCenter;
     textLabel.text = @"Like you!";
+    textLabel.font = kRCBoldSystemFont(25);
+    textLabel.textColor = kRCDefaultDarkAlphaBlack;
     [self.view addSubview:textLabel];
-    
-    UIButton *likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    likeButton.frame = CGRectMake(40, CGRectGetMaxY(textLabel.frame) + 40, 80, 80);
-    [likeButton addTarget:self action:@selector(choiceButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [likeButton setTitle:@"Like" forState:UIControlStateNormal];
-    likeButton.tag = kRCMainLikeTypeLike;
-    [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.view addSubview:likeButton];
+    _textLabel = textLabel;
     
     UIButton *unLikeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    unLikeButton.frame = CGRectMake(kRCScreenWidth - 40 - 80, CGRectGetMaxY(textLabel.frame) + 40, 80, 80);
     [unLikeButton addTarget:self action:@selector(choiceButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [unLikeButton setTitle:@"UnLike" forState:UIControlStateNormal];
     unLikeButton.tag = kRCMainLikeTypeUnlike;
+    [unLikeButton setImage:kRCImage(@"pass_icon") forState:UIControlStateNormal];
+    [unLikeButton setImage:kRCImage(@"pass_pass_icon") forState:UIControlStateHighlighted];
     [unLikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.view addSubview:unLikeButton];
+    _unLikeButton = unLikeButton;
+    
+    UIButton *likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [likeButton addTarget:self action:@selector(choiceButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    likeButton.tag = kRCMainLikeTypeLike;
+    [likeButton setImage:kRCImage(@"like_icon") forState:UIControlStateNormal];
+    [likeButton setImage:kRCImage(@"like_press_icon") forState:UIControlStateHighlighted];
+    [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.view addSubview:likeButton];
+    _likeButton = likeButton;
+}
+
+- (void)addConstraint {
+    [_iconImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_iconImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCMainLikeLikeYouIconImageViewTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_iconImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCMainLikeLikeYouIconImageViewLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_iconImageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCMainLikeLikeYouIconImageViewRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_iconImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeYouIconImageViewHeightConstant]];
+    _iconImageView.layer.cornerRadius = kRCMainLikeLikeYouIconImageViewHeightConstant / 2;
+    _iconImageView.layer.masksToBounds = YES;
+    
+    [_textLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_textLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_iconImageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCMainLikeLikeYouTextLabelTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_textLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    
+    [_unLikeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_unLikeButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeLikeYouUnLikeButtonBottomConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_unLikeButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCMainLikeLikeYouUnLikeButtonLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_unLikeButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeYouUnLikeButtonWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_unLikeButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeYouUnLikeButtonHeightConstant]];
+    
+    [_likeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likeButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeLikeYouLikeButtonBottomConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likeButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCMainLikeLikeYouLikeButtonRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likeButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeYouLikeButtonWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_likeButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeLikeYouLikeButtonHeightConstant]];
 }
 
 #pragma mark - Action
+- (void)arrowBackDidClicked {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)choiceButtonDidClicked:(UIButton *)sender {
     [self sendLikeUnLikeRequest:sender.tag];
 }

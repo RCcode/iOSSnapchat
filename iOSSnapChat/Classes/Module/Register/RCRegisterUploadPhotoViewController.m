@@ -101,8 +101,8 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 
 #pragma mark - Utility
 - (void)initData {
-    _judgeImageFillArray = [NSMutableArray arrayWithArray:@[@YES, @NO, @NO]];
     _photoCount = 1;
+    _judgeImageFillArray = [NSMutableArray arrayWithArray:@[@YES, @NO, @NO]];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = kRCDefaultBackWhiteColor;
 }

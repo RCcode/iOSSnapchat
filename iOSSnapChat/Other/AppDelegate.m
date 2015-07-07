@@ -29,8 +29,6 @@
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     }
     
-    
-    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     [self addNotification];
@@ -87,6 +85,13 @@
                 [UIView animateWithDuration:0.2f animations:^{
                     sendVcNav.view.frame = CGRectMake(0, kRCScreenHeight, kRCScreenWidth, kRCScreenHeight);
                 } completion:^(BOOL finished) {
+                    //销毁传入控制器控制器
+                    for (UIViewController *sendVc in sendVcNav.childViewControllers) {
+                        [sendVc removeFromParentViewController];
+                    }
+                    //销毁传入控制器视图
+                    [sendVcNav.view removeFromSuperview];
+                    
                     self.window.rootViewController = homeVc;
                     [self.window makeKeyAndVisible];
                 }];
@@ -103,7 +108,6 @@
         {
             RCRegisterInfoViewController *registerInfoVc = [[RCRegisterInfoViewController alloc] init];
             navVc = [[RCBaseNavgationController alloc] initWithRootViewController:registerInfoVc];
-            
             break;
         }
         case 2:
@@ -121,7 +125,7 @@
                 self.window.rootViewController = navVc;
                 [self.window makeKeyAndVisible];
             } else {
-                //登录按钮点击自定义动画
+                //手动登录按钮点击自定义动画
                 UIViewController *sendVcNav = notice.userInfo[kRCSwitchRootVcNotificationVcKey];
                 RCLoginViewController *loginVc = [[RCLoginViewController alloc] init];
                 loginVc.view.frame = CGRectMake(kRCScreenWidth, 64, kRCScreenWidth, kRCScreenHeight - 64);
@@ -132,7 +136,13 @@
                 [UIView animateWithDuration:0.2f animations:^{
                     loginVc.view.frame = CGRectMake(0, 64, kRCScreenWidth, kRCScreenHeight - 64);
                 } completion:^(BOOL finished) {
+                    //销毁传入控制器控制器
+                    for (UIViewController *sendVc in sendVcNav.childViewControllers) {
+                        [sendVc removeFromParentViewController];
+                    }
+                    //销毁传入控制器视图
                     [sendVcNav.view removeFromSuperview];
+                    
                     self.window.rootViewController = navVc;
                     [self.window makeKeyAndVisible];
                 }];

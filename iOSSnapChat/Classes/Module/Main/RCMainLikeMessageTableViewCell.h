@@ -13,5 +13,6 @@
 @property (nonatomic, strong) NSURL *showIconURL;
 @property (nonatomic, copy) NSString *showTitle;
 @property (nonatomic, assign) BOOL isMore;
+@property (nonatomic, weak) UILabel *showLabel;
 
 @end

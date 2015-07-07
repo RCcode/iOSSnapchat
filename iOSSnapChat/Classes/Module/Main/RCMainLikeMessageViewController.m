@@ -14,6 +14,17 @@
 #import "RCMainLikeLikeYouViewController.h"
 #import "RCMainLikeMatchYouViewController.h"
 
+//主界面约束
+#define kRCMainLikeMessageTableViewTopConstant 0
+#define kRCMainLikeMessageTableViewBottomConstant 0
+#define kRCMainLikeMessageTableViewLeftConstant 0
+#define kRCMainLikeMessageTableViewRightConstant 0
+
+typedef NS_ENUM(NSInteger, kRCMainLikeMessageType) {
+    kRCMainLikeMessageTypeLike = 1,
+    kRCMainLikeMessageTypeMatch
+};
+
 #define kRCMainLikeMessageTableViewCellReuseIdentifier @"kRCMainLikeMessageTableViewCellReuseIdentifier"
 
 @interface RCMainLikeMessageViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -33,6 +44,7 @@
     [self navgationSettings];
     [self loadData];
     [self setUpUI];
+    [self addConstraint];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,11 +54,10 @@
 #pragma mark - Utility
 - (void)navgationSettings {
     self.title = @"Message";
-    //Report
-    UIButton *categoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    categoryButton.frame = CGRectMake(0, 0, 44, 44);
-    [categoryButton setTitle:@"..." forState:UIControlStateNormal];
-    [categoryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    RCNavgationItemButton *categoryButton = [[RCNavgationItemButton alloc] init];
+    categoryButton.frame = kRCDefaultNacgationBarItemFrame;
+    [categoryButton setImage:kRCImage(@"other_icon") forState:UIControlStateNormal];
     [categoryButton addTarget:self action:@selector(categoryButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *categoryButtonItem = [[UIBarButtonItem alloc] initWithCustomView:categoryButton];
     self.navigationItem.rightBarButtonItem = categoryButtonItem;
@@ -73,7 +84,7 @@
 }
 
 - (void)setUpUI {
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kRCScreenWidth, kRCScreenHeight)];
+    UITableView *tableView = [[UITableView alloc] init];
     [tableView registerClass:[RCMainLikeMessageTableViewCell class] forCellReuseIdentifier:kRCMainLikeMessageTableViewCellReuseIdentifier];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.dataSource = self;
@@ -82,14 +93,26 @@
     _tableView = tableView;
 }
 
+- (void)addConstraint {
+    [_tableView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCMainLikeMessageTableViewTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeMessageTableViewBottomConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCMainLikeMessageTableViewLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCMainLikeMessageTableViewRightConstant]];
+}
+
 - (NSString *)acquireDateFormTimesp:(long long)timesp {
-    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:timesp];
+    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:timesp / 1000];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"MM-dd";
     return [formatter stringFromDate:confromTimesp];
 }
 
 #pragma mark - Action
+- (void)arrowBackDidClicked {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)categoryButtonDidClick {
     UIAlertController *categoryAlertVc = [[UIAlertController alloc] init];
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -126,24 +149,26 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RCMainLikeMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kRCMainLikeMessageTableViewCellReuseIdentifier];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     RCMainMessageUserInfoModel *messageUserInfo = _list[indexPath.row];
     RCUserInfoModel *userInfo = messageUserInfo.userinfo;
     cell.showIconURL = [NSURL URLWithString:userInfo.url1];
-    cell.showTitle = ([messageUserInfo.flag intValue] == 1) ? [NSString stringWithFormat:@"Like you on %@", [self acquireDateFormTimesp:[messageUserInfo.date_time longLongValue] / 1000]] : [NSString stringWithFormat:@"Match you on %@", [self acquireDateFormTimesp:[messageUserInfo.date_time longLongValue] / 1000]];
-    cell.isMore = ([messageUserInfo.flag intValue] == 1) ? NO : YES;
+    cell.showTitle = ([messageUserInfo.flag intValue] == kRCMainLikeMessageTypeLike) ? [NSString stringWithFormat:@"Like you on %@", [self acquireDateFormTimesp:[messageUserInfo.date_time longLongValue]]] : [NSString stringWithFormat:@"Match you on %@", [self acquireDateFormTimesp:[messageUserInfo.date_time longLongValue]]];
+    cell.showLabel.textColor = ([messageUserInfo.flag intValue] == kRCMainLikeMessageTypeLike) ? kRCDefaultAlphaBlack : kRCDefaultDarkAlphaBlack;
+    cell.isMore = ([messageUserInfo.flag intValue] == kRCMainLikeMessageTypeLike) ? NO : YES;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     RCMainMessageUserInfoModel *messageUserInfo = _list[indexPath.row];
     RCUserInfoModel *userInfo = messageUserInfo.userinfo;
-    if ([messageUserInfo.flag intValue] == 1) {
+    if ([messageUserInfo.flag intValue] == kRCMainLikeMessageTypeLike) {
         //Like
         RCMainLikeLikeYouViewController *mainLikeLikeYouVc = [[RCMainLikeLikeYouViewController alloc] init];
         mainLikeLikeYouVc.iconURL = [NSURL URLWithString:userInfo.url1];
         mainLikeLikeYouVc.userid = messageUserInfo.userid1;
         [self.navigationController pushViewController:mainLikeLikeYouVc animated:YES];
-    } else if ([messageUserInfo.flag intValue] == 2) {
+    } else if ([messageUserInfo.flag intValue] == kRCMainLikeMessageTypeMatch) {
         //Match
         RCMainLikeMatchYouViewController *mainLikeMatchYouVc = [[RCMainLikeMatchYouViewController alloc] init];
         mainLikeMatchYouVc.iconURLMe = [NSURL URLWithString:self.userInfo.url1];
@@ -153,5 +178,8 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return kRCAdaptationHeight(100);
+}
 
 @end

@@ -9,6 +9,32 @@
 #import "RCMainLikeModifyPhotoViewController.h"
 #import "RCUserInfoModel.h"
 
+#define kRCMainLikeModifyPhotoButtonTotalCount 3
+#define kRCMainLikeModifyPhotoCollectionViewCellReuseIdentifier @"kRCMainLikeModifyPhotoCollectionViewCellReuseIdentifier"
+
+//主界面约束
+#define kRCMainLikeModifyPhotoPhotoCollectionViewTopConstant (kRCAdaptationHeight(44) + 64)
+#define kRCMainLikeModifyPhotoCollectionViewLeftConstant kRCAdaptationWidth(110)
+#define kRCMainLikeModifyPhotoCollectionViewWidthConstant (kRCScreenWidth - kRCAdaptationWidth(110) * 2)
+#define kRCMainLikeModifyPhotoCollectionViewHeightConstant (kRCScreenWidth - kRCAdaptationWidth(110) * 2)
+
+#define kRCMainLikeModifyPhotoPageLabelBottomConstant 5
+#define kRCMainLikeModifyPhotoPageLabelRightConstant 5
+#define kRCMainLikeModifyPhotoPageLabelWidthConstant 40
+#define kRCMainLikeModifyPhotoPageLabelHeightConstant 15
+
+#define kRCMainLikeModifyPhotoPhotoMargin 10
+
+#define kRCMainLikeModifyPhotoFirstChoiceImageViewTopConstant kRCAdaptationHeight(38)
+#define kRCMainLikeModifyPhotoFirstChoiceImageViewLeftConstant kRCAdaptationWidth(60)
+#define kRCMainLikeModifyPhotoFirstChoiceImageViewWidthConstant ((kRCScreenWidth - kRCMainLikeModifyPhotoPhotoMargin * 2 - kRCMainLikeModifyPhotoFirstChoiceImageViewLeftConstant * 2) / 3)
+#define kRCMainLikeModifyPhotoFirstChoiceImageViewHeightConstant ((kRCScreenWidth - kRCMainLikeModifyPhotoPhotoMargin * 2 - kRCMainLikeModifyPhotoFirstChoiceImageViewLeftConstant * 2) / 3)
+
+#define kRCMainLikeModifyPhotoNotFirstChoiceImageViewTopConstant kRCAdaptationHeight(38)
+#define kRCMainLikeModifyPhotoNotFirstChoiceImageViewLeftConstant kRCMainLikeModifyPhotoPhotoMargin
+#define kRCMainLikeModifyPhotoNotFirstChoiceImageViewWidthConstant ((kRCScreenWidth - kRCMainLikeModifyPhotoPhotoMargin * 2 - kRCMainLikeModifyPhotoFirstChoiceImageViewLeftConstant * 2) / 3)
+#define kRCMainLikeModifyPhotoNotFirstChoiceImageViewHeightConstant ((kRCScreenWidth - kRCMainLikeModifyPhotoPhotoMargin * 2 - kRCMainLikeModifyPhotoFirstChoiceImageViewLeftConstant * 2) / 3)
+
 typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     kRCCamerGalleryTapTypeReplace = 0,
     kRCCamerGalleryTapTypeAdd
@@ -22,6 +48,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     NSInteger _tapIndex;
     NSInteger _uploadIndex;
     UICollectionView *_photoCollectionView;
+    NSMutableArray *_judgeImageFillArray;
 }
 
 @property (nonatomic, strong) NSMutableArray *choiceImageViewArray;
@@ -43,40 +70,44 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _photoCount = [self acquirePhotoCount:self.userInfo];
-    
+    [self initData];
     [self setUpUI];
+    [self addConstraint];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
+
+
+
 #pragma mark - Utility
-- (void)setUpUI {
-    
+- (void)initData {
+    [self acquirePhotoCountAndJudgeArray:self.userInfo];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
+}
+
+- (void)setUpUI {
     UICollectionViewFlowLayout *photoCollectLayout = [[UICollectionViewFlowLayout alloc] init];
-    UICollectionView *photoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(40, 64 + 10, kRCScreenWidth - 80, kRCScreenWidth - 80) collectionViewLayout:photoCollectLayout];
+    UICollectionView *photoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:photoCollectLayout];
     photoCollectionView.layer.cornerRadius = 5;
     photoCollectionView.layer.masksToBounds = YES;
-    photoCollectLayout.itemSize = CGSizeMake(kRCScreenWidth - 80, kRCScreenWidth - 80);
+    photoCollectLayout.itemSize = CGSizeMake(kRCMainLikeModifyPhotoCollectionViewWidthConstant, kRCMainLikeModifyPhotoCollectionViewHeightConstant);
     photoCollectLayout.minimumLineSpacing = 0;
     photoCollectLayout.minimumInteritemSpacing = 0;
     photoCollectLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     photoCollectionView.showsHorizontalScrollIndicator = NO;
     photoCollectionView.pagingEnabled = YES;
     photoCollectionView.backgroundColor = [UIColor whiteColor];
-    [photoCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"AAAA"];
+    [photoCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kRCMainLikeModifyPhotoCollectionViewCellReuseIdentifier];
     photoCollectionView.dataSource = self;
     photoCollectionView.delegate = self;
     [self.view addSubview:photoCollectionView];
     _photoCollectionView = photoCollectionView;
     
-    for (int i = 0; i < 3; ++ i) {
+    for (int i = 0; i < kRCMainLikeModifyPhotoButtonTotalCount; ++ i) {
         UIImageView *choiceImageView = [[UIImageView alloc] init];
-        choiceImageView.frame = CGRectMake(40 + 10 * i + (kRCScreenWidth - 80 - 20) / 3 * i, CGRectGetMaxY(photoCollectionView.frame) + 20, (kRCScreenWidth - 80 - 20) / 3, (kRCScreenWidth - 80 - 20) / 3);
         choiceImageView.tag = i;
         switch (i) {
             case 0: {
@@ -87,38 +118,72 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
                 break;
             case 1: {
                 [choiceImageView sd_setImageWithURL:[NSURL URLWithString:self.userInfo.url2] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                    [_photoCollectionView reloadData];
+                    if (!self.userInfo.url2) {
+                        UIImageView *imgV = self.choiceImageViewArray[2];
+                        imgV.image = kRCImage(@"kongbai");
+                    } else {
+                        [_photoCollectionView reloadData];
+                    }
                 }];
             }
                 break;
             case 2: {
                 [choiceImageView sd_setImageWithURL:[NSURL URLWithString:self.userInfo.url3] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                    [_photoCollectionView reloadData];
+                    if (!self.userInfo.url3) {
+                        UIImageView *imgV = self.choiceImageViewArray[3];
+                        imgV.image = kRCImage(@"kongbai");
+                    } else {
+                        [_photoCollectionView reloadData];
+                    }
                 }];
             }
                 break;
             default:
                 break;
         }
-        
         choiceImageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognizerDidTap:)];
         [choiceImageView addGestureRecognizer:tapRecognizer];
         [self.view addSubview:choiceImageView];
         [self.choiceImageViewArray addObject:choiceImageView];
     }
-    
 }
 
-- (NSInteger)acquirePhotoCount:(RCUserInfoModel *)userInfo {
+- (void)addConstraint {
+    [_photoCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_photoCollectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:kRCMainLikeModifyPhotoPhotoCollectionViewTopConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_photoCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCMainLikeModifyPhotoCollectionViewLeftConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_photoCollectionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeModifyPhotoCollectionViewWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_photoCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeModifyPhotoCollectionViewHeightConstant]];
+    
+    [self.choiceImageViewArray enumerateObjectsUsingBlock:^(UIImageView *addPhotoImageView, NSUInteger idx, BOOL *stop) {
+        if (idx == 0) {
+            [addPhotoImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:addPhotoImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_photoCollectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCMainLikeModifyPhotoFirstChoiceImageViewTopConstant]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:addPhotoImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCMainLikeModifyPhotoFirstChoiceImageViewLeftConstant]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:addPhotoImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeModifyPhotoFirstChoiceImageViewWidthConstant]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:addPhotoImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeModifyPhotoFirstChoiceImageViewHeightConstant]];
+        } else {
+            [addPhotoImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:addPhotoImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_photoCollectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCMainLikeModifyPhotoNotFirstChoiceImageViewTopConstant]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:addPhotoImageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.choiceImageViewArray[idx - 1] attribute:NSLayoutAttributeRight multiplier:1.0 constant:kRCMainLikeModifyPhotoNotFirstChoiceImageViewLeftConstant]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:addPhotoImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeModifyPhotoNotFirstChoiceImageViewWidthConstant]];
+            [self.view addConstraint:[NSLayoutConstraint constraintWithItem:addPhotoImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeModifyPhotoNotFirstChoiceImageViewHeightConstant]];
+        }
+    }];
+
+}
+
+- (void)acquirePhotoCountAndJudgeArray:(RCUserInfoModel *)userInfo {
     if (![userInfo.url3 isEqualToString:@""]) {
-        return 3;
+        _photoCount = 3;
+        _judgeImageFillArray = [NSMutableArray arrayWithArray:@[@YES, @YES, @YES]];
     } else if (![userInfo.url2 isEqualToString:@""]) {
-        return 2;
+        _photoCount = 2;
+        _judgeImageFillArray = [NSMutableArray arrayWithArray:@[@YES, @YES, @NO]];
     } else if (![userInfo.url1 isEqualToString:@""]) {
-        return 1;
-    } else {
-        return 0;
+        _photoCount = 1;
+        _judgeImageFillArray = [NSMutableArray arrayWithArray:@[@YES, @NO, @NO]];
     }
 }
 
@@ -131,12 +196,15 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 }
 
 - (void)tapRecognizerDidTap:(UITapGestureRecognizer *)recognizer {
-    UIImageView *tapImageView = (UIImageView *)recognizer.view;
     _tapIndex = recognizer.view.tag;
-    if (tapImageView.image) {
+    if ([_judgeImageFillArray[_tapIndex] boolValue] == YES) {
+        //替换
         _currentTapType = kRCCamerGalleryTapTypeReplace;
+        _uploadIndex = _tapIndex + 1;
     } else {
+        //添加
         _currentTapType = kRCCamerGalleryTapTypeAdd;
+        _uploadIndex = _photoCount + 1;
     }
 
     UIAlertController *uploadAlertVc = [[UIAlertController alloc] init];
@@ -170,11 +238,13 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     }
     
     if (_currentTapType == kRCCamerGalleryTapTypeReplace) {
-        //替换
-        _uploadIndex = _tapIndex + 1;
+        UIImageView *currentTapImageView = [_choiceImageViewArray objectAtIndex:_tapIndex];
+        currentTapImageView.image = selectedPhoto;
     } else if (_currentTapType == kRCCamerGalleryTapTypeAdd) {
-        //添加
-        _uploadIndex = _photoCount + 1;
+#warning 实现动画 同时需要把图片改变的情况放入到图片上传成功的block中
+        UIImageView *currentTapImageView = [_choiceImageViewArray objectAtIndex:_photoCount];
+        _photoCount += 1;
+        currentTapImageView.image = selectedPhoto;
     }
 
     //上传图片
@@ -183,11 +253,8 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     [RCMBHUDTool showIndicator];
     [[RCNetworkManager shareManager] POSTRequest:@"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi3.do?method=upload" parameters:@{@"plat": @1, @"usertoken": usertoken, @"index": @(_uploadIndex)} upateFileData:uploadImageDataOne success:^(id responseObject) {
         [RCMBHUDTool hideshowIndicator];
-        UIImageView *updateImageView = self.choiceImageViewArray[_uploadIndex - 1];
-        updateImageView.image = selectedPhoto;
+        [_judgeImageFillArray replaceObjectAtIndex:_tapIndex withObject:@YES];
         [_photoCollectionView reloadData];
-        
-        if (_currentTapType == kRCCamerGalleryTapTypeAdd) _photoCount += 1;
         [RCMBHUDTool showText:[NSString stringWithFormat:@"更新完成第%d张", _uploadIndex] hideDelay:1];
     } failure:^(NSError *error) {
         [RCMBHUDTool showText:@"上传失败" hideDelay:1.0f];
@@ -202,7 +269,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AAAA" forIndexPath:indexPath];
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kRCMainLikeModifyPhotoCollectionViewCellReuseIdentifier forIndexPath:indexPath];
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = [self.choiceImageViewArray[indexPath.item] image];
     cell.backgroundView = imageView;
