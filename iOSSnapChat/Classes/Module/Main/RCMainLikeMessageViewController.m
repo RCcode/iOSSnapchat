@@ -53,11 +53,11 @@ typedef NS_ENUM(NSInteger, kRCMainLikeMessageType) {
 
 #pragma mark - Utility
 - (void)navgationSettings {
-    self.title = @"Message";
+    self.title = kRCLocalizedString(@"MainLikeMessageNavigationTille");
     
     RCNavgationItemButton *categoryButton = [[RCNavgationItemButton alloc] init];
     categoryButton.frame = kRCDefaultNacgationBarItemFrame;
-    [categoryButton setImage:kRCImage(@"other_icon") forState:UIControlStateNormal];
+    [categoryButton setImage:kRCImage(@"other") forState:UIControlStateNormal];
     [categoryButton addTarget:self action:@selector(categoryButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *categoryButtonItem = [[UIBarButtonItem alloc] initWithCustomView:categoryButton];
     self.navigationItem.rightBarButtonItem = categoryButtonItem;

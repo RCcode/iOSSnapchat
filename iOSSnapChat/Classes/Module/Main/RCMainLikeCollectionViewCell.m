@@ -9,6 +9,9 @@
 #import "RCMainLikeCollectionViewCell.h"
 
 @interface RCMainLikeCollectionViewCell ()
+{
+    UIActivityIndicatorView *_activityIndicatorView;
+}
 
 @end
 
@@ -19,6 +22,11 @@
         UIImageView *showImageView = [[UIImageView alloc] init];
         [self.contentView addSubview:showImageView];
         _showImageView = showImageView;
+        
+#warning from here
+        UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] init];
+        [self.contentView addSubview:activityIndicatorView];
+        _activityIndicatorView = activityIndicatorView;
     }
     return self;
 }

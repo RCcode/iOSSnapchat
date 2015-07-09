@@ -14,7 +14,7 @@
 @implementation RCMoreCameraButton
 
 - (CGRect)imageRectForContentRect:(CGRect)contentRect {
-    return CGRectMake((self.bounds.size.width - kRCMoreCameraButtonImageWidth) / 2, (self.bounds.size.height - kRCMoreCameraButtonImageHeight) / 2, kRCMoreCameraButtonImageHeight, kRCMoreCameraButtonImageHeight);
+    return CGRectMake((self.bounds.size.width - kRCMoreCameraButtonImageWidth) / 2, (self.bounds.size.height - kRCMoreCameraButtonImageHeight) / 2, kRCMoreCameraButtonImageWidth, kRCMoreCameraButtonImageHeight);
 }
 
 @end

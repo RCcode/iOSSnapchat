@@ -21,9 +21,12 @@
 
 @implementation AppDelegate
 
+#define kRCParsePushApplicationId @"6pwRJKt4anhU2GH4K0NGmliEfi5urYo0HJpouBNI"
+#define kRCParsePushClientKey @"6Yr58PV4U7nRkGvJUyI5id3634UTxv8IWoqQ5mHf"
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-//    Parse setApplicationId:<#(NSString * __nonnull)#> clientKey:<#(NSString * __nonnull)#>
-    
+    [Parse setApplicationId:kRCParsePushApplicationId clientKey:kRCParsePushClientKey];
     [self handleNotificationWithInfo:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]];
     
     if(IOS8){
@@ -65,8 +68,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchToRootVc:) name:kRCSwitchRootVcNotification object:nil];
 }
 
-
-
 //kRCSwitchRootVcNotificationVcKey 传入Animation = YES,不传入Animation = NO
 - (void)switchToRootVc:(NSNotification *)notice {
     NSInteger step = [notice.userInfo[kRCSwitchRootVcNotificationStepKey] integerValue];
@@ -99,7 +100,6 @@
                     }
                     //销毁传入控制器视图
                     [sendVcNav.view removeFromSuperview];
-                    
                     self.window.rootViewController = homeVc;
                     [self.window makeKeyAndVisible];
                 }];
@@ -175,6 +175,8 @@
     [currentInstallation setDeviceTokenFromData:deviceToken];
     currentInstallation.channels = @[@"channel1"];
     [currentInstallation saveInBackground];
+    NSLog(@"%@",currentInstallation.deviceToken);
+
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {

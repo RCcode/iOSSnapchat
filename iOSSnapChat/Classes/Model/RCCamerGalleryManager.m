@@ -70,7 +70,7 @@ static id _instance;
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [_currentViewController dismissViewControllerAnimated:YES completion:^{
         UIImage *selectPhoto = info[UIImagePickerControllerOriginalImage];
-        selectPhoto = [self imageCompressForWidth:selectPhoto targetWidth:640];
+        selectPhoto = [self imageCompressForWidth:selectPhoto targetWidth:320];
         RCCutPhotoViewController *cutPhotoVc = [[RCCutPhotoViewController alloc] init];
         cutPhotoVc.fromVc = _currentViewController;
         cutPhotoVc.cutImage = selectPhoto;

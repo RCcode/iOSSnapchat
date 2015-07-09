@@ -156,9 +156,7 @@
 
     RCLocation fromLocation = {userLongitude, userLatitude};
     RCLocation toLocation = {choiceLongtitude, choiceLatitude};
-    _distanceLabel.text = [NSString stringWithFormat:@"%d km", [self distanceFromLocation:fromLocation toLocation:toLocation]];
-
-
+    distanceLabel.text = [NSString stringWithFormat:@"%d km", [self distanceFromLocation:fromLocation toLocation:toLocation]];
     [self.view addSubview:distanceLabel];
     _distanceLabel = distanceLabel;
 

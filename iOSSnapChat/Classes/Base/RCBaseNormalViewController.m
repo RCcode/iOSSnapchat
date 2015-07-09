@@ -21,7 +21,7 @@
 
     UIButton *arrowBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
     arrowBackButton.frame = kBackButtonF;
-    [arrowBackButton setImage:kRCImage(@"icon_back") forState:UIControlStateNormal];
+    [arrowBackButton setImage:kRCImage(@"back") forState:UIControlStateNormal];
     [arrowBackButton addTarget:self action:@selector(arrowBackDidClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *arrowBackButtonItem = [[UIBarButtonItem alloc] initWithCustomView:arrowBackButton];
     self.navigationItem.leftBarButtonItem = arrowBackButtonItem;

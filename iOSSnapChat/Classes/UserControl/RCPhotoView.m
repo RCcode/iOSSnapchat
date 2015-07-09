@@ -48,7 +48,7 @@
     }
     
     _photoImageView.frame = CGRectMake(0, 0, side, side);
-    _camaraButton.frame = CGRectMake(0, side - kRCAdaptationHeight(40), side, kRCAdaptationHeight(40));
+    _camaraButton.frame = CGRectMake(0, side - kRCAdaptationHeight(54), side, kRCAdaptationHeight(54));
     
     self.layer.cornerRadius = side / 2;
     self.layer.masksToBounds = YES;

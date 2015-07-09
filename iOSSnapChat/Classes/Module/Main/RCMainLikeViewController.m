@@ -26,10 +26,10 @@
 
 #warning modify this
 //修改成导航栏约束
-#define kRCMainLikeRedTipImageViewOriginX ((kRCDefaultNacgationBarItemFrame.size.width - kRCAdaptationWidth(11)) / 2 + 5)
-#define kRCMainLikeRedTipImageViewOriginY ((kRCDefaultNacgationBarItemFrame.size.height - kRCAdaptationHeight(11)) / 2 - 5)
-#define kRCMainLikeRedTipImageViewWidth kRCAdaptationWidth(11)
-#define kRCMainLikeRedTipImageViewHeight kRCAdaptationHeight(11)
+#define kRCMainLikeRedTipImageViewOriginX ((kRCDefaultNacgationBarItemFrame.size.width - kRCAdaptationWidth(15)) / 2 + 5)
+#define kRCMainLikeRedTipImageViewOriginY ((kRCDefaultNacgationBarItemFrame.size.height - kRCAdaptationHeight(16)) / 2 - 5)
+#define kRCMainLikeRedTipImageViewWidth kRCAdaptationWidth(15)
+#define kRCMainLikeRedTipImageViewHeight kRCAdaptationHeight(16)
 
 //主界面约束
 #define kRCMainLikeBackImageViewTopConstant (kRCAdaptationHeight(22) + 64)
@@ -203,6 +203,9 @@
         mainLikeCoverView.hidden = YES;
         mainLikeCoverView.backgroundColor = kRCRGBAColor(0, 0, 0, 1);
         mainLikeCoverView.alpha = 0.3;
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizerDidSwipe:)];
+        [mainLikeCoverView addGestureRecognizer:tapRecognizer];
+        
         [[UIApplication sharedApplication].keyWindow addSubview:mainLikeCoverView];
         _mainLikeCoverView = mainLikeCoverView;
     }
@@ -232,6 +235,9 @@
         idLabel.text = [NSString stringWithFormat:@"ID: %@", self.loginUserInfo.snapchatid];
         idLabel.textColor = [UIColor whiteColor];
         idLabel.textAlignment = NSTextAlignmentCenter;
+        idLabel.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editButtonDidClick)];
+        [idLabel addGestureRecognizer:tapRecognizer];
         [userInfoView addSubview:idLabel];
         _idLabel = idLabel;
         
@@ -304,15 +310,22 @@
         mainLikeEditCoverView.hidden = YES;
         mainLikeEditCoverView.backgroundColor = [UIColor blackColor];
         mainLikeEditCoverView.alpha = 0.3;
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureDidTap:)];
+        [mainLikeEditCoverView addGestureRecognizer:tapRecognizer];
         [[UIApplication sharedApplication].keyWindow addSubview:mainLikeEditCoverView];
         _mainLikeEditCoverView = mainLikeEditCoverView;
     }
     return _mainLikeEditCoverView;
 }
 
+- (void)gestureDidTap:(UITapGestureRecognizer *)tapRecognizer {
+    self.mainLikeEditCoverView.hidden = YES;
+    self.mainLikeEditView.hidden = YES;
+    [_idTextView resignFirstResponder];
+}
+
 - (UIView *)mainLikeEditView {
     if (_mainLikeEditView == nil) {
-        
         UIView *mainLikeEditView = [[UIView alloc] init];
         mainLikeEditView.backgroundColor = colorWithHexString(@"fafafa");
         mainLikeEditView.layer.cornerRadius = 10;
@@ -418,7 +431,7 @@
 #pragma mark - LifeCircle
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [self navgationSettings];
     [self loadData];
     [self setUpUI];
@@ -447,15 +460,15 @@
 
     RCNavgationItemButton *menuButton = [[RCNavgationItemButton alloc] init];
     menuButton.frame = kRCDefaultNacgationBarItemFrame;
-    [menuButton setImage:kRCImage(@"more_icon") forState:UIControlStateNormal];
+    [menuButton setImage:kRCImage(@"more") forState:UIControlStateNormal];
     [menuButton addTarget:self action:@selector(menuButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *menuButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
     RCNavgationItemButton *messageButton = [[RCNavgationItemButton alloc] init];
     messageButton.frame = kRCDefaultNacgationBarItemFrame;
-    [messageButton setImage:kRCImage(@"notice_icon") forState:UIControlStateNormal];
+    [messageButton setImage:kRCImage(@"notice") forState:UIControlStateNormal];
     [messageButton addTarget:self action:@selector(messageButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
     UIImageView *redTipImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kRCMainLikeRedTipImageViewOriginX, kRCMainLikeRedTipImageViewOriginY, kRCMainLikeRedTipImageViewWidth, kRCMainLikeRedTipImageViewHeight)];
-    redTipImageView.image = kRCImage(@"notice_tishi_icon");
+    redTipImageView.image = kRCImage(@"notice_tishi");
     UIBarButtonItem *messageButtonItem = [[UIBarButtonItem alloc] initWithCustomView:messageButton];
     [messageButton addSubview:redTipImageView];
     _redTipImageView = redTipImageView;
@@ -743,9 +756,9 @@
         _isMainLikeMenuViewLazyLoading = YES;
     }
     self.mainLikeCoverView.hidden = NO;
-    [UIView animateWithDuration:0.25f delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.3 options:UIViewAnimationOptionLayoutSubviews animations:^{
+    [UIView animateWithDuration:0.25f animations:^{
         _mainLikeMenuView.frame = CGRectMake(0, 0, kRCScreenWidth - kRCMainLikeMenuViewToRightDistance, kRCScreenHeight);
-    } completion:nil];
+    }];
 }
 
 - (void)gestureRecognizerDidSwipe:(UISwipeGestureRecognizer *)recognizer {
@@ -794,21 +807,36 @@
                 animationImageView.frame = _likePhotoCollectionView.frame;
                 [_backImageView addSubview:animationImageView];
                 _animationImageView = animationImageView;
+                UIImageView *likeImageView = [[UIImageView alloc] init];
+                [animationImageView addSubview:likeImageView];
+                likeImageView.alpha = 0;
                 if (type == kRCMainLikeTypeLike) {
-                    [UIView animateWithDuration:0.5 animations:^{
-                        _animationImageView.transform = CGAffineTransformMakeTranslation(kRCScreenWidth * 2, 0);
-                         _animationImageView.transform = CGAffineTransformRotate(_animationImageView.transform, M_PI_4);
+                    likeImageView.image = kRCImage(@"like_ani_icon");
+                    likeImageView.frame = CGRectMake(kRCAdaptationWidth(22), kRCAdaptationHeight(35), kRCAdaptationWidth(172), kRCAdaptationHeight(172));
+                    [UIView animateWithDuration:0.3f animations:^{
+                        likeImageView.alpha = 1;
                     } completion:^(BOOL finished) {
-                        _isAnimation = NO;
-                        [_animationImageView removeFromSuperview];
+                        [UIView animateWithDuration:0.5f animations:^{
+                            _animationImageView.transform = CGAffineTransformMakeTranslation(kRCScreenWidth * 2, 0);
+                            _animationImageView.transform = CGAffineTransformRotate(_animationImageView.transform, M_PI_4);
+                        } completion:^(BOOL finished) {
+                            _isAnimation = NO;
+                            [_animationImageView removeFromSuperview];
+                        }];
                     }];
                 } else if (type == kRCMainLikeTypeUnlike) {
-                    [UIView animateWithDuration:0.5 animations:^{
-                        _animationImageView.transform = CGAffineTransformMakeTranslation(- kRCScreenWidth * 2, 0);
-                        _animationImageView.transform = CGAffineTransformRotate(_animationImageView.transform, - M_PI_4);
+                    likeImageView.image = kRCImage(@"pass_ani_icon");
+                    likeImageView.frame = CGRectMake(_likePhotoCollectionView.frame.size.width - kRCAdaptationWidth(22) - kRCAdaptationWidth(172), kRCAdaptationHeight(35), kRCAdaptationWidth(172), kRCAdaptationHeight(172));
+                    [UIView animateWithDuration:0.3f animations:^{
+                        likeImageView.alpha = 1;
                     } completion:^(BOOL finished) {
-                        _isAnimation = NO;
-                        [_animationImageView removeFromSuperview];
+                        [UIView animateWithDuration:0.5 animations:^{
+                            _animationImageView.transform = CGAffineTransformMakeTranslation(- kRCScreenWidth * 2, 0);
+                            _animationImageView.transform = CGAffineTransformRotate(_animationImageView.transform, - M_PI_4);
+                        } completion:^(BOOL finished) {
+                            _isAnimation = NO;
+                            [_animationImageView removeFromSuperview];
+                        }];
                     }];
                 }
             }
@@ -887,18 +915,27 @@
 }
 
 - (void)shareButtonDidClicked {
-    NSString *textToShare = @"分享内容";
-    UIImage *imageToShare = [self currentShowImage];
-    NSURL *urlToShare = [NSURL URLWithString:@"http://baidu.com"];
-    NSArray *activityItems = @[textToShare, imageToShare, urlToShare];
+    
+    UIImage *holeImage = [self currentShowImage];
+    UIImage *backImage = kRCImage(@"share-other");
+    UIImage *resultImage = [self addImage:holeImage toImage:backImage];
+    NSArray *activityItems = @[resultImage];
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
     activityVC.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
         if (completed) {
             [RCMBHUDTool showText:@"分享成功" hideDelay:1.0f];
         }
     };
-    activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
     [self presentViewController:activityVC animated:TRUE completion:nil];
+}
+
+- (UIImage *)addImage:(UIImage *)image1 toImage:(UIImage *)image2 {
+    UIGraphicsBeginImageContext(CGSizeMake(kRCAdaptationWidth(1000), kRCAdaptationWidth(1000)));
+    [image1 drawInRect:CGRectMake(kRCAdaptationWidth(59), kRCAdaptationWidth(208), kRCAdaptationWidth(244), kRCAdaptationWidth(244))];
+    [image2 drawInRect:CGRectMake(0, 0, kRCAdaptationWidth(1000), kRCAdaptationWidth(1000))];
+    UIImage *resultingImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return resultingImage;
 }
 
 - (void)informButtonDidClicked {

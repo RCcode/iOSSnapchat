@@ -8,9 +8,8 @@
 
 #import "RCNavgationItemButton.h"
 
-
-#define kRCNavgationItemButtonImageWidth kRCAdaptationWidth(31)
-#define kRCNavgationItemButtonImageHeight kRCAdaptationHeight(31)
+#define kRCNavgationItemButtonImageWidth kRCAdaptationWidth(50)
+#define kRCNavgationItemButtonImageHeight kRCAdaptationHeight(50)
 
 @implementation RCNavgationItemButton
 

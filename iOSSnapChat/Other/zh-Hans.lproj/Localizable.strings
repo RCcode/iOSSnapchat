@@ -153,3 +153,6 @@
 "MainLikeMatchYouMatchLabelTitle" = "Matching Success!";
 "MainLikeMatchYouCopyButtonTitle" = "copy";
 "MainLikeMatchYouCopyButtonShowTitle" = "已复制到剪贴板";
+
+//Message
+"MainLikeMessageNavigationTille" = "Message";

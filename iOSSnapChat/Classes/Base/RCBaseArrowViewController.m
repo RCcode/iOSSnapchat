@@ -33,7 +33,7 @@
     //ButtonItem
     RCNavgationItemButton *arrowBackButton = [[RCNavgationItemButton alloc] init];
     arrowBackButton.frame = kRCDefaultNacgationBarItemFrame;
-    [arrowBackButton setImage:[UIImage imageNamed:@"icon_back"] forState:UIControlStateNormal];
+    [arrowBackButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [arrowBackButton addTarget:self action:@selector(arrowBackDidClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *arrowBackButtonItem = [[UIBarButtonItem alloc] initWithCustomView:arrowBackButton];
     _arrowBackButtonItem = arrowBackButtonItem;
