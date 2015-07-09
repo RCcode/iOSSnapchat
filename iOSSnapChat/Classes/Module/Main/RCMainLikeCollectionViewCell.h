@@ -11,5 +11,6 @@
 @interface RCMainLikeCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) NSURL *showImageURL;
+@property (nonatomic, weak) UIImageView *showImageView;
 
 @end

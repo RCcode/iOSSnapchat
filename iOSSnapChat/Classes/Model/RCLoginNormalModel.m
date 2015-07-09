@@ -12,7 +12,7 @@
 @implementation RCLoginNormalModel
 
 - (void)parse:(id)responseObject {
-    _state = (NSString *)responseObject[@"state"];
+    _state = responseObject[@"state"];
     _mess = responseObject[@"mess"];
     _usertoken = responseObject[@"usertoken"];
     NSDictionary *userInfoDict = responseObject[@"user_info"];

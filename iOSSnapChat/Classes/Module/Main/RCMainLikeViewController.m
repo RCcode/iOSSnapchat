@@ -21,7 +21,6 @@
 #import "RCMainLikeMatchYouViewController.h"
 #import <MessageUI/MessageUI.h>
 
-#define kRCMainLikeActionAnimationKey @"kRCMainLikeActionAnimationKey"
 #define kRMainLikeCollectionViewCellReuseIdentifier @"kRMainLikeCollectionViewCellReuseIdentifier"
 #define kRCMainLikeMenuTableViewCellIdentifer @"kRCMainLikeMenuTableViewCellIdentifer"
 
@@ -158,6 +157,7 @@
     UIImageView *_redTipImageView;
     UIImageView *_backImageView;
     UICollectionView *_likePhotoCollectionView;
+    
     UIImageView *_backTopShowImageView;
     UILabel *_indexLabel;
     UIImageView *_sexImageView;
@@ -172,7 +172,6 @@
     
     //MenuUI
     UIView *_userInfoView;
-    RCPhotoView *_photoView;
     UILabel *_idLabel;
     UIView *_contentView;
     UITableView *_menuView;
@@ -182,8 +181,11 @@
     NSMutableArray *_userList;
     NSInteger _currentIndex;
     BOOL _isMainLikeMenuViewLazyLoading;
+    UIImageView *_animationImageView;
+    BOOL _isAnimation;
 }
 
+@property (nonatomic, strong) RCPhotoView *photoView;
 @property (nonatomic, strong) UIView *mainLikeCoverView;
 @property (nonatomic, strong) UIView *mainLikeMenuView;
 @property (nonatomic, strong) UIView *mainLikeEditCoverView;
@@ -319,7 +321,7 @@
 
         UILabel *snapchatIdLabel = [[UILabel alloc] init];
         snapchatIdLabel.textAlignment = NSTextAlignmentCenter;
-        snapchatIdLabel.text = @"Your snapchat ID";
+        snapchatIdLabel.text = kRCLocalizedString(@"MainLikeEditViewSnapchatIDLabelTitle");
         snapchatIdLabel.backgroundColor = colorWithHexString(@"fafafa");
         snapchatIdLabel.textColor = kRCDefaultLightgray;
         [mainLikeEditView addSubview:snapchatIdLabel];
@@ -336,14 +338,14 @@
 
         UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
         cancelButton.backgroundColor = kRCDefaultWhite;
-        [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+        [cancelButton setTitle:kRCLocalizedString(@"MainLikeEditViewCancelButtonTitle") forState:UIControlStateNormal];
         [cancelButton setTitleColor:kRCDefaultLightgray forState:UIControlStateNormal];
         [cancelButton addTarget:self action:@selector(cancelButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
         [mainLikeEditView addSubview:cancelButton];
         
         UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
         doneButton.backgroundColor = kRCDefaultWhite;
-        [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+        [doneButton setTitle:kRCLocalizedString(@"MainLikeEditViewDoneButtonTitle") forState:UIControlStateNormal];
         [doneButton setTitleColor:kRCDefaultLightgray forState:UIControlStateNormal];
         [doneButton addTarget:self action:@selector(doneButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
         [mainLikeEditView addSubview:doneButton];
@@ -402,9 +404,11 @@
     if (_mainLikeModifyPhotoVc == nil) {
         RCMainLikeModifyPhotoViewController *mainLikeModifyPhotoVc = [[RCMainLikeModifyPhotoViewController alloc] init];
         mainLikeModifyPhotoVc.userInfo = self.loginUserInfo;
+#warning 网速极慢时会等待！
         mainLikeModifyPhotoVc.showImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.loginUserInfo.url1]]];
+        kRCWeak(self);
         mainLikeModifyPhotoVc.complete = ^(UIImage *image) {
-            _photoView.photoImageView.image = image;
+            weakself.photoView.photoImageView.image = image;
         };
         _mainLikeModifyPhotoVc = mainLikeModifyPhotoVc;
     }
@@ -414,7 +418,7 @@
 #pragma mark - LifeCircle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self navgationSettings];
     [self loadData];
     [self setUpUI];
@@ -427,23 +431,18 @@
 }
 
 - (void)dealloc {
-    [_likePhotoCollectionView.layer removeAnimationForKey:kRCMainLikeActionAnimationKey];
     [_mainLikeCoverView removeFromSuperview];
     [_mainLikeMenuView removeFromSuperview];
     [_mainLikeEditCoverView removeFromSuperview];
     [_mainLikeEditView removeFromSuperview];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Utility
 - (void)navgationSettings {
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.title = @"Snaper";
+    self.title = kRCLocalizedString(@"MainLikeInformNavigationTitle");
     self.view.backgroundColor = kRCDefaultBackWhiteColor;
 
     RCNavgationItemButton *menuButton = [[RCNavgationItemButton alloc] init];
@@ -466,7 +465,7 @@
 
 - (void)loadData {
     RCMainMatchModel *mainMatchModel = [[RCMainMatchModel alloc] init];
-    mainMatchModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/excavate/ExcavateUser.do";
+    mainMatchModel.requestUrl = [Global shareGlobal].mainLikeLoadingListURLString;
     mainMatchModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     
     kAcquireUserDefaultUsertoken
@@ -481,20 +480,29 @@
                                   @"lat": @(latitude),
                                   @"pageno": @1
                                   };
-    
+    [RCMBHUDTool showIndicator];
     [mainMatchModel requestServerWithModel:mainMatchModel success:^(id resultModel) {
         RCMainMatchModel *result = (RCMainMatchModel *)resultModel;
-        if ([result.mess isEqualToString:@"succ"]) {
-            //创建缓存
-            NSLog(@"获取数据成功, 刷新最新数据");
+        if ([result.state intValue] == 10000) {
+            [RCMBHUDTool hideshowIndicator];
             _userList = result.list;
+            if (_userList.count < 20) {
+                [RCMBHUDTool showText:@"没有更多内容" hideDelay:1.0f];
+                return;
+            }
             [_likePhotoCollectionView reloadData];
             [self reloadInfo];
-        } else {
-            NSLog(@"usertoken错误");
+        } else if ([result.state intValue] == 10004) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeLoadingListErrorCodeUsertokenError") hideDelay:1.0f];
+        }
+        else {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeLoadingListErrorCodeCannotConnectServer") hideDelay:1.0f];
         }
     } failure:^(NSError *error) {
-        NSLog(@"服务器错误");
+        [RCMBHUDTool hideshowIndicator];
+        [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeLoadingListErrorCodeNetworkError") hideDelay:1.0f];
     }];
 }
 
@@ -503,7 +511,7 @@
     [self.view addSubview:backImageView];
     backImageView.userInteractionEnabled = YES;
     _backImageView = backImageView;
-
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     UICollectionView *likePhotoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     layout.itemSize = CGSizeMake(kRCMainLikeLikePhotoCollectionViewWidthConstant, kRCMainLikeLikePhotoCollectionViewHeightConstant);
@@ -696,20 +704,17 @@
     double userLatitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
     double choiceLongtitude = [userInfo.lon floatValue];
     double choiceLatitude = [userInfo.lat floatValue];
-    
-    if (userLongitude == 0 || userLatitude == 0 || choiceLongtitude == 100000 || choiceLatitude == 100000) {
-        _distanceLabel.text = @"";
-    } else {
-        RCLocation fromLocation = {userLongitude, userLatitude};
-        RCLocation toLocation = {choiceLongtitude, choiceLatitude};
-        _distanceLabel.text = [NSString stringWithFormat:@"%.1f m", [self distanceFromLocation:fromLocation toLocation:toLocation]];
-    }
+
+    RCLocation fromLocation = {userLongitude, userLatitude};
+    RCLocation toLocation = {choiceLongtitude, choiceLatitude};
+    _distanceLabel.text = [NSString stringWithFormat:@"%d km", [self distanceFromLocation:fromLocation toLocation:toLocation]];
 }
 
-- (float)distanceFromLocation:(RCLocation)fromLocation toLocation:(RCLocation)toLocation {
-    return sqrt(((fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180 *
+- (int)distanceFromLocation:(RCLocation)fromLocation toLocation:(RCLocation)toLocation {
+    int resultM = sqrt(((fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180 *
                  (fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180) +
                  (((fromLocation.latitude - toLocation.latitude) * M_PI * 12656/180) * ((fromLocation.latitude - toLocation.latitude) * M_PI * 12656 / 180)));
+    return resultM / 1000;
 }
 
 - (NSInteger)acquirePhotoCount:(RCUserInfoModel *)userInfo {
@@ -724,10 +729,15 @@
     }
 }
 
+- (UIImage *)currentShowImage {
+    int selectedIndex = (int)(_likePhotoCollectionView.contentOffset.x / (kRCScreenWidth - kRCMainLikeBackImageViewLeftConstant * 2));
+    RCMainLikeCollectionViewCell *showCell = (RCMainLikeCollectionViewCell *)[_likePhotoCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:selectedIndex inSection:0]];
+    return showCell.showImageView.image;
+}
+
 #pragma mark - Action
 - (void)menuButtonDidClick {
     if (!_isMainLikeMenuViewLazyLoading) {
-        //第一次懒加载执行
         self.mainLikeCoverView.hidden = YES;
         self.mainLikeMenuView.frame = CGRectMake(- (kRCScreenWidth - kRCMainLikeMenuViewToRightDistance), 0, kRCScreenWidth - kRCMainLikeMenuViewToRightDistance, kRCScreenHeight);
         _isMainLikeMenuViewLazyLoading = YES;
@@ -752,6 +762,8 @@
 }
 
 - (void)choiceButtonDidClicked:(UIButton *)sender {
+    if (_isAnimation) return;
+    _isAnimation = YES;
     [self sendLikeUnLikeRequest:sender.tag];
 }
 
@@ -760,54 +772,65 @@
     NSString *usertoken = [[NSUserDefaults standardUserDefaults] stringForKey:kRCUserDefaultUserTokenKey];
     //发送请求
     RCMainLikeModel *mainLikeModel = [[RCMainLikeModel alloc] init];
-    mainLikeModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/message/LikeUser.do";
+    mainLikeModel.requestUrl = [Global shareGlobal].mainLikeLikeUnLikeURLString;
     mainLikeModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     mainLikeModel.parameters = @{@"plat": @1,
                                  @"usertoken": usertoken,
                                  @"userid2": userInfo.userid,
                                  @"flag": @(type)
                                  };
-    
-    CATransition *transitionAnimation = [CATransition animation];
-    transitionAnimation.duration = 0.5f;
-    transitionAnimation.type = kCATransitionPush;
-    if (type == kRCMainLikeTypeLike) {
-        transitionAnimation.subtype = kCATransitionFromLeft;
-    } else if (type == kRCMainLikeTypeUnlike) {
-        transitionAnimation.subtype = kCATransitionFromRight;
-    }
-    [_backImageView.layer addAnimation:transitionAnimation forKey:kRCMainLikeActionAnimationKey];
-    _currentIndex ++;
-    //浏览完当前数据
-    if (_currentIndex == 20) {
-        NSLog(@"重新刷数据");
-        [self loadData];
-        _currentIndex = 0;
-        return;
-    }
-    //刷新数据
-    [_likePhotoCollectionView reloadData];
-    [self reloadInfo];
-    [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
-    
     [mainLikeModel requestServerWithModel:mainLikeModel success:^(id resultModel) {
         RCMainLikeModel *result = (RCMainLikeModel *)resultModel;
-        if ([result.mess isEqualToString:@"succ"]) {
-            NSLog(@"%d", [result.type intValue]);
+        if ([result.state intValue] == 10000) {
             if ([result.type intValue] == 2) {
                 RCMainLikeMatchYouViewController *mainLikeMatchYouVc = [[RCMainLikeMatchYouViewController alloc] init];
                 mainLikeMatchYouVc.iconURLMe = [NSURL URLWithString:self.loginUserInfo.url1];
                 mainLikeMatchYouVc.iconURLOhter = [NSURL URLWithString:[result.userinfo url1]];
                 mainLikeMatchYouVc.snapchatid = [result.userinfo snapchatid];
                 [self.navigationController pushViewController:mainLikeMatchYouVc animated:YES];
+                _isAnimation = NO;
+            } else {
+                UIImageView *animationImageView = [[UIImageView alloc] initWithImage:[self currentShowImage]];
+                animationImageView.frame = _likePhotoCollectionView.frame;
+                [_backImageView addSubview:animationImageView];
+                _animationImageView = animationImageView;
+                if (type == kRCMainLikeTypeLike) {
+                    [UIView animateWithDuration:0.5 animations:^{
+                        _animationImageView.transform = CGAffineTransformMakeTranslation(kRCScreenWidth * 2, 0);
+                         _animationImageView.transform = CGAffineTransformRotate(_animationImageView.transform, M_PI_4);
+                    } completion:^(BOOL finished) {
+                        _isAnimation = NO;
+                        [_animationImageView removeFromSuperview];
+                    }];
+                } else if (type == kRCMainLikeTypeUnlike) {
+                    [UIView animateWithDuration:0.5 animations:^{
+                        _animationImageView.transform = CGAffineTransformMakeTranslation(- kRCScreenWidth * 2, 0);
+                        _animationImageView.transform = CGAffineTransformRotate(_animationImageView.transform, - M_PI_4);
+                    } completion:^(BOOL finished) {
+                        _isAnimation = NO;
+                        [_animationImageView removeFromSuperview];
+                    }];
+                }
             }
-            
+            _currentIndex ++;
+            if (_currentIndex == 20) {
+                [self loadData];
+                _currentIndex = 0;
+                return;
+            }
+            [_likePhotoCollectionView reloadData];
+            [self reloadInfo];
+            [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+        } else if ([result.state intValue] == 10004) {
+            _isAnimation = NO;
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeUsertokenError") hideDelay:1];
         } else {
-            NSLog(@"Like/UnLike操作失败");
-            [RCMBHUDTool showText:@"操作失败，请重新Like/UnLike" hideDelay:1];
+            _isAnimation = NO;
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeCannotConnectServer") hideDelay:1];
         }
     } failure:^(NSError *error) {
-        NSLog(@"服务器错误");
+        _isAnimation = NO;
+        [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeNetworkError") hideDelay:1];
     }];
 }
 
@@ -840,40 +863,39 @@
 - (void)doneButtonDidClick {
     self.mainLikeEditCoverView.hidden = YES;
     self.mainLikeEditView.hidden = YES;
-    
     [_idTextView resignFirstResponder];
-    //发送请求
     _idLabel.text = [NSString stringWithFormat:@"ID: %@", _idTextView.text];
-    CGSize size = [_idLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: _idLabel.font} context:nil].size;
-    _editButton.frame = CGRectMake((kRCScreenWidth - 40) / 2 + size.width / 2 + 10 - (200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10 + 10) / 2, CGRectGetMaxY(_photoView.frame) + 10, 200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10, 200 - (CGRectGetMaxY(_photoView.frame) + 10) - 10);
-    
     kAcquireUserDefaultUsertoken
     RCMainModifyIDModel *modifyModel = [[RCMainModifyIDModel alloc] init];
-    modifyModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/ChangeSnapchat.do";
+    modifyModel.requestUrl = [Global shareGlobal].mainLikeModifySnapchatURLString;
     modifyModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     modifyModel.parameters = @{@"plat": @1,
                                @"usertoken": usertoken,
                                @"snapchatid": _idTextView.text
                                };
     [modifyModel requestServerWithModel:modifyModel success:^(id resultModel) {
-        if ([modifyModel.mess isEqualToString:@"succ"]) {
-            [RCMBHUDTool showText:@"修改成功" hideDelay:1];
+        if ([modifyModel.state intValue] == 10000) {
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeModifySnapchatIdErrorCodeSucc") hideDelay:1];
+        } else if ([modifyModel.state intValue] == 10004) {
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeModifySnapchatIdErrorCodeUsertokenError") hideDelay:1];
         } else {
-            [RCMBHUDTool showText:@"修改失败" hideDelay:1];
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeModifySnapchatIdErrorCodeCannotConnectServer") hideDelay:1];
         }
     } failure:^(NSError *error) {
-        [RCMBHUDTool showText:@"网络问题" hideDelay:1];
+        [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeModifySnapchatIdErrorCodeNetworkError") hideDelay:1];
     }];
 }
 
 - (void)shareButtonDidClicked {
-    NSString *textToShare = @"shareContent";
-    UIImage *imageToShare = [UIImage imageNamed:@"default.jpg"];
-    NSURL *urlToShare = [NSURL URLWithString:@"http://www.baidu.com"];
+    NSString *textToShare = @"分享内容";
+    UIImage *imageToShare = [self currentShowImage];
+    NSURL *urlToShare = [NSURL URLWithString:@"http://baidu.com"];
     NSArray *activityItems = @[textToShare, imageToShare, urlToShare];
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
     activityVC.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-        NSLog(@"123456");
+        if (completed) {
+            [RCMBHUDTool showText:@"分享成功" hideDelay:1.0f];
+        }
     };
     activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
     [self presentViewController:activityVC animated:TRUE completion:nil];
@@ -883,9 +905,9 @@
     UIAlertController *informAlertVc = [[UIAlertController alloc] init];
     kAcquireUserDefaultUsertoken
     RCUserInfoModel *userInfo = _userList[_currentIndex];
-    UIAlertAction *informAction = [UIAlertAction actionWithTitle:@"Inform" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *informAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeInformActionTitleInform") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         RCMainLikeInfoModel *informModel = [[RCMainLikeInfoModel alloc] init];
-        informModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/ReportUsers.do";
+        informModel.requestUrl = [Global shareGlobal].mainLikeInformURLString;
         informModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
         informModel.parameters = @{@"plat": @1,
                                    @"usertoken": usertoken,
@@ -893,17 +915,18 @@
                                    };
         [informModel requestServerWithModel:informModel success:^(id resultModel) {
             RCMainLikeInfoModel *result = (RCMainLikeInfoModel *)resultModel;
-            if ([result.mess isEqualToString:@"succ"]) {
-                [RCMBHUDTool showText:@"举报成功" hideDelay:1];
+            if ([result.state intValue] == 10000) {
+                [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeInformErrorCodeSucc") hideDelay:1];
+            } else if ([result.state intValue] == 10004) {
+                [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeInformErrorCodeUsertokenError") hideDelay:1];
             } else {
-                NSLog(@"举报其他处理");
+                [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeInformErrorCodeCannotConnectServer") hideDelay:1];
             }
         } failure:^(NSError *error) {
-            NSLog(@"网络异常");
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeInformErrorCodeNetworkError") hideDelay:1];
         }];
     }];
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeInformActionTitleCancel") style:UIAlertActionStyleCancel handler:nil];
     [informAlertVc addAction:informAction];
     [informAlertVc addAction:cancelAction];
     [self presentViewController:informAlertVc animated:YES completion:nil];
@@ -919,21 +942,21 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.row == 0) {
         cell.showIcon = kRCImage(@"more_1_icon");
-        cell.showTitle = @"Show";
+        cell.showTitle = kRCLocalizedString(@"MainLikeMenuTableViewTitleShow");
         cell.isMore = YES;
         NSString *moreTitle = nil;
         switch ([[NSUserDefaults standardUserDefaults] integerForKey:kRCUserDefaultGenderKey]) {
             case -1:
-                moreTitle = @"NoSetting";
+                moreTitle = kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryNosetting");
                 break;
             case 0:
-                moreTitle = @"Boys";
+                moreTitle = kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryBoys");
                 break;
             case 1:
-                moreTitle = @"Girls";
+                moreTitle = kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryGirls");
                 break;
             case 2:
-                moreTitle = @"All";
+                moreTitle = kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryAll");
                 break;
             default:
                 break;
@@ -942,17 +965,17 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     } else if (indexPath.row == 1) {
         cell.showIcon = kRCImage(@"more_2_icon");
-        cell.showTitle = @"Feedback";
+        cell.showTitle = kRCLocalizedString(@"MainLikeMenuTableViewTitleFeedback");
         cell.isMore = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (indexPath.row == 2) {
         cell.showIcon = kRCImage(@"more_3_icon");
-        cell.showTitle = @"Share";
+        cell.showTitle = kRCLocalizedString(@"MainLikeMenuTableViewTitleShare");
         cell.isMore = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (indexPath.row == 3) {
         cell.showIcon = kRCImage(@"more_4_icon");
-        cell.showTitle = @"Log out";
+        cell.showTitle = kRCLocalizedString(@"MainLikeMenuTableViewTitleLogout");
         cell.isMore = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
@@ -964,22 +987,22 @@
         //性取向
         UIAlertController *alertVc = [[UIAlertController alloc] init];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        UIAlertAction *noSettingAction = [UIAlertAction actionWithTitle:@"NoSetting" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *noSettingAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryNosetting") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [userDefault setInteger:-1 forKey:kRCUserDefaultGenderKey];
             [tableView reloadData];
             [self loadData];
         }];
-        UIAlertAction *boysAction = [UIAlertAction actionWithTitle:@"Boys" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *boysAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryBoys") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [userDefault setInteger:0 forKey:kRCUserDefaultGenderKey];
             [tableView reloadData];
             [self loadData];
         }];
-        UIAlertAction *girlsAction = [UIAlertAction actionWithTitle:@"Girls" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *girlsAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryGirls") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [userDefault setInteger:1 forKey:kRCUserDefaultGenderKey];
             [tableView reloadData];
             [self loadData];
         }];
-        UIAlertAction *allAction = [UIAlertAction actionWithTitle:@"All" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *allAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryAll") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [userDefault setInteger:2 forKey:kRCUserDefaultGenderKey];
             [tableView reloadData];
             [self loadData];
@@ -1006,7 +1029,7 @@
         [self presentViewController:mailPicker animated:YES completion:nil];
     } else if (indexPath.row == 2) {
         NSString *textToShare = @"shareContent";
-        UIImage *imageToShare = [UIImage imageNamed:@"default.jpg"];
+        UIImage *imageToShare = [self currentShowImage];
         NSURL *urlToShare = [NSURL URLWithString:@"http://www.baidu.com"];
         NSArray *activityItems = @[textToShare, imageToShare, urlToShare];
         UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
@@ -1036,7 +1059,6 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     RCMainLikeCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kRMainLikeCollectionViewCellReuseIdentifier forIndexPath:indexPath];
     RCUserInfoModel *userInfo = _userList[_currentIndex];
-
     if (indexPath.item == 0) {
         cell.showImageURL = [NSURL URLWithString:userInfo.url1];
     } else if (indexPath.item == 1) {
@@ -1049,7 +1071,7 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     RCUserInfoModel *userInfo = _userList[_currentIndex];
-    _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(scrollView.contentOffset.x / (kRCScreenWidth - 40)) + 1, [self acquirePhotoCount:userInfo]];
+    _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(scrollView.contentOffset.x / (kRCScreenWidth - kRCMainLikeBackImageViewLeftConstant * 2)) + 1, [self acquirePhotoCount:userInfo]];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -1058,10 +1080,8 @@
     mainLikePhotoDetailVc.selectedUserInfo = _userList[_currentIndex];
     kRCWeak(self)
     mainLikePhotoDetailVc.complete = ^(kRCMainLikeType type) {
-        NSLog(@"执行回调 type = %d", type);
         [weakself sendLikeUnLikeRequest:type];
     };
-
     [self.navigationController pushViewController:mainLikePhotoDetailVc animated:YES];
 }
 
@@ -1088,7 +1108,6 @@
             msg = @"";
             break;
     }
-    NSLog(@"%@", msg);
 }
 
 @end

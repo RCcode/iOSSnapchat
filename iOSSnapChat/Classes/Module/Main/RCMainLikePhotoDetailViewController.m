@@ -153,13 +153,12 @@
     double userLatitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
     double choiceLongtitude = [self.selectedUserInfo.lon floatValue];
     double choiceLatitude = [self.selectedUserInfo.lat floatValue];
-    if (userLongitude == 0 || userLatitude == 0 || choiceLongtitude == 100000 || choiceLatitude == 100000) {
-        distanceLabel.text = @"";
-    } else {
-        RCLocation fromLocation = {userLongitude, userLatitude};
-        RCLocation toLocation = {choiceLongtitude, choiceLatitude};
-        distanceLabel.text = [NSString stringWithFormat:@"%@", [NSString stringWithFormat:@"%.1f m", [self distanceFromLocation:fromLocation toLocation:toLocation]]];
-    }
+
+    RCLocation fromLocation = {userLongitude, userLatitude};
+    RCLocation toLocation = {choiceLongtitude, choiceLatitude};
+    _distanceLabel.text = [NSString stringWithFormat:@"%d km", [self distanceFromLocation:fromLocation toLocation:toLocation]];
+
+
     [self.view addSubview:distanceLabel];
     _distanceLabel = distanceLabel;
 
@@ -258,10 +257,11 @@
     }
 }
 
-- (float)distanceFromLocation:(RCLocation)fromLocation toLocation:(RCLocation)toLocation {
-    return sqrt(((fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180 *
-                 (fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180) +
-                (((fromLocation.latitude - toLocation.latitude) * M_PI * 12656/180) * ((fromLocation.latitude - toLocation.latitude) * M_PI * 12656 / 180)));
+- (int)distanceFromLocation:(RCLocation)fromLocation toLocation:(RCLocation)toLocation {
+    int resultM = sqrt(((fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180 *
+                        (fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180) +
+                       (((fromLocation.latitude - toLocation.latitude) * M_PI * 12656/180) * ((fromLocation.latitude - toLocation.latitude) * M_PI * 12656 / 180)));
+    return resultM / 1000;
 }
 
 #pragma mark - Action
@@ -275,7 +275,7 @@
     RCUserInfoModel *userInfo = self.selectedUserInfo;
     UIAlertAction *informAction = [UIAlertAction actionWithTitle:@"Inform" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         RCMainLikeInfoModel *informModel = [[RCMainLikeInfoModel alloc] init];
-        informModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/ReportUsers.do";
+        informModel.requestUrl = [Global shareGlobal].mainLikeInformURLString;
         informModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
         informModel.parameters = @{@"plat": @1,
                                    @"usertoken": usertoken,
@@ -283,13 +283,15 @@
                                    };
         [informModel requestServerWithModel:informModel success:^(id resultModel) {
             RCMainLikeInfoModel *result = (RCMainLikeInfoModel *)resultModel;
-            if ([result.mess isEqualToString:@"succ"]) {
-                [RCMBHUDTool showText:@"举报成功" hideDelay:1];
+            if ([result.state intValue] == 10000) {
+                [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeInformErrorCodeSucc") hideDelay:1];
+            } else if ([result.state intValue] == 10004) {
+                [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeInformErrorCodeUsertokenError") hideDelay:1];
             } else {
-                NSLog(@"举报其他处理");
+                [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeInformErrorCodeCannotConnectServer") hideDelay:1];
             }
         } failure:^(NSError *error) {
-            NSLog(@"网络异常");
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeInformErrorCodeNetworkError") hideDelay:1];
         }];
     }];
     
@@ -319,7 +321,7 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     RCUserInfoModel *userInfo = self.selectedUserInfo;
-    _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(scrollView.contentOffset.x / (kRCScreenWidth - 40)) + 1, [self acquirePhotoCount:userInfo]];
+    _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(scrollView.contentOffset.x / (kRCScreenWidth - kRCMainLikeLikePhotoDetailCollectionViewLeftConstant * 2)) + 1, [self acquirePhotoCount:userInfo]];
 }
 
 - (void)choiceButtonDidClicked:(UIButton *)sender {

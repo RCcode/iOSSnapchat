@@ -67,19 +67,32 @@ typedef NS_ENUM(NSInteger, kRCMainLikeMessageType) {
     RCMainLikeMessageModel *messageModel = [[RCMainLikeMessageModel alloc] init];
     kAcquireUserDefaultUsertoken
     int flag = [userDefault integerForKey:kRCUserDefaultCategoryKey];
-    messageModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/message/getLikeUser.do";
+    messageModel.requestUrl = [Global shareGlobal].mainLikeMessageListURLString;
     messageModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     messageModel.parameters = @{@"plat": @1,
                                 @"usertoken": usertoken,
                                 @"flag": @(flag),
                                 @"pageno": @1
                                 };
+    [RCMBHUDTool showIndicator];
     [messageModel requestServerWithModel:messageModel success:^(id resultModel) {
         RCMainLikeMessageModel *result = (RCMainLikeMessageModel *)resultModel;
-        _list = result.list;
-        [_tableView reloadData];
+        if ([result.state intValue] == 10000) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeMessageListErrorCodeSucc") hideDelay:1.0f];
+            _list = result.list;
+            [_tableView reloadData];
+        } else if ([result.state intValue] == 10004) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeMessageListErrorCodeUsertokenError") hideDelay:1.0f];
+
+        } else {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeMessageListErrorCodeCannotConnectServer") hideDelay:1.0f];
+        }
     } failure:^(NSError *error) {
-        NSLog(@"%@", error);
+        [RCMBHUDTool hideshowIndicator];
+        [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeMessageListErrorCodeNetworkError") hideDelay:1.0f];
     }];
 }
 
@@ -116,25 +129,25 @@ typedef NS_ENUM(NSInteger, kRCMainLikeMessageType) {
 - (void)categoryButtonDidClick {
     UIAlertController *categoryAlertVc = [[UIAlertController alloc] init];
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    UIAlertAction *allAction = [UIAlertAction actionWithTitle:@"ALL" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *allAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMessageListTitleAll") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [userDefault setInteger:2 forKey:kRCUserDefaultCategoryKey];
         [self loadData];
         [_tableView reloadData];
     }];
     
-    UIAlertAction *matchAction = [UIAlertAction actionWithTitle:@"Match" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *matchAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMessageListTitleMatch") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [userDefault setInteger:1 forKey:kRCUserDefaultCategoryKey];
         [self loadData];
         [_tableView reloadData];
     }];
     
-    UIAlertAction *likeAction = [UIAlertAction actionWithTitle:@"Like" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *likeAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMessageListTitleLike") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [userDefault setInteger:0 forKey:kRCUserDefaultCategoryKey];
         [self loadData];
         [_tableView reloadData];
     }];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMessageListTitleCancel") style:UIAlertActionStyleCancel handler:nil];
     [categoryAlertVc addAction:allAction];
     [categoryAlertVc addAction:matchAction];
     [categoryAlertVc addAction:likeAction];
@@ -163,13 +176,15 @@ typedef NS_ENUM(NSInteger, kRCMainLikeMessageType) {
     RCMainMessageUserInfoModel *messageUserInfo = _list[indexPath.row];
     RCUserInfoModel *userInfo = messageUserInfo.userinfo;
     if ([messageUserInfo.flag intValue] == kRCMainLikeMessageTypeLike) {
-        //Like
         RCMainLikeLikeYouViewController *mainLikeLikeYouVc = [[RCMainLikeLikeYouViewController alloc] init];
         mainLikeLikeYouVc.iconURL = [NSURL URLWithString:userInfo.url1];
         mainLikeLikeYouVc.userid = messageUserInfo.userid1;
+        kRCWeak(self);
+        mainLikeLikeYouVc.complete = ^() {
+            [weakself loadData];
+        };
         [self.navigationController pushViewController:mainLikeLikeYouVc animated:YES];
     } else if ([messageUserInfo.flag intValue] == kRCMainLikeMessageTypeMatch) {
-        //Match
         RCMainLikeMatchYouViewController *mainLikeMatchYouVc = [[RCMainLikeMatchYouViewController alloc] init];
         mainLikeMatchYouVc.iconURLMe = [NSURL URLWithString:self.userInfo.url1];
         mainLikeMatchYouVc.iconURLOhter = [NSURL URLWithString:userInfo.url1];

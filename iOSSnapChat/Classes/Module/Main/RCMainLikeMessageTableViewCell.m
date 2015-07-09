@@ -86,7 +86,7 @@
 
 - (void)setShowIconURL:(NSURL *)showIconURL {
     _showIconURL = showIconURL;
-    [_showImageView sd_setImageWithURL:showIconURL placeholderImage:[UIImage imageNamed:@"default.jpg"]];
+    [_showImageView sd_setImageWithURL:showIconURL placeholderImage:kRCImage(@"people_bg")];
 }
 
 - (void)setShowTitle:(NSString *)showTitle {

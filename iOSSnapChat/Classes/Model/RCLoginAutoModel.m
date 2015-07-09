@@ -12,7 +12,7 @@
 @implementation RCLoginAutoModel
 
 - (void)parse:(id)responseObject {
-    _state = (NSString *)responseObject[@"state"];
+    _state = responseObject[@"state"];
     _mess = responseObject[@"mess"];
     NSDictionary *userInfoDict = responseObject[@"user_info"];
     RCUserInfoModel *userInfo = [[RCUserInfoModel alloc] init];

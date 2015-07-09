@@ -64,7 +64,7 @@
 
 #pragma mark - Utility
 - (void)navgationSettings {
-    self.title = @"Match!";
+    self.title = kRCLocalizedString(@"MainLikeMatchYouNavigationTitle");
 }
 
 - (void)setUpUI {
@@ -83,7 +83,7 @@
     _heartImageView = heartImageView;
     
     UILabel *matchLabel = [[UILabel alloc] init];
-    matchLabel.text = @"Matching Success!";
+    matchLabel.text = kRCLocalizedString(@"MainLikeMatchYouMatchLabelTitle");
     matchLabel.textColor = colorWithHexString(@"aa72ae");
     matchLabel.font = kRCBoldSystemFont(25);
     [self.view addSubview:matchLabel];
@@ -99,7 +99,7 @@
     
     UIButton *copyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [copyButton addTarget:self action:@selector(copyButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
-    [copyButton setTitle:@"Copy" forState:UIControlStateNormal];
+    [copyButton setTitle:kRCLocalizedString(@"MainLikeMatchYouCopyButtonTitle") forState:UIControlStateNormal];
     [copyButton setBackgroundColor:kRCDefaultBlue];
     [self.view addSubview:copyButton];
     _copyButton = copyButton;
@@ -152,7 +152,7 @@
 
 - (void)copyButtonDidClicked {
     [[UIPasteboard generalPasteboard] setString:_snapChatIdLabel.text];
-    [RCMBHUDTool showText:@"已复制到剪贴板" hideDelay:1];
+    [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeMatchYouCopyButtonShowTitle") hideDelay:1];
 }
 
 @end

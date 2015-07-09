@@ -18,10 +18,10 @@
 #define kRCMainLikeModifyPhotoCollectionViewWidthConstant (kRCScreenWidth - kRCAdaptationWidth(110) * 2)
 #define kRCMainLikeModifyPhotoCollectionViewHeightConstant (kRCScreenWidth - kRCAdaptationWidth(110) * 2)
 
-#define kRCMainLikeModifyPhotoPageLabelBottomConstant 5
-#define kRCMainLikeModifyPhotoPageLabelRightConstant 5
-#define kRCMainLikeModifyPhotoPageLabelWidthConstant 40
-#define kRCMainLikeModifyPhotoPageLabelHeightConstant 15
+#define kRCMainLikeModefiyPhotoIndexLabelBottomConstant 10
+#define kRCMainLikeModefiyPhotoIndexLabelRightConstant 10
+#define kRCMainLikeModefiyPhotoIndexLabelWidthConstant 40
+#define kRCMainLikeModefiyPhotoIndexLabelHeightConstant 15
 
 #define kRCMainLikeModifyPhotoPhotoMargin 10
 
@@ -42,13 +42,16 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 
 @interface RCMainLikeModifyPhotoViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
+    //MainUI
+    UICollectionView *_photoCollectionView;
+    UILabel *_indexLabel;
+    NSMutableArray *_judgeImageFillArray;
+    
     NSInteger _photoCount;
-    //当前图片点击类型
     kRCCamerGalleryTapType _currentTapType;
     NSInteger _tapIndex;
     NSInteger _uploadIndex;
-    UICollectionView *_photoCollectionView;
-    NSMutableArray *_judgeImageFillArray;
+    
 }
 
 @property (nonatomic, strong) NSMutableArray *choiceImageViewArray;
@@ -79,9 +82,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     [super didReceiveMemoryWarning];
 }
 
-
-
-
 #pragma mark - Utility
 - (void)initData {
     [self acquirePhotoCountAndJudgeArray:self.userInfo];
@@ -91,6 +91,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 - (void)setUpUI {
     UICollectionViewFlowLayout *photoCollectLayout = [[UICollectionViewFlowLayout alloc] init];
     UICollectionView *photoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:photoCollectLayout];
+    photoCollectionView.bounces = NO;
     photoCollectionView.layer.cornerRadius = 5;
     photoCollectionView.layer.masksToBounds = YES;
     photoCollectLayout.itemSize = CGSizeMake(kRCMainLikeModifyPhotoCollectionViewWidthConstant, kRCMainLikeModifyPhotoCollectionViewHeightConstant);
@@ -106,9 +107,25 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     [self.view addSubview:photoCollectionView];
     _photoCollectionView = photoCollectionView;
     
+    UILabel *indexLabel = [[UILabel alloc] init];
+    indexLabel.layer.cornerRadius = 5;
+    indexLabel.layer.masksToBounds = YES;
+    indexLabel.font = kRCSystemFont(14);
+    indexLabel.textAlignment = NSTextAlignmentCenter;
+    indexLabel.backgroundColor = kRCDefaultAlphaBlack;
+    indexLabel.textColor = kRCDefaultWhite;
+    indexLabel.text = [NSString stringWithFormat:@"%d/%d", 1, [self acquirePhotoCount:self.userInfo]];
+    [self.view addSubview:indexLabel];
+    _indexLabel = indexLabel;
+    
     for (int i = 0; i < kRCMainLikeModifyPhotoButtonTotalCount; ++ i) {
         UIImageView *choiceImageView = [[UIImageView alloc] init];
         choiceImageView.tag = i;
+        choiceImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognizerDidTap:)];
+        [choiceImageView addGestureRecognizer:tapRecognizer];
+        [self.view addSubview:choiceImageView];
+        [self.choiceImageViewArray addObject:choiceImageView];
         switch (i) {
             case 0: {
                 [choiceImageView sd_setImageWithURL:[NSURL URLWithString:self.userInfo.url1] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
@@ -118,8 +135,8 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
                 break;
             case 1: {
                 [choiceImageView sd_setImageWithURL:[NSURL URLWithString:self.userInfo.url2] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                    if (!self.userInfo.url2) {
-                        UIImageView *imgV = self.choiceImageViewArray[2];
+                    if ([self.userInfo.url2 isEqualToString:@""]) {
+                        UIImageView *imgV = self.choiceImageViewArray[1];
                         imgV.image = kRCImage(@"kongbai");
                     } else {
                         [_photoCollectionView reloadData];
@@ -129,8 +146,8 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
                 break;
             case 2: {
                 [choiceImageView sd_setImageWithURL:[NSURL URLWithString:self.userInfo.url3] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                    if (!self.userInfo.url3) {
-                        UIImageView *imgV = self.choiceImageViewArray[3];
+                    if ([self.userInfo.url3 isEqualToString:@""]) {
+                        UIImageView *imgV = self.choiceImageViewArray[2];
                         imgV.image = kRCImage(@"kongbai");
                     } else {
                         [_photoCollectionView reloadData];
@@ -141,11 +158,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
             default:
                 break;
         }
-        choiceImageView.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognizerDidTap:)];
-        [choiceImageView addGestureRecognizer:tapRecognizer];
-        [self.view addSubview:choiceImageView];
-        [self.choiceImageViewArray addObject:choiceImageView];
     }
 }
 
@@ -155,6 +167,12 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_photoCollectionView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kRCMainLikeModifyPhotoCollectionViewLeftConstant]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_photoCollectionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeModifyPhotoCollectionViewWidthConstant]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_photoCollectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeModifyPhotoCollectionViewHeightConstant]];
+    
+    [_indexLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_indexLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_photoCollectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeModefiyPhotoIndexLabelBottomConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_indexLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_photoCollectionView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kRCMainLikeModefiyPhotoIndexLabelRightConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_indexLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeModefiyPhotoIndexLabelWidthConstant]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_indexLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeModefiyPhotoIndexLabelHeightConstant]];
     
     [self.choiceImageViewArray enumerateObjectsUsingBlock:^(UIImageView *addPhotoImageView, NSUInteger idx, BOOL *stop) {
         if (idx == 0) {
@@ -171,7 +189,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
             [self.view addConstraint:[NSLayoutConstraint constraintWithItem:addPhotoImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:kRCMainLikeModifyPhotoNotFirstChoiceImageViewHeightConstant]];
         }
     }];
-
+    
 }
 
 - (void)acquirePhotoCountAndJudgeArray:(RCUserInfoModel *)userInfo {
@@ -187,6 +205,18 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     }
 }
 
+- (NSInteger)acquirePhotoCount:(RCUserInfoModel *)userInfo {
+    if (![userInfo.url3 isEqualToString:@""]) {
+        return 3;
+    } else if (![userInfo.url2 isEqualToString:@""]) {
+        return 2;
+    } else if (![userInfo.url1 isEqualToString:@""]) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 #pragma mark - Action
 - (void)arrowBackDidClicked {
     if (self.complete) {
@@ -198,25 +228,18 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 - (void)tapRecognizerDidTap:(UITapGestureRecognizer *)recognizer {
     _tapIndex = recognizer.view.tag;
     if ([_judgeImageFillArray[_tapIndex] boolValue] == YES) {
-        //替换
         _currentTapType = kRCCamerGalleryTapTypeReplace;
         _uploadIndex = _tapIndex + 1;
     } else {
-        //添加
         _currentTapType = kRCCamerGalleryTapTypeAdd;
         _uploadIndex = _photoCount + 1;
     }
-
     UIAlertController *uploadAlertVc = [[UIAlertController alloc] init];
-    
-    //获取相机图片
-    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"Camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeModifyPhotoTitleCamera") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(acquireCamaraGalleryPhoto:) name:kRCCameraGalleryNotification object:nil];
         [[RCCamerGalleryManager shareManager] openCameraAcquirePhotoWithCurrentViewController:self];
     }];
-    
-    //获取相册图片
-    UIAlertAction *galleryAction = [UIAlertAction actionWithTitle:@"Gallery" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *galleryAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeModifyPhotoTitleGallery") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(acquireCamaraGalleryPhoto:) name:kRCCameraGalleryNotification object:nil];
         [[RCCamerGalleryManager shareManager] openGalleryAcquirePhotoWithCurrentViewController:self];
     }];
@@ -228,40 +251,49 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 
 - (void)acquireCamaraGalleryPhoto:(NSNotification *)notice {
     [self.navigationController popViewControllerAnimated:YES];
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     UIImage *selectedPhoto = notice.userInfo[kRCCameraGalleryNotification];
-    
-    //获取更新显示照片
     if (_tapIndex == 0) {
         _showImage = selectedPhoto;
     }
     
-    if (_currentTapType == kRCCamerGalleryTapTypeReplace) {
-        UIImageView *currentTapImageView = [_choiceImageViewArray objectAtIndex:_tapIndex];
-        currentTapImageView.image = selectedPhoto;
-    } else if (_currentTapType == kRCCamerGalleryTapTypeAdd) {
-#warning 实现动画 同时需要把图片改变的情况放入到图片上传成功的block中
-        UIImageView *currentTapImageView = [_choiceImageViewArray objectAtIndex:_photoCount];
-        _photoCount += 1;
-        currentTapImageView.image = selectedPhoto;
-    }
-
-    //上传图片
     kAcquireUserDefaultUsertoken
     NSData *uploadImageDataOne = UIImageJPEGRepresentation(selectedPhoto, 1.0f);
     [RCMBHUDTool showIndicator];
-    [[RCNetworkManager shareManager] POSTRequest:@"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi3.do?method=upload" parameters:@{@"plat": @1, @"usertoken": usertoken, @"index": @(_uploadIndex)} upateFileData:uploadImageDataOne success:^(id responseObject) {
-        [RCMBHUDTool hideshowIndicator];
-        [_judgeImageFillArray replaceObjectAtIndex:_tapIndex withObject:@YES];
-        [_photoCollectionView reloadData];
-        [RCMBHUDTool showText:[NSString stringWithFormat:@"更新完成第%d张", _uploadIndex] hideDelay:1];
-    } failure:^(NSError *error) {
-        [RCMBHUDTool showText:@"上传失败" hideDelay:1.0f];
-        [RCMBHUDTool hideshowIndicator];
-    }];
+    [[RCNetworkManager shareManager] POSTRequest:[Global shareGlobal].registerUploadPhotoURLString parameters:@{@"plat": @1,
+                                                                                                                @"usertoken": usertoken,
+                                                                                                                @"index": @(_uploadIndex)}
+                                   upateFileData:uploadImageDataOne success:^(id responseObject) {
+                                       NSDictionary *result = (NSDictionary *)responseObject;
+                                       int errorCode = [result[@"state"] intValue];
+                                       if (errorCode == 10000) {
+                                           [RCMBHUDTool hideshowIndicator];
+                                           [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeUploadImageErrorCodeSucc") hideDelay:1];
+                                           [_judgeImageFillArray replaceObjectAtIndex:_uploadIndex - 1 withObject:@YES];
+                                           [_photoCollectionView reloadData];
+                                           _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(_photoCollectionView.contentOffset.x / (kRCScreenWidth - kRCMainLikeModifyPhotoCollectionViewLeftConstant * 2)) + 1, _photoCount];
+                                           UIImageView *currentTapImageView = nil;
+                                           if (_currentTapType == kRCCamerGalleryTapTypeReplace) {
+                                               currentTapImageView = [_choiceImageViewArray objectAtIndex:_tapIndex];
+                                               currentTapImageView.image = selectedPhoto;
+                                           } else if (_currentTapType == kRCCamerGalleryTapTypeAdd) {
+                                               currentTapImageView = [_choiceImageViewArray objectAtIndex:_photoCount];
+                                               currentTapImageView.image = selectedPhoto;
+                                               _photoCount += 1;
+                                           }
+                                       }else if (errorCode == 10004) {
+                                           [RCMBHUDTool hideshowIndicator];
+                                           [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeUploadImageErrorCodeUsertokenError") hideDelay:1.0f];
+                                       } else {
+                                           [RCMBHUDTool hideshowIndicator];
+                                           [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeUploadImageErrorCodeCannotConnectServer") hideDelay:1.0f];
+                                       }
+                                       
+                                   } failure:^(NSError *error) {
+                                       [RCMBHUDTool hideshowIndicator];
+                                       [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeUploadImageErrorCodeNetworkError") hideDelay:1.0f];
+                                   }];
 }
-
 
 #pragma mark - <UICollectionViewDataSource>
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -276,8 +308,11 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     return cell;
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+
 //    _photoPageControl.currentPage = scrollView.contentOffset.x / 200;
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(scrollView.contentOffset.x / (kRCScreenWidth - kRCMainLikeModifyPhotoCollectionViewLeftConstant * 2)) + 1, _photoCount];
 }
 
 @end
+

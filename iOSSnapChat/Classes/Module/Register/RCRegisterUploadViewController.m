@@ -40,7 +40,7 @@
 
 @interface RCRegisterUploadViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
-    //Control
+    //MainUI
     UIView *_topBackgroudView;
     UIView *_bottomBackgroudView;
     UIImageView *_backGroundImageView;

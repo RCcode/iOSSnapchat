@@ -13,6 +13,7 @@
 #import "RCRegisterInfoViewController.h"
 #import "RCRegisterUploadViewController.h"
 #import "RCLoginViewController.h"
+#import <Parse/Parse.h>
 
 @interface AppDelegate ()
 
@@ -20,15 +21,20 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+//    Parse setApplicationId:<#(NSString * __nonnull)#> clientKey:<#(NSString * __nonnull)#>
+    
+    [self handleNotificationWithInfo:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]];
+    
     if(IOS8){
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
+        UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes  categories:nil];
+        [application registerUserNotificationSettings:settings];
+        [application registerForRemoteNotifications];
     }else{
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     }
-    
+
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     [self addNotification];
@@ -58,6 +64,8 @@
 - (void)addNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchToRootVc:) name:kRCSwitchRootVcNotification object:nil];
 }
+
+
 
 //kRCSwitchRootVcNotificationVcKey 传入Animation = YES,不传入Animation = NO
 - (void)switchToRootVc:(NSNotification *)notice {
@@ -163,8 +171,30 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSLog(@"%@", deviceToken);
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    currentInstallation.channels = @[@"channel1"];
+    [currentInstallation saveInBackground];
 }
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [PFPush handlePush:userInfo];
+    [self handleNotificationWithInfo:userInfo];
+}
+
+- (void)handleNotificationWithInfo:(NSDictionary *)userInfo {
+    [self cancelNotification];
+    if(userInfo == nil) return;
+    
+    //处理通知
+    NSLog(@"%@", userInfo);
+}
+
+- (void)cancelNotification{
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

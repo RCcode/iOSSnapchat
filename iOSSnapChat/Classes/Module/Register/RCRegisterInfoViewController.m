@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 
 @interface RCRegisterInfoViewController () <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 {
-    //Control
+    //MainUI
     UITextField *_snapChatField;
     UIView *_snapChatSeparatorLine;
     RCPikerViewTextFiled *_ageField;
@@ -289,7 +289,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
     //请求设置
     RCRegiseterInfoModel *registerInfoModel = [[RCRegiseterInfoModel alloc] init];
     registerInfoModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
-    registerInfoModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi2.do";
+    registerInfoModel.requestUrl = [Global shareGlobal].registerInfoURLString;
     registerInfoModel.parameters = @{@"plat": @1,
                                      @"usertoken": usertoken,
                                      @"countryid": coutryID,
@@ -301,28 +301,27 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
                                      @"gender": @(_selectedSexType),
                                      @"snapchatid": _snapChatField.text
                                      };
-    
     //发送请求
     [RCMBHUDTool showIndicator];
     [registerInfoModel requestServerWithModel:registerInfoModel success:^(id resultModel) {
         RCRegiseterInfoModel *result = (RCRegiseterInfoModel *)resultModel;
         [userDefault setInteger:[result.step intValue] forKey:kRCUserDefaultResgisterStepKey];
-        [RCMBHUDTool hideshowIndicator];
-        if ([result.mess isEqualToString:@"succ"]) {
+        [RCMBHUDTool showIndicator];
+        if ([result.state intValue] == 10000) {
             [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountInfoErrorCodeRepeatAccount") hideDelay:1.0f];
             RCRegisterUploadViewController *registerUploadVc = [[RCRegisterUploadViewController alloc] init];
             [self.navigationController pushViewController:registerUploadVc animated:YES];
-        } else if ([result.mess isEqualToString:@"usertoken error"]) {
+        } else if ([result.state intValue] == 10004) {
             [RCMBHUDTool hideshowIndicator];
-            [RCMBHUDTool showText:@"usertoken error" hideDelay:1.0f];
+            [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountInfoErrorCodeUsertokenError") hideDelay:1.0f];
         } else {
             [RCMBHUDTool hideshowIndicator];
-            [RCMBHUDTool showText:@"服务器异常" hideDelay:1.0f];
+            [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountInfoErrorCodeCannotConnectServer") hideDelay:1.0f];
         }
-        
     } failure:^(NSError *error) {
         [RCMBHUDTool hideshowIndicator];
-        [RCMBHUDTool showText:@"请检查网络" hideDelay:1.0f];
+        [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountInfoErrorCodeNetworkError") hideDelay:1.0f];
     }];
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "RCLoginForgetPasswordViewController.h"
+#import "RCForgetPasswordModel.h"
 
 //主界面约束
 #define kRCLoginForgetPasswordEmailFieldTopConstant kRCAdaptationHeight(128)
@@ -29,7 +30,7 @@
 
 @interface RCLoginForgetPasswordViewController () <UINavigationControllerDelegate>
 {
-    //Controller
+    //MainUI
     UITextField *_emailField;
     UIView *_emailSeparatorLine;
     UILabel *_msgLabel;
@@ -113,7 +114,31 @@
 }
 
 - (void)retrieveButtonDidClicked {
-#warning not finish
+    RCForgetPasswordModel *forgetModel = [[RCForgetPasswordModel alloc] init];
+    forgetModel.requestUrl = [Global shareGlobal].forgetPasswordURLString;
+    forgetModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
+    forgetModel.parameters = @{@"plat": @1,
+                               @"userid": _emailField.text};
+    [RCMBHUDTool showIndicator];
+    [forgetModel requestServerWithModel:forgetModel success:^(id resultModel) {
+        RCForgetPasswordModel *result = (RCForgetPasswordModel *)resultModel;
+        if ([result.state intValue] == 10000) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"ForgetPasswordErrorCodeSucc") hideDelay:1.0f];
+        } else if ([result.state intValue] == 10005) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"ForgetPasswordErrorCodeUseridError") hideDelay:1.0f];
+        } else if ([result.state intValue] == 10008 || [result.state intValue] == 10009) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"ForgetPasswordErrorCodeSendEmailError") hideDelay:1.0f];
+        } else {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"ForgetPasswordErrorCodeCannotConnectServer") hideDelay:1.0f];
+        }
+    } failure:^(NSError *error) {
+        [RCMBHUDTool hideshowIndicator];
+        [RCMBHUDTool showText:kRCLocalizedString(@"ForgetPasswordErrorCodeNetworkError") hideDelay:1.0f];
+    }];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

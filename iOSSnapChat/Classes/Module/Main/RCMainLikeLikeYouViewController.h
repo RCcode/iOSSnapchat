@@ -12,5 +12,6 @@
 
 @property (nonatomic, strong) NSURL *iconURL;
 @property (nonatomic, copy) NSString *userid;
+@property (nonatomic, copy) void (^complete)();
 
 @end

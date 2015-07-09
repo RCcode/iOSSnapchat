@@ -58,7 +58,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 
 @interface RCRegisterUploadPhotoViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
-    //Control
+    //MainUI
     UICollectionView *_photoCollectionView;
     UILabel *_pageLabel;
     UILabel *_msgLabel;
@@ -155,22 +155,34 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
             kAcquireUserDefaultUsertoken
             NSData *uploadImageDataOne = UIImageJPEGRepresentation(_selectedPassPhoto, 1.0f);
             [RCMBHUDTool showIndicator];
-            [[RCNetworkManager shareManager] POSTRequest:@"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi3.do?method=upload" parameters:@{@"plat": @1, @"usertoken": usertoken, @"index": @1} upateFileData:uploadImageDataOne success:^(id responseObject) {
-                NSDictionary *result = (NSDictionary *)responseObject;
-                [userDefault setInteger:[result[@"step"] intValue] forKey:kRCUserDefaultResgisterStepKey];
-                [RCMBHUDTool hideshowIndicator];
-                [RCMBHUDTool showText:@"完成上传第1张" hideDelay:1.0f];
-            } failure:^(NSError *error) {
-                [RCMBHUDTool showText:@"上传失败" hideDelay:1.0f];
-                [self.navigationController popViewControllerAnimated:YES];
-                [RCMBHUDTool hideshowIndicator];
-            }];
+            [[RCNetworkManager shareManager] POSTRequest:[Global shareGlobal].registerUploadPhotoURLString parameters:@{@"plat": @1,
+                                                                                                                        @"usertoken": usertoken,
+                                                                                                                        @"index": @1
+                                                                                                                        } upateFileData:uploadImageDataOne success:^(id responseObject)
+             {
+                 NSDictionary *result = (NSDictionary *)responseObject;
+                 int errorCode = [result[@"state"] intValue];
+                 if (errorCode == 10000) {
+                     [RCMBHUDTool hideshowIndicator];
+                     [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountUploadImageErrorCodeRepeatAccount") hideDelay:1.0f];
+                     [userDefault setInteger:[result[@"step"] intValue] forKey:kRCUserDefaultResgisterStepKey];
+                 } else if (errorCode == 10004) {
+                     [RCMBHUDTool hideshowIndicator];
+                     [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountUploadImageErrorCodeUsertokenError") hideDelay:1.0f];
+                 } else {
+                     [RCMBHUDTool hideshowIndicator];
+                     [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountUploadImageErrorCodeCannotConnectServer") hideDelay:1.0f];
+                 }
+             } failure:^(NSError *error) {
+                 [RCMBHUDTool hideshowIndicator];
+                 [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountUploadImageErrorCodeNetworkError") hideDelay:1.0f];
+                 [self.navigationController popViewControllerAnimated:YES];
+             }];
         }
         if (i == 2) addPhotoImageView.hidden = YES;
         [self.view addSubview:addPhotoImageView];
         [self.addPhotoImagageViewArray addObject:addPhotoImageView];
     }
-    
     UILabel *msgLabel = [[UILabel alloc] init];
     msgLabel.textColor = kRCDefaultAlphaBlack;
     msgLabel.font = kRCSystemFont(16);
@@ -182,7 +194,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     
     UIButton *goButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [goButton setBackgroundColor:kRCDefaultBlue];
-    [goButton setTitle:@"Go" forState:UIControlStateNormal];
+    [goButton setTitle:kRCLocalizedString(@"RegisterUploadPhotoGobuttonTitle") forState:UIControlStateNormal];
     [goButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [goButton addTarget:self action:@selector(goButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:goButton];
@@ -246,12 +258,10 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
         _uploadIndex = _photoCount + 1;
     }
     UIAlertController *uploadAlertVc = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
     UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"RegisterUploadPhotoCameraActionTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(acquireCamaraGalleryPhoto:) name:kRCCameraGalleryNotification object:nil];
         [[RCCamerGalleryManager shareManager] openCameraAcquirePhotoWithCurrentViewController:self];
     }];
-    
     UIAlertAction *galleryAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"RegisterUploadPhotoGalleryActionTitle") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(acquireCamaraGalleryPhoto:) name:kRCCameraGalleryNotification object:nil];
         [[RCCamerGalleryManager shareManager] openGalleryAcquirePhotoWithCurrentViewController:self];
@@ -264,7 +274,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 
 - (void)acquireCamaraGalleryPhoto:(NSNotification *)notice {
     [self.navigationController popViewControllerAnimated:YES];
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     UIImage *selectedPhoto = notice.userInfo[kRCCameraGalleryNotification];
     if (_currentTapType == kRCCamerGalleryTapTypeReplace) {
@@ -272,7 +281,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
         currentTapImageView.image = selectedPhoto;
     } else if (_currentTapType == kRCCamerGalleryTapTypeAdd) {
         if (_photoCount == 1) {
-#warning 实现动画 同时需要把图片改变的情况放入到图片上传成功的block中
             UIImageView *imageView = (UIImageView *)self.addPhotoImagageViewArray[2];
             imageView.hidden = NO;
         }
@@ -280,34 +288,42 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
         _photoCount += 1;
         currentTapImageView.image = selectedPhoto;
     }
-    
     //上传图片
     kAcquireUserDefaultUsertoken
     NSData *uploadImageDataOne = UIImageJPEGRepresentation(selectedPhoto, 1.0f);
     [RCMBHUDTool showIndicator];
-    [[RCNetworkManager shareManager] POSTRequest:@"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi3.do?method=upload" parameters:@{@"plat": @1, @"usertoken": usertoken, @"index": @(_uploadIndex)} upateFileData:uploadImageDataOne success:^(id responseObject) {
-        NSDictionary *result = (NSDictionary *)responseObject;
-        [userDefault setInteger:[result[@"step"] intValue] forKey:kRCUserDefaultResgisterStepKey];
-        [RCMBHUDTool hideshowIndicator];
-        [RCMBHUDTool showText:[NSString stringWithFormat:@"完成上传第%d张", _uploadIndex] hideDelay:1.0f];
-
-        [_judgeImageFillArray replaceObjectAtIndex:_tapIndex withObject:@YES];
-        //刷新显示数据
-        _pageLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(_photoCollectionView.contentOffset.x / (kRCScreenWidth - 110)) + 1, _photoCount];
-        [_photoCollectionView reloadData];
-    } failure:^(NSError *error) {
-        [RCMBHUDTool showText:@"上传失败" hideDelay:1.0f];
-        [RCMBHUDTool hideshowIndicator];
-    }];
+    [[RCNetworkManager shareManager] POSTRequest:[Global shareGlobal].registerUploadPhotoURLString parameters:@{@"plat": @1,
+                                                                                                                @"usertoken": usertoken,
+                                                                                                                @"index": @(_uploadIndex)
+                                                                                                                } upateFileData:uploadImageDataOne success:^(id responseObject)
+     {
+         NSDictionary *result = (NSDictionary *)responseObject;
+         int errorCode = [result[@"state"] intValue];
+         if (errorCode == 10000) {
+             [userDefault setInteger:[result[@"step"] intValue] forKey:kRCUserDefaultResgisterStepKey];
+             [RCMBHUDTool hideshowIndicator];
+             [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountUploadImageErrorCodeRepeatAccount") hideDelay:1.0f];
+             [_judgeImageFillArray replaceObjectAtIndex:_tapIndex withObject:@YES];
+             _pageLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(_photoCollectionView.contentOffset.x / kRCRegisterInfoPhotoCollectionViewWidthConstant) + 1, _photoCount];
+             [_photoCollectionView reloadData];
+         }else if (errorCode == 10004) {
+             [RCMBHUDTool hideshowIndicator];
+             [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountUploadImageErrorCodeUsertokenError") hideDelay:1.0f];
+         } else {
+             [RCMBHUDTool hideshowIndicator];
+             [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountUploadImageErrorCodeCannotConnectServer") hideDelay:1.0f];
+         }
+     } failure:^(NSError *error) {
+         [RCMBHUDTool hideshowIndicator];
+         [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountUploadImageErrorCodeNetworkError") hideDelay:1.0f];
+     }];
 }
 
 - (void)goButtonDidClick {
-    [RCMBHUDTool showIndicator];
     kAcquireUserDefaultAll
-    
     //自动登录
     RCLoginAutoModel *loginAutoModel = [[RCLoginAutoModel alloc] init];
-    loginAutoModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/AutoLogin.do";
+    loginAutoModel.requestUrl = [Global shareGlobal].loginAutoLoginURLString;
     loginAutoModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     loginAutoModel.parameters = @{@"plat": @1,
                                   @"usertoken": usertoken,
@@ -317,20 +333,27 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
                                   @"lat": @(latitude),
                                   @"pushtoken": pushtoken
                                   };
-    
+    [RCMBHUDTool showIndicator];
     [loginAutoModel requestServerWithModel:loginAutoModel success:^(id resultModel) {
         RCLoginAutoModel *result = (RCLoginAutoModel *)resultModel;
-        if ([result.mess isEqualToString:@"succ"]) {
+        if ([result.state intValue] == 10000) {
             [RCMBHUDTool hideshowIndicator];
-            [RCMBHUDTool showText:@"自动登录完成" hideDelay:1];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginErrorCodeSucc") hideDelay:1];
             [self enterApplicationMain:result.userInfo];
+        } else if ([result.state intValue] == 10004) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginErrorCodeUsertokenError") hideDelay:1];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @0, kRCSwitchRootVcNotificationVcKey: self.navigationController}];
+        } else if ([result.state intValue] == 10009) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginErrorCodeAccountLock") hideDelay:1];
         } else {
             [RCMBHUDTool hideshowIndicator];
-            [RCMBHUDTool showText:@"usertoken过期/连接超时,请手动登陆" hideDelay:1];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @0, kRCSwitchRootVcNotificationVcKey: self.navigationController}];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginErrorCodeCannotConnectServer") hideDelay:1];
         }
     } failure:^(NSError *error) {
-        NSLog(@"%@", error);
+        [RCMBHUDTool hideshowIndicator];
+        [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginErrorCodeNetworkError") hideDelay:1];
     }];
 }
 
@@ -354,7 +377,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    _pageLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(_photoCollectionView.contentOffset.x / (kRCScreenWidth - 110)) + 1, _photoCount];
+    _pageLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(_photoCollectionView.contentOffset.x / kRCRegisterInfoPhotoCollectionViewWidthConstant) + 1, _photoCount];
 }
 
 @end

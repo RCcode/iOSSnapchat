@@ -71,7 +71,7 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
     
     UILabel *textLabel = [[UILabel alloc] init];
     textLabel.textAlignment = NSTextAlignmentCenter;
-    textLabel.text = @"Like you!";
+    textLabel.text = kRCLocalizedString(@"MainLikeLikeYouNavigationTitle");
     textLabel.font = kRCBoldSystemFont(25);
     textLabel.textColor = kRCDefaultDarkAlphaBlack;
     [self.view addSubview:textLabel];
@@ -133,30 +133,38 @@ typedef NS_ENUM(NSInteger, kRCMainLikeType) {
 
 - (void)sendLikeUnLikeRequest:(kRCMainLikeType)type {
     NSString *usertoken = [[NSUserDefaults standardUserDefaults] stringForKey:kRCUserDefaultUserTokenKey];
-    //发送请求
     RCMainLikeModel *mainLikeModel = [[RCMainLikeModel alloc] init];
-    mainLikeModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/message/LikeUser.do";
+    mainLikeModel.requestUrl = [Global shareGlobal].mainLikeLikeUnLikeURLString;
     mainLikeModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     mainLikeModel.parameters = @{@"plat": @1,
                                  @"usertoken": usertoken,
                                  @"userid2": self.userid,
                                  @"flag": @(type)
                                  };
-    
+    [RCMBHUDTool showIndicator];
     [mainLikeModel requestServerWithModel:mainLikeModel success:^(id resultModel) {
         RCMainLikeModel *result = (RCMainLikeModel *)resultModel;
-        if ([result.mess isEqualToString:@"succ"]) {
+        if ([result.state intValue] == 10000) {
             if (type == kRCMainLikeTypeLike) {
-                [RCMBHUDTool showText:@"Like" hideDelay:1];
+                [RCMBHUDTool hideshowIndicator];
+                [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeLikeSucc") hideDelay:1];
             } else if (type == kRCMainLikeTypeUnlike) {
-                [RCMBHUDTool showText:@"UnLike" hideDelay:1];
+                [RCMBHUDTool hideshowIndicator];
+                [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeUsnLikeSucc") hideDelay:1];
             }
+            [self.navigationController popViewControllerAnimated:YES];
+            if (self.complete) {
+                self.complete();
+            }
+        } else if ([result.state intValue] == 10004) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeUsertokenError") hideDelay:1];
         } else {
-            NSLog(@"Like/UnLike操作失败");
-            [RCMBHUDTool showText:@"操作失败，请重新Like/UnLike" hideDelay:1];
-        }
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeCannotConnectServer") hideDelay:1];        }
     } failure:^(NSError *error) {
-        NSLog(@"服务器错误");
+        [RCMBHUDTool hideshowIndicator];
+        [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeNetworkError") hideDelay:1];
     }];
 }
 

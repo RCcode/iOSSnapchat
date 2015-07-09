@@ -46,7 +46,7 @@
 
 @interface RCHomeViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
-    //Control
+    //MainUI
     UIImageView *_backgroundImageView;
     UICollectionView *_homePageCollectionView;
     UIPageControl *_pageControl;

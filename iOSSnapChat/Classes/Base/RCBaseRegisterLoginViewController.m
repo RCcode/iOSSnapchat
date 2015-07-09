@@ -40,7 +40,7 @@
 
 @interface RCBaseRegisterLoginViewController ()
 {
-    //Control
+    //MainUI
     UIView *_emailSeparatorLine;
     UIView *_passwordSeparatorLine;
     UIButton *_forgetPasswordButton;

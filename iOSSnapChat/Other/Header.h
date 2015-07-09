@@ -11,7 +11,6 @@
 
 #import "NSString+RCStringSize.h"
 #import "UIButton+backgroundColor.h"
-
 #import "RCPlaceHolderAlwaysTextField.h"
 #import "RCPikerViewTextFiled.h"
 #import "RCPhotoView.h"
@@ -20,12 +19,10 @@
 #import "RCMoreCameraButton.h"
 #import "RCNavgationItemButton.h"
 #import "RCHitTestEventThroughImageView.h"
-
 #import "RCNetworkManager.h"
 #import "RCCamerGalleryManager.h"
 #import "RCLocalTool.h"
 #import "RCMBHUDTool.h"
-
 #import "UIImageView+WebCache.h"
 
 #endif

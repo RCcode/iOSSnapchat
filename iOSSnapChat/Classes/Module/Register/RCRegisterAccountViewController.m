@@ -56,14 +56,10 @@
         [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountPasswordErrorMessage") hideDelay:1.0f];
         return;
     }
-    
-    //获取用户存储的物理地址信息
     kAcquireUserDefaultLocalInfo
-    
-    //请求设置
     RCRegiseterAccountModel *registerAccountModel = [[RCRegiseterAccountModel alloc] init];
     registerAccountModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
-    registerAccountModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Regi1.do";
+    registerAccountModel.requestUrl = [Global shareGlobal].registerAccountURLString;
     registerAccountModel.parameters = @{@"plat": @1,
                                         @"userid": self.emailField.text,
                                         @"password": self.passwordField.text,
@@ -73,34 +69,30 @@
                                         @"lat": @(latitude),
                                         @"pushtoken": pushtoken
                                         };
-    NSLog(@"%@", registerAccountModel.parameters);
-    //判断邮箱是否正确
     if ([self validateEmail:self.emailField.text]) {
-        //发送请求
         [RCMBHUDTool showIndicator];
         [registerAccountModel requestServerWithModel:registerAccountModel success:^(id resultModel) {
             RCRegiseterAccountModel *result = (RCRegiseterAccountModel *)resultModel;
             [userDefault setInteger:[result.step intValue] forKey:kRCUserDefaultResgisterStepKey];
-            if ([result.mess isEqualToString:@"succ"]) {
+            if ([result.state intValue] == 10000) {
                 [RCMBHUDTool hideshowIndicator];
-                //保存usertoken
+                [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountSetpUpUserErrorCodeRepeatAccount") hideDelay:1.0f];
                 [[NSUserDefaults standardUserDefaults] setObject:result.usertoken forKey:kRCUserDefaultUserTokenKey];
                 RCRegisterInfoViewController *registerInfoVc = [[RCRegisterInfoViewController alloc] init];
                 [self.navigationController pushViewController:registerInfoVc animated:YES];
-            } else if ([result.mess isEqualToString:@"Primary key repeat"]) {
+            } else if ([result.state intValue] == 10003) {
                 [RCMBHUDTool hideshowIndicator];
-                [RCMBHUDTool showText:@"注册账户已经存在" hideDelay:1.0f];
+                [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountSetpUpUserErrorCodeUsertokenError") hideDelay:1.0f];
             } else {
-                NSLog(@"%d", [result.step intValue]);
                 [RCMBHUDTool hideshowIndicator];
-                [RCMBHUDTool showText:@"服务器异常" hideDelay:1.0f];
+                [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountSetpUpUserErrorCodeCannotConnectServer") hideDelay:1.0f];
             }
         } failure:^(NSError *error) {
             [RCMBHUDTool hideshowIndicator];
-            [RCMBHUDTool showText:@"请检查网络" hideDelay:1.0f];
+            [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountSetpUpUserErrorCodeNetworkError") hideDelay:1.0f];
         }];
     } else {
-        [RCMBHUDTool showText:@"邮箱格式不正确" hideDelay:1.0f];
+        [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountEmailFormatErrorMessage") hideDelay:1.0f];
     }
 }
 

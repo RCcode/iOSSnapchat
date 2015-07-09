@@ -9,9 +9,6 @@
 #import "RCMainLikeCollectionViewCell.h"
 
 @interface RCMainLikeCollectionViewCell ()
-{
-    UIImageView *_showImageView;
-}
 
 @end
 
@@ -35,7 +32,7 @@
 
 - (void)setShowImageURL:(NSURL *)showImageURL {
     _showImageURL = showImageURL;
-    [_showImageView sd_setImageWithURL:showImageURL placeholderImage:[UIImage imageNamed:@"default.jpg"]];
+    [_showImageView sd_setImageWithURL:showImageURL placeholderImage:kRCImage(@"people_bg")];
 }
 
 - (void)layoutSubviews {

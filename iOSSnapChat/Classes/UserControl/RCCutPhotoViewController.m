@@ -39,7 +39,7 @@
 
 - (void)modifyNavgationBar {
     UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    doneButton.frame = CGRectMake(0, 0, 44, 44);
+    doneButton.frame = kRCDefaultNacgationBarItemFrame;
     [doneButton setTitle:kRCLocalizedString(@"RegisterUploadCutPhotoNavigatiTitle") forState:UIControlStateNormal];
     doneButton.titleLabel.font = kRCBoldSystemFont(17);
     [doneButton addTarget:self action:@selector(doneButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];

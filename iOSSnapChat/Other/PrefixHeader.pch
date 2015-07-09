@@ -9,51 +9,11 @@
 #ifndef iOSSnapChat_PrefixHeader_pch
 #define iOSSnapChat_PrefixHeader_pch
 
-//NSLog
-#ifdef DEBUG
-#define NSLog(...) NSLog(__VA_ARGS__)
-#else
-#define NSLog(...)
-#endif
-
-//weak
-#define kRCWeak(obj) __weak typeof(obj) weak##obj = obj;
-
-//获取用户存储的物理地址信息
-#define kAcquireUserDefaultAll \
-NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];\
-NSString *coutryID = [userDefault stringForKey:kRCUserDefaultCountryIDKey];\
-NSString *cityID = [userDefault stringForKey:kRCUserDefaultCityIDKey];\
-NSString *pushtoken = [userDefault stringForKey:kRCRemoteNotificationsKey];\
-double longitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];\
-double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey]; \
-NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
-
-#define kAcquireUserDefaultLocalInfo \
-NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];\
-NSString *coutryID = [userDefault stringForKey:kRCUserDefaultCountryIDKey];\
-NSString *cityID = [userDefault stringForKey:kRCUserDefaultCityIDKey];\
-NSString *pushtoken = [userDefault stringForKey:kRCRemoteNotificationsKey];\
-double longitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];\
-double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
-
-#define kAcquireUserDefaultUsertoken \
-NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];\
-NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
-
-#define IOS8 [[UIDevice currentDevice].systemVersion floatValue] >= 8.0
-
-#define kRCDefaultNacgationBarItemFrame CGRectMake(0, 0, 44, 44)
-#define kRCDefaultNacgationBarTitleFrame CGRectMake(0, 0, 200, 44)
-#define kRCDefaultNacgationBarTitleFont kRCBoldSystemFont(17)
-
-#define kRCAdaptationHeight(height) ((height) * kRCScreenHeight / 1136)
-#define kRCAdaptationWidth(width) ((width) * kRCScreenWidth / 640)
-
 #import "Const.h"
 #import "CMethods.h"
 #import "Common.h"
 #import "PRJ_ProtocolClass.h"
 #import "Header.h"
+#import "Global.h"
 
 #endif

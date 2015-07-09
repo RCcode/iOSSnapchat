@@ -18,7 +18,7 @@
 #pragma mark - Setter
 - (void)setPhotoURL:(NSURL *)photoURL {
     _photoURL = photoURL;
-    [_photoImageView sd_setImageWithURL:photoURL placeholderImage:[UIImage imageNamed:@"default.jpg"]];
+    [_photoImageView sd_setImageWithURL:photoURL placeholderImage:kRCImage(@"people_bg")];
 }
 
 #pragma mark - LifeCircle

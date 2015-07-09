@@ -12,7 +12,7 @@
 @implementation RCMainMatchModel
 
 - (void)parse:(id)responseObject {
-    _state = (NSString *)responseObject[@"state"];
+    _state = responseObject[@"state"];
     _mess = responseObject[@"mess"];
     NSMutableArray *list = [NSMutableArray arrayWithCapacity:0];
     NSArray *responeUserInfo = responseObject[@"user_info"];

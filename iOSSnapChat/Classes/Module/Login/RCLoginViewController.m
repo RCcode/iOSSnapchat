@@ -33,15 +33,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     if (!self.isAutoLogin) return;
-    
-    [RCMBHUDTool showIndicator];
-    kAcquireUserDefaultAll
-    
     //自动登录
+    kAcquireUserDefaultAll
     RCLoginAutoModel *loginAutoModel = [[RCLoginAutoModel alloc] init];
-    loginAutoModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/AutoLogin.do";
+    loginAutoModel.requestUrl = [Global shareGlobal].loginAutoLoginURLString;
     loginAutoModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     loginAutoModel.parameters = @{@"plat": @1,
                                   @"usertoken": usertoken,
@@ -51,19 +47,26 @@
                                   @"lat": @(latitude),
                                   @"pushtoken": pushtoken
                                   };
-    
+    [RCMBHUDTool showIndicator];
     [loginAutoModel requestServerWithModel:loginAutoModel success:^(id resultModel) {
         RCLoginAutoModel *result = (RCLoginAutoModel *)resultModel;
-        if ([result.mess isEqualToString:@"succ"]) {
+        if ([result.state intValue] == 10000) {
             [RCMBHUDTool hideshowIndicator];
-            [RCMBHUDTool showText:@"自动登录完成" hideDelay:1];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginErrorCodeSucc") hideDelay:1];
             [self enterApplicationMain:result.userInfo];
+        } else if ([result.state intValue] == 10004) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginErrorCodeUsertokenError") hideDelay:1];
+        } else if ([result.state intValue] == 10009) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginErrorCodeAccountLock") hideDelay:1];
         } else {
             [RCMBHUDTool hideshowIndicator];
-            [RCMBHUDTool showText:@"usertoken过期/连接超时,请手动登陆" hideDelay:1];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginErrorCodeCannotConnectServer") hideDelay:1];
         }
     } failure:^(NSError *error) {
-        NSLog(@"%@", error);
+        [RCMBHUDTool hideshowIndicator];
+        [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginErrorCodeNetworkError") hideDelay:1];
     }];
 }
 
@@ -86,7 +89,7 @@
 - (void)nextButtonDidClicked {
     kAcquireUserDefaultLocalInfo
     RCLoginNormalModel *loginNormalModel = [[RCLoginNormalModel alloc] init];
-    loginNormalModel.requestUrl = @"http://192.168.0.88:8088/ExcavateSnapchatWeb/userinfo/Login.do";
+    loginNormalModel.requestUrl = [Global shareGlobal].loginnormalLoginURLString;
     loginNormalModel.modelRequestMethod = kRCModelRequestMethodTypePOST;
     loginNormalModel.parameters = @{@"plat": @1,
                                     @"userid": self.emailField.text,
@@ -97,22 +100,28 @@
                                     @"lat": @(latitude),
                                     @"pushtoken": pushtoken
                                     };
-    
     [RCMBHUDTool showIndicator];
     [loginNormalModel requestServerWithModel:loginNormalModel success:^(id resultModel) {
         RCLoginNormalModel *result = (RCLoginNormalModel *)resultModel;
-        if ([result.mess isEqualToString:@"succ"]) {
+        if ([result.state intValue] == 10000) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginNormalLoginErrorCodeSucc") hideDelay:1.0f];
             [userDefault setObject:result.usertoken forKey:kRCUserDefaultUserTokenKey];
             [userDefault setInteger:0 forKey:kRCUserDefaultResgisterStepKey];
-            [RCMBHUDTool hideshowIndicator];
             [self enterApplicationMain:result.userInfo];
+        } else if ([result.state intValue] == 10005) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginNormalLoginErrorCodeAccountPasswordError") hideDelay:1.0f];
+        } else if ([result.state intValue] == 10009) {
+            [RCMBHUDTool hideshowIndicator];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginNormalLoginErrorCodeAccountLock") hideDelay:1.0f];
         } else {
             [RCMBHUDTool hideshowIndicator];
-            [RCMBHUDTool showText:@"账号或密码错误" hideDelay:1];
+            [RCMBHUDTool showText:kRCLocalizedString(@"LoginNormalLoginErrorCodeCannotConnectServer") hideDelay:1.0f];
         }
     } failure:^(NSError *error) {
         [RCMBHUDTool hideshowIndicator];
-        [RCMBHUDTool showText:@"请检查网络" hideDelay:1.0f];
+        [RCMBHUDTool showText:kRCLocalizedString(@"LoginNormalLoginErrorCodeNetworkError") hideDelay:1.0f];
     }];
 }
 

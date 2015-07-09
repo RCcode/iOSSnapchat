@@ -12,7 +12,7 @@
 @interface RCLoginAutoModel : RCModelBase
 
 //状态码
-@property (nonatomic, copy) NSString *state;
+@property (nonatomic, strong) NSNumber *state;
 //状态说明
 @property (nonatomic, copy) NSString *mess;
 //userInfo

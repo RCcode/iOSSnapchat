@@ -12,7 +12,7 @@
 @implementation RCMainLikeModel
 
 - (void)parse:(id)responseObject {
-    _state = (NSString *)responseObject[@"state"];
+    _state = responseObject[@"state"];
     _mess = responseObject[@"mess"];
     _type = responseObject[@"type"];
 
