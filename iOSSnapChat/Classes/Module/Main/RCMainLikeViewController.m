@@ -20,6 +20,7 @@
 #import "RCBaseNavgationController.h"
 #import "RCMainLikeMatchYouViewController.h"
 #import <MessageUI/MessageUI.h>
+#import "SDWebImagePrefetcher.h"
 
 #define kRMainLikeCollectionViewCellReuseIdentifier @"kRMainLikeCollectionViewCellReuseIdentifier"
 #define kRCMainLikeMenuTableViewCellIdentifer @"kRCMainLikeMenuTableViewCellIdentifer"
@@ -417,8 +418,6 @@
     if (_mainLikeModifyPhotoVc == nil) {
         RCMainLikeModifyPhotoViewController *mainLikeModifyPhotoVc = [[RCMainLikeModifyPhotoViewController alloc] init];
         mainLikeModifyPhotoVc.userInfo = self.loginUserInfo;
-#warning 网速极慢时会等待！
-        mainLikeModifyPhotoVc.showImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.loginUserInfo.url1]]];
         kRCWeak(self);
         mainLikeModifyPhotoVc.complete = ^(UIImage *image) {
             weakself.photoView.photoImageView.image = image;
@@ -503,6 +502,19 @@
                 [RCMBHUDTool showText:@"没有更多内容" hideDelay:1.0f];
                 return;
             }
+            NSMutableArray *preList = [NSMutableArray array];
+            for (RCUserInfoModel*info in _userList) {
+                if (![info.url1 isEqualToString:@""]) {
+                    [preList addObject:[NSURL URLWithString:info.url1]];
+                }
+                if (![info.url2 isEqualToString:@""]) {
+                    [preList addObject:[NSURL URLWithString:info.url2]];
+                }
+                if (![info.url3 isEqualToString:@""]) {
+                    [preList addObject:[NSURL URLWithString:info.url3]];
+                }
+            }
+            [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:preList];
             [_likePhotoCollectionView reloadData];
             [self reloadInfo];
         } else if ([result.state intValue] == 10004) {
@@ -781,8 +793,55 @@
 }
 
 - (void)sendLikeUnLikeRequest:(kRCMainLikeType)type {
+    if (_currentIndex >= 20) {
+        return;
+    }
     RCUserInfoModel *userInfo = _userList[_currentIndex];
     NSString *usertoken = [[NSUserDefaults standardUserDefaults] stringForKey:kRCUserDefaultUserTokenKey];
+    UIImageView *animationImageView = [[UIImageView alloc] initWithImage:[self currentShowImage]];
+    animationImageView.frame = _likePhotoCollectionView.frame;
+    [_backImageView addSubview:animationImageView];
+    _animationImageView = animationImageView;
+    UIImageView *likeImageView = [[UIImageView alloc] init];
+    [animationImageView addSubview:likeImageView];
+    likeImageView.alpha = 0;
+    if (type == kRCMainLikeTypeLike) {
+        likeImageView.image = kRCImage(@"like_ani_icon");
+        likeImageView.frame = CGRectMake(kRCAdaptationWidth(22), kRCAdaptationHeight(35), kRCAdaptationWidth(172), kRCAdaptationHeight(172));
+        [UIView animateWithDuration:0.25f animations:^{
+            likeImageView.alpha = 1;
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.25f animations:^{
+                _animationImageView.transform = CGAffineTransformMakeTranslation(kRCScreenWidth * 2, 0);
+                _animationImageView.transform = CGAffineTransformRotate(_animationImageView.transform, M_PI_4);
+            } completion:^(BOOL finished) {
+                _isAnimation = NO;
+                [_animationImageView removeFromSuperview];
+            }];
+        }];
+    } else if (type == kRCMainLikeTypeUnlike) {
+        likeImageView.image = kRCImage(@"pass_ani_icon");
+        likeImageView.frame = CGRectMake(_likePhotoCollectionView.frame.size.width - kRCAdaptationWidth(22) - kRCAdaptationWidth(172), kRCAdaptationHeight(35), kRCAdaptationWidth(172), kRCAdaptationHeight(172));
+        [UIView animateWithDuration:0.25f animations:^{
+            likeImageView.alpha = 1;
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.25f animations:^{
+                _animationImageView.transform = CGAffineTransformMakeTranslation(- kRCScreenWidth * 2, 0);
+                _animationImageView.transform = CGAffineTransformRotate(_animationImageView.transform, - M_PI_4);
+            } completion:^(BOOL finished) {
+                _isAnimation = NO;
+                [_animationImageView removeFromSuperview];
+            }];
+        }];
+    }
+    _currentIndex ++;
+    //List最后张会等待完成再刷新
+    if (_currentIndex < 20) {
+        [_likePhotoCollectionView reloadData];
+        [self reloadInfo];
+        [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+    }
+    
     //发送请求
     RCMainLikeModel *mainLikeModel = [[RCMainLikeModel alloc] init];
     mainLikeModel.requestUrl = [Global shareGlobal].mainLikeLikeUnLikeURLString;
@@ -801,63 +860,18 @@
                 mainLikeMatchYouVc.iconURLOhter = [NSURL URLWithString:[result.userinfo url1]];
                 mainLikeMatchYouVc.snapchatid = [result.userinfo snapchatid];
                 [self.navigationController pushViewController:mainLikeMatchYouVc animated:YES];
-                _isAnimation = NO;
-            } else {
-                UIImageView *animationImageView = [[UIImageView alloc] initWithImage:[self currentShowImage]];
-                animationImageView.frame = _likePhotoCollectionView.frame;
-                [_backImageView addSubview:animationImageView];
-                _animationImageView = animationImageView;
-                UIImageView *likeImageView = [[UIImageView alloc] init];
-                [animationImageView addSubview:likeImageView];
-                likeImageView.alpha = 0;
-                if (type == kRCMainLikeTypeLike) {
-                    likeImageView.image = kRCImage(@"like_ani_icon");
-                    likeImageView.frame = CGRectMake(kRCAdaptationWidth(22), kRCAdaptationHeight(35), kRCAdaptationWidth(172), kRCAdaptationHeight(172));
-                    [UIView animateWithDuration:0.3f animations:^{
-                        likeImageView.alpha = 1;
-                    } completion:^(BOOL finished) {
-                        [UIView animateWithDuration:0.5f animations:^{
-                            _animationImageView.transform = CGAffineTransformMakeTranslation(kRCScreenWidth * 2, 0);
-                            _animationImageView.transform = CGAffineTransformRotate(_animationImageView.transform, M_PI_4);
-                        } completion:^(BOOL finished) {
-                            _isAnimation = NO;
-                            [_animationImageView removeFromSuperview];
-                        }];
-                    }];
-                } else if (type == kRCMainLikeTypeUnlike) {
-                    likeImageView.image = kRCImage(@"pass_ani_icon");
-                    likeImageView.frame = CGRectMake(_likePhotoCollectionView.frame.size.width - kRCAdaptationWidth(22) - kRCAdaptationWidth(172), kRCAdaptationHeight(35), kRCAdaptationWidth(172), kRCAdaptationHeight(172));
-                    [UIView animateWithDuration:0.3f animations:^{
-                        likeImageView.alpha = 1;
-                    } completion:^(BOOL finished) {
-                        [UIView animateWithDuration:0.5 animations:^{
-                            _animationImageView.transform = CGAffineTransformMakeTranslation(- kRCScreenWidth * 2, 0);
-                            _animationImageView.transform = CGAffineTransformRotate(_animationImageView.transform, - M_PI_4);
-                        } completion:^(BOOL finished) {
-                            _isAnimation = NO;
-                            [_animationImageView removeFromSuperview];
-                        }];
-                    }];
-                }
             }
-            _currentIndex ++;
             if (_currentIndex == 20) {
                 [self loadData];
                 _currentIndex = 0;
                 return;
             }
-            [_likePhotoCollectionView reloadData];
-            [self reloadInfo];
-            [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
         } else if ([result.state intValue] == 10004) {
-            _isAnimation = NO;
             [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeUsertokenError") hideDelay:1];
         } else {
-            _isAnimation = NO;
             [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeCannotConnectServer") hideDelay:1];
         }
     } failure:^(NSError *error) {
-        _isAnimation = NO;
         [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeNetworkError") hideDelay:1];
     }];
 }

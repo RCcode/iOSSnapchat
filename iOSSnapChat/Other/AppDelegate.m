@@ -49,7 +49,7 @@
     if (![[NSUserDefaults standardUserDefaults] boolForKey:kRCApplicationFirstStartKey]) {
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:YES forKey:kRCApplicationFirstStartKey];
-        [userDefault setObject:@"123456" forKey:kRCRemoteNotificationsKey];
+        [userDefault setObject:@"000000" forKey:kRCRemoteNotificationsKey];
         [userDefault setInteger:-1 forKey:kRCUserDefaultResgisterStepKey];
         [userDefault setObject:@"" forKey:kRCUserDefaultCountryIDKey];
         [userDefault setObject:@"" forKey:kRCUserDefaultCityIDKey];
@@ -175,8 +175,9 @@
     [currentInstallation setDeviceTokenFromData:deviceToken];
     currentInstallation.channels = @[@"channel1"];
     [currentInstallation saveInBackground];
-    NSLog(@"%@",currentInstallation.deviceToken);
-
+    [[NSUserDefaults standardUserDefaults] setObject:currentInstallation.deviceToken forKey:kRCRemoteNotificationsKey];
+    
+    
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {

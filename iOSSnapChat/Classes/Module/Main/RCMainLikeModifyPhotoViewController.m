@@ -220,6 +220,9 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
 #pragma mark - Action
 - (void)arrowBackDidClicked {
     if (self.complete) {
+        if (_showImage == nil) {
+            _showImage = [_choiceImageViewArray[0] image];
+        }
         self.complete(_showImage);
     }
     [self.navigationController popViewControllerAnimated:YES];

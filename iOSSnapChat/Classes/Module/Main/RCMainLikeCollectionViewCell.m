@@ -23,7 +23,6 @@
         [self.contentView addSubview:showImageView];
         _showImageView = showImageView;
         
-#warning from here
         UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] init];
         [self.contentView addSubview:activityIndicatorView];
         _activityIndicatorView = activityIndicatorView;
@@ -39,13 +38,17 @@
 }
 
 - (void)setShowImageURL:(NSURL *)showImageURL {
+    [_activityIndicatorView startAnimating];
     _showImageURL = showImageURL;
-    [_showImageView sd_setImageWithURL:showImageURL placeholderImage:kRCImage(@"people_bg")];
+    [_showImageView sd_setImageWithURL:showImageURL placeholderImage:kRCImage(@"people_bg") completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [_activityIndicatorView stopAnimating];
+    }];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     _showImageView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.width);
+    _activityIndicatorView.center = self.contentView.center;
 }
 
 @end

@@ -12,7 +12,6 @@
 
 static id _instance;
 + (instancetype)shareGlobal {
-    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _instance = [[self alloc] init];

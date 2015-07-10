@@ -25,7 +25,7 @@ static id _instance;
         sessionManager.responseSerializer = [AFJSONResponseSerializer serializer];
         sessionManager.responseSerializer.acceptableContentTypes = [sessionManager.responseSerializer.acceptableContentTypes setByAddingObject:@"text/plain"];
         sessionManager.requestSerializer.HTTPShouldHandleCookies = YES;
-        sessionManager.requestSerializer.timeoutInterval = 30;
+        sessionManager.requestSerializer.timeoutInterval = 15;
         _manager = sessionManager;
         //网络单例
         RCNetworkManager *instance = [[self alloc] init];
