@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 };
 
 #define kRCRegisterInfoViewAgeComponentNumber 1
-#define kRCRegisterInfoViewAgeNumber 100
+#define kRCRegisterInfoViewAgeNumber (100 - 13 + 1)
 
 //主界面约束
 #define kRCRegisterInfoSnapChatFieldTopConstant (64 + 20)
@@ -335,7 +335,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return [NSString stringWithFormat:@"%zd",row];
+    return [NSString stringWithFormat:@"%zd",row + 13];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {

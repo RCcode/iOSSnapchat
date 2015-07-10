@@ -14,7 +14,7 @@
 @implementation RCNavgationItemButton
 
 - (CGRect)imageRectForContentRect:(CGRect)contentRect {
-    return CGRectMake((self.bounds.size.width - kRCNavgationItemButtonImageHeight) / 2, (self.bounds.size.height - kRCNavgationItemButtonImageHeight) / 2, kRCNavgationItemButtonImageWidth, kRCNavgationItemButtonImageHeight);
+    return CGRectMake((self.bounds.size.width - kRCNavgationItemButtonImageWidth) / 2, (self.bounds.size.height - kRCNavgationItemButtonImageHeight) / 2, kRCNavgationItemButtonImageWidth, kRCNavgationItemButtonImageHeight);
 }
 
 @end

@@ -179,7 +179,6 @@
     
     UITextView *_idTextView;
     UIButton *_editButton;
-    NSMutableArray *_userList;
     NSInteger _currentIndex;
     BOOL _isMainLikeMenuViewLazyLoading;
     UIImageView *_animationImageView;
@@ -192,12 +191,28 @@
 @property (nonatomic, strong) UIView *mainLikeEditCoverView;
 @property (nonatomic, strong) UIView *mainLikeEditView;
 @property (nonatomic, strong) RCMainLikeModifyPhotoViewController *mainLikeModifyPhotoVc;
+@property (nonatomic, strong) NSMutableArray *userList;
+@property (nonatomic, strong) NSMutableString *lastUseridString;
 
 @end
 
 @implementation RCMainLikeViewController
 
 #pragma mark - LazyLoading
+- (NSMutableArray *)userList {
+    if (_userList == nil) {
+        _userList = [NSMutableArray array];
+    }
+    return _userList;
+}
+
+- (NSMutableString *)lastUseridString {
+    if (_lastUseridString == nil) {
+        _lastUseridString = [NSMutableString string];
+    }
+    return _lastUseridString;
+}
+
 - (UIView *)mainLikeCoverView {
     if (_mainLikeCoverView == nil) {
         UIView *mainLikeCoverView = [[UIView alloc] initWithFrame:kRCScreenBounds];
@@ -484,24 +499,33 @@
     NSInteger gender2 = [userDefault integerForKey:kRCUserDefaultGenderKey];
     double longitude = [userDefault doubleForKey:kRCUserDefaultLongitudeKey];
     double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
+
     mainMatchModel.parameters = @{@"plat": @1,
                                   @"usertoken": usertoken,
+                                  @"userids": self.lastUseridString,
                                   @"gender": self.loginUserInfo.gender,
                                   @"gender2": @(gender2),
                                   @"lon": @(longitude),
                                   @"lat": @(latitude),
                                   @"pageno": @1
                                   };
-    [RCMBHUDTool showIndicator];
+//    NSLog(@"@", self.useridString);
     [mainMatchModel requestServerWithModel:mainMatchModel success:^(id resultModel) {
         RCMainMatchModel *result = (RCMainMatchModel *)resultModel;
         if ([result.state intValue] == 10000) {
             [RCMBHUDTool hideshowIndicator];
-            _userList = result.list;
-            if (_userList.count < 20) {
+//            _userList = result.list;
+            if ([result.list count] < 20) {
                 [RCMBHUDTool showText:@"没有更多内容" hideDelay:1.0f];
                 return;
             }
+            self.lastUseridString = nil;
+            for (RCUserInfoModel *info in result.list) {
+                [self.lastUseridString appendString:[NSString stringWithFormat:@",%@",info.userid]];
+            }
+
+            [self.userList addObjectsFromArray:result.list];
+            
             NSMutableArray *preList = [NSMutableArray array];
             for (RCUserInfoModel*info in _userList) {
                 if (![info.url1 isEqualToString:@""]) {
@@ -543,6 +567,7 @@
     layout.minimumLineSpacing = 0;
     layout.minimumInteritemSpacing = 0;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    likePhotoCollectionView.bounces = NO;
     likePhotoCollectionView.pagingEnabled = YES;
     likePhotoCollectionView.showsHorizontalScrollIndicator = NO;
     [likePhotoCollectionView registerClass:[RCMainLikeCollectionViewCell class] forCellWithReuseIdentifier:kRMainLikeCollectionViewCellReuseIdentifier];
@@ -712,7 +737,7 @@
 }
 
 - (void)reloadInfo {
-    if (_userList == nil) return;
+    if (_currentIndex >= 20) return;
     RCUserInfoModel *userInfo = _userList[_currentIndex];
     if (userInfo == nil) return;
 
@@ -793,11 +818,7 @@
 }
 
 - (void)sendLikeUnLikeRequest:(kRCMainLikeType)type {
-    if (_currentIndex >= 20) {
-        return;
-    }
-    RCUserInfoModel *userInfo = _userList[_currentIndex];
-    NSString *usertoken = [[NSUserDefaults standardUserDefaults] stringForKey:kRCUserDefaultUserTokenKey];
+    //执行动画
     UIImageView *animationImageView = [[UIImageView alloc] initWithImage:[self currentShowImage]];
     animationImageView.frame = _likePhotoCollectionView.frame;
     [_backImageView addSubview:animationImageView];
@@ -834,13 +855,29 @@
             }];
         }];
     }
+    
+    //获取请求需要信息 刷新UI
+    RCUserInfoModel *userInfo = _userList[_currentIndex];
+    NSString *usertoken = [[NSUserDefaults standardUserDefaults] stringForKey:kRCUserDefaultUserTokenKey];
+
     _currentIndex ++;
-    //List最后张会等待完成再刷新
-    if (_currentIndex < 20) {
-        [_likePhotoCollectionView reloadData];
-        [self reloadInfo];
-        [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+    [_likePhotoCollectionView reloadData];
+    [self reloadInfo];
+    
+    if (_userList.count == 20 && _currentIndex == 10) {
+        //第11次时候 移除前10个
+        [_userList removeObjectsInRange:NSMakeRange(0, 10)];
+        [self loadData];
+        _currentIndex = 0;
     }
+    
+    if (_userList.count == 30 & _currentIndex == 20) {
+        [_userList removeObjectsInRange:NSMakeRange(0, 20)];
+        [self loadData];
+        _currentIndex = 0;
+    }
+    
+    [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
     
     //发送请求
     RCMainLikeModel *mainLikeModel = [[RCMainLikeModel alloc] init];
@@ -860,11 +897,6 @@
                 mainLikeMatchYouVc.iconURLOhter = [NSURL URLWithString:[result.userinfo url1]];
                 mainLikeMatchYouVc.snapchatid = [result.userinfo snapchatid];
                 [self.navigationController pushViewController:mainLikeMatchYouVc animated:YES];
-            }
-            if (_currentIndex == 20) {
-                [self loadData];
-                _currentIndex = 0;
-                return;
             }
         } else if ([result.state intValue] == 10004) {
             [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeLikeUnLikeErrorCodeUsertokenError") hideDelay:1];
@@ -929,7 +961,6 @@
 }
 
 - (void)shareButtonDidClicked {
-    
     UIImage *holeImage = [self currentShowImage];
     UIImage *backImage = kRCImage(@"share-other");
     UIImage *resultImage = [self addImage:holeImage toImage:backImage];
@@ -940,7 +971,7 @@
             [RCMBHUDTool showText:@"分享成功" hideDelay:1.0f];
         }
     };
-    [self presentViewController:activityVC animated:TRUE completion:nil];
+    [self presentViewController:activityVC animated:YES completion:nil];
 }
 
 - (UIImage *)addImage:(UIImage *)image1 toImage:(UIImage *)image2 {
@@ -1035,28 +1066,44 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        //性取向
         UIAlertController *alertVc = [[UIAlertController alloc] init];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        kRCWeak(self);
         UIAlertAction *noSettingAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryNosetting") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [RCMBHUDTool showIndicator];
             [userDefault setInteger:-1 forKey:kRCUserDefaultGenderKey];
+            weakself.userList = nil;
+            _currentIndex = 0;
             [tableView reloadData];
-            [self loadData];
+            [weakself loadData];
+            [weakself gestureRecognizerDidSwipe:nil];
         }];
         UIAlertAction *boysAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryBoys") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [RCMBHUDTool showIndicator];
             [userDefault setInteger:0 forKey:kRCUserDefaultGenderKey];
+            weakself.userList = nil;
+            _currentIndex = 0;
             [tableView reloadData];
-            [self loadData];
+            [weakself loadData];
+            [weakself gestureRecognizerDidSwipe:nil];
         }];
         UIAlertAction *girlsAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryGirls") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [RCMBHUDTool showIndicator];
             [userDefault setInteger:1 forKey:kRCUserDefaultGenderKey];
+            weakself.userList = nil;
+            _currentIndex = 0;
             [tableView reloadData];
-            [self loadData];
+            [weakself loadData];
+            [weakself gestureRecognizerDidSwipe:nil];
         }];
         UIAlertAction *allAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryAll") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [RCMBHUDTool showIndicator];
             [userDefault setInteger:2 forKey:kRCUserDefaultGenderKey];
+            weakself.userList = nil;
+            _currentIndex = 0;
             [tableView reloadData];
-            [self loadData];
+            [weakself loadData];
+            [weakself gestureRecognizerDidSwipe:nil];
         }];
         [alertVc addAction:noSettingAction];
         [alertVc addAction:boysAction];
@@ -1070,31 +1117,48 @@
             return;
         }
         mailPicker.mailComposeDelegate = self;
-        [mailPicker setSubject:@"Email主题"];
-        NSArray *toRecipients = [NSArray arrayWithObjects:@"first@exameple.com", nil];
+        [mailPicker setSubject:@"Snaper feedback(iOS)"];
+        NSArray *toRecipients = [NSArray arrayWithObjects:@"rcplatform.help@gmail.com", nil];
         [mailPicker setToRecipients:toRecipients];
-        NSArray *ccRecipients = [NSArray arrayWithObjects:@"second@example.com", nil];
-        [mailPicker setCcRecipients:ccRecipients];
-        NSArray *bccRecipients = [NSArray arrayWithObjects:@"three@example.com", nil];
-        [mailPicker setBccRecipients:bccRecipients];
-        [self presentViewController:mailPicker animated:YES completion:nil];
-    } else if (indexPath.row == 2) {
-        NSString *textToShare = @"shareContent";
-        UIImage *imageToShare = [self currentShowImage];
-        NSURL *urlToShare = [NSURL URLWithString:@"http://www.baidu.com"];
-        NSArray *activityItems = @[textToShare, imageToShare, urlToShare];
-        UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
-        activityVC.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-            NSLog(@"123456");
-        };
-        activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll];
-        [self presentViewController:activityVC animated:TRUE completion:nil];
-    } else if (indexPath.row == 3) {
-        [UIView animateWithDuration:0.25 animations:^{
-            [self gestureRecognizerDidSwipe:nil];
-        } completion:^(BOOL finished) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(-2), kRCSwitchRootVcNotificationVcKey: self.navigationController}];
+        //        NSArray *ccRecipients = [NSArray arrayWithObjects:@"second@example.com", nil];
+        //        [mailPicker setCcRecipients:ccRecipients];
+        //        NSArray *bccRecipients = [NSArray arrayWithObjects:@"three@example.com", nil];
+        //        [mailPicker setBccRecipients:bccRecipients];
+        
+        NSString *strSysVersion = [[UIDevice currentDevice] systemVersion];
+        NSString* phoneModel = [[UIDevice currentDevice] model];
+        NSString *contentString = [NSString stringWithFormat:@"%@ %@ %@", strSysVersion, phoneModel, [[NSUserDefaults standardUserDefaults] objectForKey:kRCUserDefaultCountryIDKey]];
+        [mailPicker setMessageBody:contentString isHTML:YES];
+        [self presentViewController:mailPicker animated:YES completion:nil];    } else if (indexPath.row == 2) {
+        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:self.loginUserInfo.url1] options:SDWebImageRetryFailed progress:NULL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            UIImage *holeImage = image;
+            UIImage *backImage = kRCImage(@"share-myself");
+            UIImage *resultImage = [self addImage:holeImage toImage:backImage];
+            NSArray *activityItems = @[resultImage];
+            UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
+            activityVC.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+                if (completed) {
+                    [RCMBHUDTool showText:@"分享成功" hideDelay:1.0f];
+                }
+            };
+            [self presentViewController:activityVC animated:YES completion:nil];
         }];
+    } else if (indexPath.row == 3) {
+        UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"真的要注销么？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        kRCWeak(self);
+        UIAlertAction *actionSure = [UIAlertAction actionWithTitle:@"是的" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [UIView animateWithDuration:0.25 animations:^{
+                [weakself gestureRecognizerDidSwipe:nil];
+            } completion:^(BOOL finished) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(-2), kRCSwitchRootVcNotificationVcKey: weakself.navigationController}];
+            }];
+        }];
+        
+        UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        }];
+        [alertVc addAction:actionSure];
+        [alertVc addAction:actionCancel];
+        [self presentViewController:alertVc animated:YES completion:nil];
     }
 }
 
@@ -1104,6 +1168,9 @@
 
 #pragma mark - <UICollectionViewDataSource, UICollectionViewDelegate>
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if (_currentIndex >= 20) {
+        return 0;
+    }
     return [self acquirePhotoCount:_userList[_currentIndex]];
 }
 
@@ -1139,26 +1206,25 @@
 #pragma mark - <MFMailComposeViewControllerDelegate>
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
-    //关闭邮件发送窗口
     [self dismissViewControllerAnimated:YES completion:nil];
-    NSString *msg;
-    switch (result) {
-        case MFMailComposeResultCancelled:
-            msg = @"用户取消编辑邮件";
-            break;
-        case MFMailComposeResultSaved:
-            msg = @"用户成功保存邮件";
-            break;
-        case MFMailComposeResultSent:
-            msg = @"用户点击发送，将邮件放到队列中，还没发送";
-            break;
-        case MFMailComposeResultFailed:
-            msg = @"用户试图保存或者发送邮件失败";
-            break;
-        default:
-            msg = @"";
-            break;
-    }
+//    NSString *msg;
+//    switch (result) {
+//        case MFMailComposeResultCancelled:
+//            msg = @"用户取消编辑邮件";
+//            break;
+//        case MFMailComposeResultSaved:
+//            msg = @"用户成功保存邮件";
+//            break;
+//        case MFMailComposeResultSent:
+//            msg = @"用户点击发送，将邮件放到队列中，还没发送";
+//            break;
+//        case MFMailComposeResultFailed:
+//            msg = @"用户试图保存或者发送邮件失败";
+//            break;
+//        default:
+//            msg = @"";
+//            break;
+//    }
 }
 
 @end
