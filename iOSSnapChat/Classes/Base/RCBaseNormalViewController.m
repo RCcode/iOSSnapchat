@@ -8,8 +8,6 @@
 
 #import "RCBaseNormalViewController.h"
 
-#define kBackButtonF kRCDefaultNacgationBarItemFrame
-
 @interface RCBaseNormalViewController ()
 
 @end
@@ -19,8 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    UIButton *arrowBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    arrowBackButton.frame = kBackButtonF;
+    RCNavgationItemButton *arrowBackButton = [[RCNavgationItemButton alloc] init];
+    arrowBackButton.frame = kRCDefaultNacgationBarItemFrame;
     [arrowBackButton setImage:kRCImage(@"back") forState:UIControlStateNormal];
     [arrowBackButton addTarget:self action:@selector(arrowBackDidClicked) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *arrowBackButtonItem = [[UIBarButtonItem alloc] initWithCustomView:arrowBackButton];

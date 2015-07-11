@@ -30,7 +30,8 @@ double latitude = [userDefault doubleForKey:kRCUserDefaultLatitudeKey];
 NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];\
 NSString *usertoken = [userDefault stringForKey:kRCUserDefaultUserTokenKey];
 
-#define IOS8 [[UIDevice currentDevice].systemVersion floatValue] >= 8.0
+#define IOS8 ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0)
+#define IOS7 ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)
 
 #define kRCDefaultNacgationBarItemFrame CGRectMake(0, 0, 44, 44)
 #define kRCDefaultNacgationBarTitleFrame CGRectMake(0, 0, 200, 44)

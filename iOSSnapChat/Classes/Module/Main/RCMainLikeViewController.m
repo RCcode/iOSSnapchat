@@ -16,6 +16,7 @@
 #import "RCMainLikePhotoDetailViewController.h"
 #import "RCMainLikeMessageViewController.h"
 #import "RCMainLikeModifyPhotoViewController.h"
+#import "RCMainLikePolicyViewController.h"
 #import "RCLoginViewController.h"
 #import "RCBaseNavgationController.h"
 #import "RCMainLikeMatchYouViewController.h"
@@ -100,7 +101,7 @@
 #define kRCMainLikeMenuViewUserInfoViewTopConstant 0
 #define kRCMainLikeMenuViewUserInfoViewLeftConstant 0
 #define kRCMainLikeMenuViewUserInfoViewRightConstant 0
-#define kRCMainLikeMenuViewUserInfoViewHeightConstant kRCScreenHeight * 0.4
+#define kRCMainLikeMenuViewUserInfoViewHeightConstant kRCScreenHeight * 0.35
 
 #define kRCMainLikeMenuViewPhotoViewTopConstant kRCAdaptationHeight(104)
 #define kRCMainLikeMenuViewPhotoViewLeftConstant kRCAdaptationWidth(190)
@@ -114,6 +115,7 @@
 #define kRCMainLikeMenuViewEditButtonWidthConstant kRCAdaptationWidth(23)
 #define kRCMainLikeMenuViewEditButtonHeightConstant kRCAdaptationWidth(23)
 
+#define kRCMainLikeMenuViewContentViewTopConstant kRCAdaptationHeight(10)
 #define kRCMainLikeMenuViewContentViewBottomConstant kRCAdaptationHeight(28)
 #define kRCMainLikeMenuViewContentViewLeftConstant 0
 #define kRCMainLikeMenuViewContentViewRightConstant 0
@@ -303,6 +305,7 @@
         [contentView addConstraint:[NSLayoutConstraint constraintWithItem:editButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
         
         [contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:photoView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kRCMainLikeMenuViewContentViewTopConstant]];
         [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:userInfoView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kRCMainLikeMenuViewContentViewBottomConstant]];
         [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:idLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:kRCMainLikeMenuViewContentViewLeftConstant]];
         [userInfoView addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:editButton attribute:NSLayoutAttributeRight multiplier:1.0 constant:kRCMainLikeMenuViewContentViewRightConstant]];
@@ -326,18 +329,12 @@
         mainLikeEditCoverView.hidden = YES;
         mainLikeEditCoverView.backgroundColor = [UIColor blackColor];
         mainLikeEditCoverView.alpha = 0.3;
-        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureDidTap:)];
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizerDidTap:)];
         [mainLikeEditCoverView addGestureRecognizer:tapRecognizer];
         [[UIApplication sharedApplication].keyWindow addSubview:mainLikeEditCoverView];
         _mainLikeEditCoverView = mainLikeEditCoverView;
     }
     return _mainLikeEditCoverView;
-}
-
-- (void)gestureDidTap:(UITapGestureRecognizer *)tapRecognizer {
-    self.mainLikeEditCoverView.hidden = YES;
-    self.mainLikeEditView.hidden = YES;
-    [_idTextView resignFirstResponder];
 }
 
 - (UIView *)mainLikeEditView {
@@ -466,6 +463,11 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Utility
 - (void)navgationSettings {
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -527,7 +529,7 @@
             [self.userList addObjectsFromArray:result.list];
             
             NSMutableArray *preList = [NSMutableArray array];
-            for (RCUserInfoModel*info in _userList) {
+            for (RCUserInfoModel*info in result.list) {
                 if (![info.url1 isEqualToString:@""]) {
                     [preList addObject:[NSURL URLWithString:info.url1]];
                 }
@@ -640,6 +642,7 @@
     
     UIButton *informButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [informButton setImage:kRCImage(@"jubao_icon") forState:UIControlStateNormal];
+    [informButton setImage:kRCImage(@"jubao_press_icon") forState:UIControlStateHighlighted];
     [informButton addTarget:self action:@selector(informButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:informButton];
     _informButton = informButton;
@@ -764,7 +767,7 @@
     int resultM = sqrt(((fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180 *
                  (fromLocation.longitude - toLocation.longitude) * M_PI * 12656 * cos(((fromLocation.latitude + toLocation.latitude) / 2) * M_PI / 180) / 180) +
                  (((fromLocation.latitude - toLocation.latitude) * M_PI * 12656/180) * ((fromLocation.latitude - toLocation.latitude) * M_PI * 12656 / 180)));
-    return resultM / 1000;
+    return resultM;
 }
 
 - (NSInteger)acquirePhotoCount:(RCUserInfoModel *)userInfo {
@@ -796,6 +799,12 @@
     [UIView animateWithDuration:0.25f animations:^{
         _mainLikeMenuView.frame = CGRectMake(0, 0, kRCScreenWidth - kRCMainLikeMenuViewToRightDistance, kRCScreenHeight);
     }];
+}
+
+- (void)gestureRecognizerDidTap:(UITapGestureRecognizer *)recognizer {
+    self.mainLikeEditCoverView.hidden = YES;
+    self.mainLikeEditView.hidden = YES;
+    [_idTextView resignFirstResponder];
 }
 
 - (void)gestureRecognizerDidSwipe:(UISwipeGestureRecognizer *)recognizer {
@@ -1016,7 +1025,7 @@
 
 #pragma mark - <UITableViewDataSource, UITableViewDelegate>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1056,11 +1065,21 @@
         cell.isMore = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (indexPath.row == 3) {
+        cell.showIcon = kRCImage(@"iconmark");
+        cell.showTitle = @"Rate this app";
+        cell.isMore = NO;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else if (indexPath.row == 4) {
+        
+        cell.showIcon = kRCImage(@"iconintroduce");
+        cell.showTitle = @"Privacy Policy";
+        cell.isMore = NO;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else if (indexPath.row == 5) {
         cell.showIcon = kRCImage(@"more_4_icon");
         cell.showTitle = kRCLocalizedString(@"MainLikeMenuTableViewTitleLogout");
         cell.isMore = NO;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
+        cell.accessoryType = UITableViewCellAccessoryNone;}
     return cell;
 }
 
@@ -1143,23 +1162,39 @@
             };
             [self presentViewController:activityVC animated:YES completion:nil];
         }];
-    } else if (indexPath.row == 3) {
-        UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"真的要注销么？" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        kRCWeak(self);
-        UIAlertAction *actionSure = [UIAlertAction actionWithTitle:@"是的" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        } else if (indexPath.row == 3) {
+            NSString *markString = nil;
+            NSString *idString = @"123456";
+            if(IOS7){
+                markString = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", idString];
+            }else {
+                markString = [NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", idString];
+            }
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:markString]];
+        } else if (indexPath.row == 4) {
+            RCMainLikePolicyViewController *policyVc = [[RCMainLikePolicyViewController alloc] init];
+            kRCWeak(self);
             [UIView animateWithDuration:0.25 animations:^{
                 [weakself gestureRecognizerDidSwipe:nil];
             } completion:^(BOOL finished) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(-2), kRCSwitchRootVcNotificationVcKey: weakself.navigationController}];
+                [weakself.navigationController pushViewController:policyVc animated:YES];
             }];
-        }];
-        
-        UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        }];
-        [alertVc addAction:actionSure];
-        [alertVc addAction:actionCancel];
-        [self presentViewController:alertVc animated:YES completion:nil];
-    }
+        } else if (indexPath.row == 5) {
+            UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"真的要注销么？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            kRCWeak(self);
+            UIAlertAction *actionSure = [UIAlertAction actionWithTitle:@"是的" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [UIView animateWithDuration:0.25 animations:^{
+                    [weakself gestureRecognizerDidSwipe:nil];
+                } completion:^(BOOL finished) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(-2), kRCSwitchRootVcNotificationVcKey: weakself.navigationController}];
+                }];
+            }];
+            UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            }];
+            [alertVc addAction:actionSure];
+            [alertVc addAction:actionCancel];
+            [self presentViewController:alertVc animated:YES completion:nil];
+        }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
