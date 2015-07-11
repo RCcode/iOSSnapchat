@@ -339,7 +339,7 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    _pickerViewSelectedAge = row;
+    _pickerViewSelectedAge = row + 13;
 }
 
 #pragma mark - <UITextFieldDelegate>

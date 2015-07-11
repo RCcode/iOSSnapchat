@@ -171,14 +171,20 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""] stringByReplacingOccurrencesOfString: @">" withString: @""] stringByReplacingOccurrencesOfString: @" " withString: @""]);
+    NSLog(@"%@",[deviceToken description]);
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
-    currentInstallation.channels = @[@"channel1"];
     [currentInstallation saveInBackground];
     [[NSUserDefaults standardUserDefaults] setObject:currentInstallation.deviceToken forKey:kRCRemoteNotificationsKey];
+    [PFPush subscribeToChannelInBackground:@"" block:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"ParseStarterProject successfully subscribed to push notifications on the broadcast channel.");
+        } else {
+            NSLog(@"ParseStarterProject failed to subscribe to push notifications on the broadcast channel.");
+        }
+    }];
     
-    
+    NSLog(@"%@", currentInstallation.deviceToken);
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
