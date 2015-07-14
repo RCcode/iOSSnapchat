@@ -12,6 +12,7 @@
 @implementation RCLoginAutoModel
 
 - (void)parse:(id)responseObject {
+    _step = responseObject[@"step"];
     _state = responseObject[@"state"];
     _mess = responseObject[@"mess"];
     NSDictionary *userInfoDict = responseObject[@"user_info"];

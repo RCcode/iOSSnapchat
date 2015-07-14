@@ -1,10 +1,10 @@
-/* 
-  Localizable.strings
-  iOSSnapChat
-
-  Created by zhao liang on 15/6/9.
-  Copyright (c) 2015年 gongtao. All rights reserved.
-*/
+/*
+ Localizable.strings
+ iOSSnapChat
+ 
+ Created by zhao liang on 15/6/9.
+ Copyright (c) 2015年 gongtao. All rights reserved.
+ */
 
 //其他
 "NULL" = "";
@@ -31,6 +31,7 @@
 "LoginNormalLoginErrorCodeCannotConnectServer" = "无法连接到服务器";
 "LoginNormalLoginErrorCodeNetworkError" = "请检查你的网络";
 
+"LoginAutoLoginStepLoginMess" = "登录账号信息未完善，无法自动登录，请手动登录完善信息";
 "LoginAutoLoginErrorCodeSucc" = "自动登录成功";
 "LoginAutoLoginErrorCodeUsertokenError" = "usertoken丢失，请手动登录";
 "LoginAutoLoginErrorCodeAccountLock" = "账号被锁定";
@@ -154,4 +155,5 @@
 "MainLikeMatchYouCopyButtonTitle" = "copy";
 "MainLikeMatchYouCopyButtonShowTitle" = "已复制到剪贴板";
 
-
+//Message
+"MainLikeMessageNavigationTille" = "Message";

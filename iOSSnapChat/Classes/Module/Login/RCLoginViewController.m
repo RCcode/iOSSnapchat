@@ -13,6 +13,8 @@
 #import "RCLoginAutoModel.h"
 #import "RCLoginNormalModel.h"
 #import "RCMainLikeViewController.h"
+#import "RCRegisterInfoViewController.h"
+#import "RCRegisterUploadViewController.h"
 
 @interface RCLoginViewController () <UITextFieldDelegate>
 
@@ -52,6 +54,10 @@
         RCLoginAutoModel *result = (RCLoginAutoModel *)resultModel;
         if ([result.state intValue] == 10000) {
             [RCMBHUDTool hideshowIndicator];
+            if ([result.step intValue] != 0) {
+                [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginStepLoginMess") hideDelay:1];
+                return;
+            }
             [RCMBHUDTool showText:kRCLocalizedString(@"LoginAutoLoginErrorCodeSucc") hideDelay:1];
             [self enterApplicationMain:result.userInfo];
         } else if ([result.state intValue] == 10004) {
@@ -105,9 +111,20 @@
         RCLoginNormalModel *result = (RCLoginNormalModel *)resultModel;
         if ([result.state intValue] == 10000) {
             [RCMBHUDTool hideshowIndicator];
+            if ([result.step intValue] != 0) {
+                [userDefault setObject:result.usertoken forKey:kRCUserDefaultUserTokenKey];
+                if ([result.step intValue] == 1) {
+                    RCRegisterInfoViewController *registerInfoVc = [[RCRegisterInfoViewController alloc] init];
+                    [self.navigationController pushViewController:registerInfoVc animated:YES];
+                }
+                if ([result.step intValue] == 2) {
+                    RCRegisterUploadViewController *registerUploadVc = [[RCRegisterUploadViewController alloc] init];
+                    [self.navigationController pushViewController:registerUploadVc animated:YES];
+                }
+                return;
+            }
             [RCMBHUDTool showText:kRCLocalizedString(@"LoginNormalLoginErrorCodeSucc") hideDelay:1.0f];
             [userDefault setObject:result.usertoken forKey:kRCUserDefaultUserTokenKey];
-            [userDefault setInteger:0 forKey:kRCUserDefaultResgisterStepKey];
             [self enterApplicationMain:result.userInfo];
         } else if ([result.state intValue] == 10005) {
             [RCMBHUDTool hideshowIndicator];

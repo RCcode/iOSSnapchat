@@ -165,7 +165,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
                  if (errorCode == 10000) {
                      [RCMBHUDTool hideshowIndicator];
                      [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountUploadImageErrorCodeRepeatAccount") hideDelay:1.0f];
-                     [userDefault setInteger:[result[@"step"] intValue] forKey:kRCUserDefaultResgisterStepKey];
                  } else if (errorCode == 10004) {
                      [RCMBHUDTool hideshowIndicator];
                      [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountUploadImageErrorCodeUsertokenError") hideDelay:1.0f];
@@ -300,7 +299,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
          NSDictionary *result = (NSDictionary *)responseObject;
          int errorCode = [result[@"state"] intValue];
          if (errorCode == 10000) {
-             [userDefault setInteger:[result[@"step"] intValue] forKey:kRCUserDefaultResgisterStepKey];
              [RCMBHUDTool hideshowIndicator];
              [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountUploadImageErrorCodeRepeatAccount") hideDelay:1.0f];
              [_judgeImageFillArray replaceObjectAtIndex:_tapIndex withObject:@YES];

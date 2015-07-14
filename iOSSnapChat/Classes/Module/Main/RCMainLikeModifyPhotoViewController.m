@@ -284,6 +284,7 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
                                                currentTapImageView.image = selectedPhoto;
                                                _photoCount += 1;
                                            }
+                                           _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(_photoCollectionView.contentOffset.x / (kRCScreenWidth - kRCMainLikeModifyPhotoCollectionViewLeftConstant * 2)) + 1, _photoCount];
                                        }else if (errorCode == 10004) {
                                            [RCMBHUDTool hideshowIndicator];
                                            [RCMBHUDTool showText:kRCLocalizedString(@"MainLikeUploadImageErrorCodeUsertokenError") hideDelay:1.0f];
@@ -311,8 +312,6 @@ typedef NS_ENUM(NSInteger, kRCCamerGalleryTapType) {
     return cell;
 }
 
-
-//    _photoPageControl.currentPage = scrollView.contentOffset.x / 200;
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(scrollView.contentOffset.x / (kRCScreenWidth - kRCMainLikeModifyPhotoCollectionViewLeftConstant * 2)) + 1, _photoCount];
 }

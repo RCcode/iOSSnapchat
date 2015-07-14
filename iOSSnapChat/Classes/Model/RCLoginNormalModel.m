@@ -12,6 +12,7 @@
 @implementation RCLoginNormalModel
 
 - (void)parse:(id)responseObject {
+    _step = responseObject[@"step"];
     _state = responseObject[@"state"];
     _mess = responseObject[@"mess"];
     _usertoken = responseObject[@"usertoken"];

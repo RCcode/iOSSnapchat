@@ -73,7 +73,6 @@
         [RCMBHUDTool showIndicator];
         [registerAccountModel requestServerWithModel:registerAccountModel success:^(id resultModel) {
             RCRegiseterAccountModel *result = (RCRegiseterAccountModel *)resultModel;
-            [userDefault setInteger:[result.step intValue] forKey:kRCUserDefaultResgisterStepKey];
             if ([result.state intValue] == 10000) {
                 [RCMBHUDTool hideshowIndicator];
                 [RCMBHUDTool showText:kRCLocalizedString(@"RegisterAccountSetpUpUserErrorCodeRepeatAccount") hideDelay:1.0f];

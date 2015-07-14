@@ -305,7 +305,6 @@ typedef NS_ENUM(NSInteger, kRCRegisterInfoSexType) {
     [RCMBHUDTool showIndicator];
     [registerInfoModel requestServerWithModel:registerInfoModel success:^(id resultModel) {
         RCRegiseterInfoModel *result = (RCRegiseterInfoModel *)resultModel;
-        [userDefault setInteger:[result.step intValue] forKey:kRCUserDefaultResgisterStepKey];
         [RCMBHUDTool showIndicator];
         if ([result.state intValue] == 10000) {
             [RCMBHUDTool hideshowIndicator];

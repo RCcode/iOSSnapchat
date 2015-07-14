@@ -1096,6 +1096,9 @@
             [tableView reloadData];
             [weakself loadData];
             [weakself gestureRecognizerDidSwipe:nil];
+            [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+            RCUserInfoModel *userInfo = _userList[_currentIndex];
+            _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(_likePhotoCollectionView.contentOffset.x / (kRCScreenWidth - kRCMainLikeBackImageViewLeftConstant * 2)) + 1, [self acquirePhotoCount:userInfo]];
         }];
         UIAlertAction *boysAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryBoys") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [RCMBHUDTool showIndicator];
@@ -1105,6 +1108,9 @@
             [tableView reloadData];
             [weakself loadData];
             [weakself gestureRecognizerDidSwipe:nil];
+            [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+            RCUserInfoModel *userInfo = _userList[_currentIndex];
+            _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(_likePhotoCollectionView.contentOffset.x / (kRCScreenWidth - kRCMainLikeBackImageViewLeftConstant * 2)) + 1, [self acquirePhotoCount:userInfo]];
         }];
         UIAlertAction *girlsAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryGirls") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [RCMBHUDTool showIndicator];
@@ -1114,6 +1120,9 @@
             [tableView reloadData];
             [weakself loadData];
             [weakself gestureRecognizerDidSwipe:nil];
+            [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+            RCUserInfoModel *userInfo = _userList[_currentIndex];
+            _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(_likePhotoCollectionView.contentOffset.x / (kRCScreenWidth - kRCMainLikeBackImageViewLeftConstant * 2)) + 1, [self acquirePhotoCount:userInfo]];
         }];
         UIAlertAction *allAction = [UIAlertAction actionWithTitle:kRCLocalizedString(@"MainLikeMenuTableViewTitleShowCategoryAll") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [RCMBHUDTool showIndicator];
@@ -1123,6 +1132,9 @@
             [tableView reloadData];
             [weakself loadData];
             [weakself gestureRecognizerDidSwipe:nil];
+            [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+            RCUserInfoModel *userInfo = _userList[_currentIndex];
+            _indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int)(_likePhotoCollectionView.contentOffset.x / (kRCScreenWidth - kRCMainLikeBackImageViewLeftConstant * 2)) + 1, [self acquirePhotoCount:userInfo]];
         }];
         [alertVc addAction:noSettingAction];
         [alertVc addAction:boysAction];

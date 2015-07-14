@@ -50,16 +50,15 @@
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:YES forKey:kRCApplicationFirstStartKey];
         [userDefault setObject:@"000000" forKey:kRCRemoteNotificationsKey];
-        [userDefault setInteger:-1 forKey:kRCUserDefaultResgisterStepKey];
         [userDefault setObject:@"" forKey:kRCUserDefaultCountryIDKey];
         [userDefault setObject:@"" forKey:kRCUserDefaultCityIDKey];
         [userDefault setDouble:0 forKey:kRCUserDefaultLongitudeKey];
         [userDefault setDouble:0 forKey:kRCUserDefaultLatitudeKey];
         [userDefault setInteger:-1 forKey:kRCUserDefaultGenderKey];
+        [userDefault setInteger:2 forKey:kRCUserDefaultCategoryKey];
         [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(-2)}];
     } else {
-        NSInteger step = [[NSUserDefaults standardUserDefaults] integerForKey:kRCUserDefaultResgisterStepKey];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(step)}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kRCSwitchRootVcNotification object:nil userInfo:@{kRCSwitchRootVcNotificationStepKey: @(0)}];
     }
     return YES;
 }
@@ -175,7 +174,7 @@
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     [currentInstallation saveInBackground];
-    [[NSUserDefaults standardUserDefaults] setObject:[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""] stringByReplacingOccurrencesOfString: @">" withString: @""] forKey:kRCRemoteNotificationsKey];
+    [[NSUserDefaults standardUserDefaults] setObject:currentInstallation.deviceToken forKey:kRCRemoteNotificationsKey];
     [PFPush subscribeToChannelInBackground:@"" block:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             NSLog(@"ParseStarterProject successfully subscribed to push notifications on the broadcast channel.");

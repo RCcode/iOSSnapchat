@@ -9,7 +9,6 @@ NSString *const kRCUserDefaultLatitudeKey = @"kRCUserDefaultLatitudeKey";
 NSString *const kRCApplicationFirstStartKey = @"kRCApplicationFirstStartKey";
 NSString *const kRCRemoteNotificationsKey = @"kRCRemoteNotificationsKey";
 NSString *const kRCUserDefaultUserTokenKey = @"kRCUserDefaultUserTokenKey";
-NSString *const kRCUserDefaultResgisterStepKey = @"kRCUserDefaultResgisterStepKey";
 NSString *const kRCUserDefaultGenderKey = @"kRCUserDefaultGenderKey";
 NSString *const kRCUserDefaultCategoryKey = @"kRCUserDefaultCategoryKey";
 

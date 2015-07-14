@@ -81,18 +81,12 @@
 #pragma mark - LifeCircle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setUpUI];
     [self addConstraint];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [_likePhotoCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.selectedItem inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
 }
 
 #pragma mark - Utility
@@ -124,7 +118,7 @@
     indexLabel.textAlignment = NSTextAlignmentCenter;
     indexLabel.backgroundColor = kRCDefaultAlphaBlack;
     indexLabel.textColor = kRCDefaultWhite;
-    indexLabel.text = [NSString stringWithFormat:@"%d/%d", self.selectedItem + 1, [self acquirePhotoCount:self.selectedUserInfo]];
+    indexLabel.text = [NSString stringWithFormat:@"%d/%d", 1, [self acquirePhotoCount:self.selectedUserInfo]];
     [self.view addSubview:indexLabel];
     _indexLabel = indexLabel;
 

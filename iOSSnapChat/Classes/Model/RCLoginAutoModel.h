@@ -18,4 +18,6 @@
 //userInfo
 @property (nonatomic, strong) RCUserInfoModel *userInfo;
 
+@property (nonatomic, strong) NSNumber *step;
+
 @end
